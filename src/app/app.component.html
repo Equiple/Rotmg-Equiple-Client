@@ -1,0 +1,14 @@
+<style src="app.component.css"></style>
+
+<div class="navbar border rounded" role="banner"> 
+  <h1 class="ml-4"> Rotmgle</h1>
+</div>
+<div class="row p-4">
+    <app-results class="col-6" [guesses]="guesses"></app-results>
+    <app-search class="col-6" [disabled]="gameEnded" (itemSelected)="onItemSelected($event)"></app-search>
+    <div class="container text-center pt-4">
+      <button type="button" class="btn btn-lg btn-danger px-5" *ngIf="gameEnded" (click)="startGame()">
+        <strong>Restart</strong>
+      </button>
+    </div>
+</div>
