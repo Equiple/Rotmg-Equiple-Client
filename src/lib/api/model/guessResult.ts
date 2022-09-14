@@ -9,6 +9,7 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { Item } from './item';
 import { Hints } from './hints';
 import { GuessStatus } from './guessStatus';
 
@@ -16,5 +17,6 @@ import { GuessStatus } from './guessStatus';
 export interface GuessResult { 
     status?: GuessStatus;
     hints?: Hints;
+    targetItem?: Item;
 }
 

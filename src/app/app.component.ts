@@ -65,7 +65,7 @@ export class AppComponent implements OnInit {
         this.gameEnded = true;
       }
       else if (result.status === GuessStatus.Lost){
-        alert(`You couldn't guess the item :C`);
+        alert(`You couldn't guess the ${result.targetItem?.name} :C`);
         //TODO: Return target item name with GuessResult
         this.gameEnded = true;
       }
