@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { of, Subject, switchMap } from 'rxjs';
 import { Item } from 'src/lib/api';
 import { GuessField } from '../GuessField';
 import { GameService } from '../services/game-service';
@@ -20,7 +20,7 @@ export class SearchComponent implements OnInit {
     {key: "xpBonus", title:"XP Bonus", icon:"lightning-fill"},
     {key: "feedpower", title:"Feedpower", icon:"trash3"}
   ];
-  
+  private itemsRequest = new Subject();
   @Input() set disabled(value: boolean){
     if (value) {
       this.search='';
@@ -42,11 +42,18 @@ export class SearchComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    
+    this.itemsRequest.pipe(switchMap(() => {
+      if (!this.search) {
+        return of([]);
+      }
+      return this.gameService.findAll(this.search);
+    })).subscribe(items => {
+      this.items = items;
+    });
   }
 
   updateItems(){
-    this.gameService.findAll(this.search).subscribe(items => this.items = items);
+    this.itemsRequest.next(0);
   }
 
   onSearchbarChanged(){

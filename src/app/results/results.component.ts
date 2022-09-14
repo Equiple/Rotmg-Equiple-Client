@@ -9,7 +9,7 @@ import { GameService } from '../services/game-service';
   styleUrls: ['./results.component.css']
 })
 export class ResultsComponent implements OnInit {
-  readonly playerId = "631b37496deb226ba814beb0";
+  readonly playerId = '6320750b6835566b454b114b';
   @Input() hints = new Array<Hints>();
   @Input() guesses = new Array<Item>();
   readonly guessFields : GuessField[] = [
@@ -25,12 +25,13 @@ export class ResultsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    let check: boolean;
-    this.gameService.hasAnActiveGame(this.playerId).subscribe(activeGame => check = activeGame);
-    if(check!){
-      this.gameService.getGuesses(this.playerId).subscribe(guesses => this.guesses = guesses);
-      this.gameService.getAllHints(this.playerId).subscribe(hints => this.hints = hints);
-    }
+    this.gameService.hasAnActiveGame(this.playerId).subscribe(activeGame => {
+      if(activeGame){
+        this.gameService.getGuesses(this.playerId).subscribe(guesses => this.guesses = guesses);
+        this.gameService.getAllHints(this.playerId).subscribe(hints => this.hints = hints);
+      }
+    });
+    
   }
 
   getAdditionalClass(param: keyof Item, index: number){
