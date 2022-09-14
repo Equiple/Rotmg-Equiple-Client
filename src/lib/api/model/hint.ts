@@ -11,11 +11,11 @@
  */
 
 
-export type Hint = 'Bigger' | 'Smaller' | 'Correct' | 'Wrong';
+export type Hint = 'Greater' | 'Less' | 'Correct' | 'Wrong';
 
 export const Hint = {
-    Bigger: 'Bigger' as Hint,
-    Smaller: 'Smaller' as Hint,
+    Greater: 'Greater' as Hint,
+    Less: 'Less' as Hint,
     Correct: 'Correct' as Hint,
     Wrong: 'Wrong' as Hint
 };

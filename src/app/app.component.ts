@@ -29,12 +29,23 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(){
-    this.startGame();
+    this.gameService.getActiveGamemode(this.playerId).subscribe(activeGamemode => {
+      if(activeGamemode){
+        this.gameService.getGuesses(this.playerId).subscribe(guesses => this.guesses = guesses);
+        this.gameService.getAllHints(this.playerId).subscribe(hints => this.hints = hints);
+        this.gamemode = activeGamemode;
+      }
+    });
   }
 
-  startGame(){
+  restartGame(){
     this.gameEnded = false;
     this.guesses = [];
+    this.hints = [];
+  }
+
+  isGamemode(gamemode: string){
+    return this.gamemode == gamemode;
   }
 
   setGamemode(gamemode: Gamemode){
@@ -51,8 +62,8 @@ export class AppComponent implements OnInit {
   onItemSelected(itemId: string){
     this.guessLoading = true;
     this.gameService.checkGuess(itemId, this.playerId, this.gamemode).pipe(
-      switchMap(resultResponse => forkJoin([
-        of(resultResponse.body!),
+      switchMap(result => forkJoin([
+        of(result),
         this.gameService.getGuess(itemId),
         this.gameService.getTries(this.playerId),
         this.gameService.getHints(this.playerId, itemId)

@@ -21,7 +21,7 @@ import { Observable }                                        from 'rxjs';
 // @ts-ignore
 import { Gamemode } from '../model/gamemode';
 // @ts-ignore
-import { GuessResultResponse } from '../model/guessResultResponse';
+import { GuessResult } from '../model/guessResult';
 // @ts-ignore
 import { Hints } from '../model/hints';
 // @ts-ignore
@@ -100,9 +100,9 @@ export class GameService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public checkGuessPost(itemId?: string, playerId?: string, mode?: Gamemode, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<GuessResultResponse>;
-    public checkGuessPost(itemId?: string, playerId?: string, mode?: Gamemode, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<GuessResultResponse>>;
-    public checkGuessPost(itemId?: string, playerId?: string, mode?: Gamemode, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<GuessResultResponse>>;
+    public checkGuessPost(itemId?: string, playerId?: string, mode?: Gamemode, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<GuessResult>;
+    public checkGuessPost(itemId?: string, playerId?: string, mode?: Gamemode, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<GuessResult>>;
+    public checkGuessPost(itemId?: string, playerId?: string, mode?: Gamemode, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<GuessResult>>;
     public checkGuessPost(itemId?: string, playerId?: string, mode?: Gamemode, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<any> {
 
         let localVarQueryParameters = new HttpParams({encoder: this.encoder});
@@ -152,7 +152,7 @@ export class GameService {
             }
         }
 
-        return this.httpClient.post<GuessResultResponse>(`${this.configuration.basePath}/CheckGuess`,
+        return this.httpClient.post<GuessResult>(`${this.configuration.basePath}/CheckGuess`,
             null,
             {
                 context: localVarHttpContext,

@@ -25,7 +25,7 @@
                             </i><strong> {{field.title}}</strong><br>
                         <div class="pt-2">
                             <i *ngIf="['NumberOfShots','XpBonus', 'Feedpower'].includes(field.key)"></i>
-                            {{item[field.key]}}<span *ngIf="field.key === 'xpBonus'">%</span><span *ngIf="field.key === 'feedpower'">fp</span>
+                            {{item[field.key]}}<span *ngIf="field.key =='tier' && item.reskin === true "> Reskin</span><span *ngIf="field.key === 'xpBonus'">%</span><span *ngIf="field.key === 'feedpower'">fp</span>
                         </div>
                     </div>
                 </div>

@@ -9,7 +9,6 @@ git_push.sh
 index.ts
 model/gamemode.ts
 model/guessResult.ts
-model/guessResultResponse.ts
 model/guessStatus.ts
 model/hint.ts
 model/hints.ts

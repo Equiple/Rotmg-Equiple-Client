@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { tick } from "@angular/core/testing";
 import { Observable } from "rxjs";
-import { Gamemode, GameService as GameServiceAPI, GuessResultResponse, Hints, Item } from "src/lib/api";
+import { Gamemode, GameService as GameServiceAPI, GuessResult, Hints, Item } from "src/lib/api";
 
 @Injectable()
 export class GameService {
@@ -13,7 +13,7 @@ export class GameService {
         return this.gameServiceAPI.findAllGet(searchInput);
     }
 
-    checkGuess(itemId: string, playerId: string, mode: Gamemode): Observable<GuessResultResponse> {
+    checkGuess(itemId: string, playerId: string, mode: Gamemode): Observable<GuessResult> {
         return this.gameServiceAPI.checkGuessPost(itemId, playerId, mode);
     }
 
@@ -31,10 +31,6 @@ export class GameService {
 
     getGuess(itemId: string): Observable<Item> {
         return this.gameServiceAPI.getGuessGet(itemId);
-    }
-
-    hasAnActiveGame(playerId: string): Observable<boolean> {
-        return this.gameServiceAPI.hasAnActiveGameGet(playerId);
     }
 
     getHints(playerId: string, itemId: string): Observable<Hints> {

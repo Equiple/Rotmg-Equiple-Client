@@ -25,17 +25,12 @@ export class ResultsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.gameService.hasAnActiveGame(this.playerId).subscribe(activeGame => {
-      if(activeGame){
-        this.gameService.getGuesses(this.playerId).subscribe(guesses => this.guesses = guesses);
-        this.gameService.getAllHints(this.playerId).subscribe(hints => this.hints = hints);
-      }
-    });
     
   }
 
   getAdditionalClass(param: keyof Item, index: number){
     let hint = this.hints[index];
+    if(hint === undefined) return;
     param = param as keyof Hints;
     if(hint[param] === Hint.Correct){
       return 'bg-success';
@@ -45,11 +40,12 @@ export class ResultsComponent implements OnInit {
 
   getHintArrow(param: keyof Item, index: number){
     let hint = this.hints[index];
+    if(hint === undefined) return;
     param = param as keyof Hints;
-    if(hint[param] === Hint.Bigger){
-      return 'bi-caret-down';
-    }else if(hint[param] === Hint.Smaller){
+    if(hint[param] === Hint.Greater){
       return 'bi-caret-up';
+    }else if(hint[param] === Hint.Less){
+      return 'bi-caret-down';
     }
     return '';
   }

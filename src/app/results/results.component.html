@@ -19,13 +19,13 @@
                     </div>
                 </div>
                 <div class="col-2 p-1" *ngFor="let field of guessFields">
-                    <div class="rounded h-100 py-2" [class]="getAdditionalClass(field.key, i)">
+                    <div class="rounded h-100 py-2" [class]="getAdditionalClass(field.key, guesses.length - i - 1)">
                         <i [class]="'bi bi-'+field.icon">
                             </i><strong> {{field.title}}</strong><br>
                         <div class="pt-2">
-                            <i *ngIf="['NumberOfShots','XpBonus', 'Feedpower'].includes(field.key.toString())"
-                            [class]="getHintArrow(field.key, i)"></i>
-                            {{guess[field.key]}}<span *ngIf="field.key === 'xpBonus'">%</span><span *ngIf="field.key === 'feedpower'">fp</span>
+                            <i *ngIf="['numberOfShots','xpBonus', 'feedpower'].includes(field.key)"
+                            [class]="getHintArrow(field.key, guesses.length - i - 1)"></i>
+                            {{guess[field.key]}}<span *ngIf="field.key =='tier' && guess.reskin === true"> Reskin</span><span *ngIf="field.key === 'xpBonus'">%</span><span *ngIf="field.key === 'feedpower'">fp</span>
                         </div>
                     </div>
                 </div>

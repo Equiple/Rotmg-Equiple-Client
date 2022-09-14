@@ -2,14 +2,14 @@
 
 <div class="navbar border rounded" role="banner"> 
   <h1 class="ml-4"> Rotmgle</h1>
-  <h3 class="navbar-item" (click)="setGamemode('Daily')">Daily</h3>
-  <h3 class="navbar-item" (click)="setGamemode('Normal')">Normal</h3>
+  <h3 class="navbar-item" (click)="setGamemode('Daily')" [ngClass]="{'active': isGamemode('Daily')}">Daily</h3>
+  <h3 class="navbar-item" (click)="setGamemode('Normal')" [ngClass]="{'active': isGamemode('Normal')}">Normal</h3>
 </div>
 <div class="row p-4">
-    <app-results class="col-6" [guesses]="guesses"></app-results>
+    <app-results class="col-6" [guesses]="guesses" [hints]="hints"></app-results>
     <app-search class="col-6" [disabled]="searchDisabled" (itemSelected)="onItemSelected($event)"></app-search>
     <div class="container text-center pt-4">
-      <button type="button" class="btn btn-lg btn-danger px-5" *ngIf="gameEnded" (click)="startGame()">
+      <button type="button" class="btn btn-lg btn-danger px-5" *ngIf="gameEnded" (click)="restartGame()">
         <strong>Restart</strong>
       </button>
     </div>
