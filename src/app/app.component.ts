@@ -17,6 +17,7 @@ export class AppComponent implements OnInit {
   hints = new Array<Hints>();
   gamemode = Gamemode.Daily;
   gameEnded = false;
+  excludeReskins = false;
   guessLoading = false;
   readonly playerId = '6320750b6835566b454b114b';
 
@@ -44,8 +45,8 @@ export class AppComponent implements OnInit {
     this.hints = [];
   }
 
-  isGamemode(gamemode: string){
-    return this.gamemode == gamemode;
+  isGamemode(gamemode: Gamemode){
+    return this.gamemode === gamemode;
   }
 
   setGamemode(gamemode: Gamemode){
@@ -59,9 +60,13 @@ export class AppComponent implements OnInit {
     });
   }
 
+  OnCheckboxChange(value: boolean){
+    this.excludeReskins = value;
+  }
+
   onItemSelected(itemId: string){
     this.guessLoading = true;
-    this.gameService.checkGuess(itemId, this.playerId, this.gamemode).pipe(
+    this.gameService.checkGuess(itemId, this.playerId, this.gamemode, this.excludeReskins).pipe(
       switchMap(result => forkJoin([
         of(result),
         this.gameService.getGuess(itemId),

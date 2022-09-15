@@ -49,4 +49,5 @@ export class ResultsComponent implements OnInit {
     }
     return '';
   }
+  
 }

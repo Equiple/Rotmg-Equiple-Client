@@ -97,13 +97,14 @@ export class GameService {
      * @param itemId 
      * @param playerId 
      * @param mode 
+     * @param reskinsExcluded 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public checkGuessPost(itemId?: string, playerId?: string, mode?: Gamemode, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<GuessResult>;
-    public checkGuessPost(itemId?: string, playerId?: string, mode?: Gamemode, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<GuessResult>>;
-    public checkGuessPost(itemId?: string, playerId?: string, mode?: Gamemode, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<GuessResult>>;
-    public checkGuessPost(itemId?: string, playerId?: string, mode?: Gamemode, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<any> {
+    public checkGuessPost(itemId?: string, playerId?: string, mode?: Gamemode, reskinsExcluded?: boolean, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<GuessResult>;
+    public checkGuessPost(itemId?: string, playerId?: string, mode?: Gamemode, reskinsExcluded?: boolean, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<GuessResult>>;
+    public checkGuessPost(itemId?: string, playerId?: string, mode?: Gamemode, reskinsExcluded?: boolean, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<GuessResult>>;
+    public checkGuessPost(itemId?: string, playerId?: string, mode?: Gamemode, reskinsExcluded?: boolean, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<any> {
 
         let localVarQueryParameters = new HttpParams({encoder: this.encoder});
         if (itemId !== undefined && itemId !== null) {
@@ -117,6 +118,10 @@ export class GameService {
         if (mode !== undefined && mode !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
             <any>mode, 'mode');
+        }
+        if (reskinsExcluded !== undefined && reskinsExcluded !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>reskinsExcluded, 'reskinsExcluded');
         }
 
         let localVarHeaders = this.defaultHeaders;
@@ -238,18 +243,23 @@ export class GameService {
 
     /**
      * @param searchInput 
+     * @param reskinsExcluded 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public findAllGet(searchInput?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<Array<Item>>;
-    public findAllGet(searchInput?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<Array<Item>>>;
-    public findAllGet(searchInput?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<Array<Item>>>;
-    public findAllGet(searchInput?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<any> {
+    public findAllGet(searchInput?: string, reskinsExcluded?: boolean, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<Array<Item>>;
+    public findAllGet(searchInput?: string, reskinsExcluded?: boolean, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<Array<Item>>>;
+    public findAllGet(searchInput?: string, reskinsExcluded?: boolean, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<Array<Item>>>;
+    public findAllGet(searchInput?: string, reskinsExcluded?: boolean, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<any> {
 
         let localVarQueryParameters = new HttpParams({encoder: this.encoder});
         if (searchInput !== undefined && searchInput !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
             <any>searchInput, 'searchInput');
+        }
+        if (reskinsExcluded !== undefined && reskinsExcluded !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>reskinsExcluded, 'reskinsExcluded');
         }
 
         let localVarHeaders = this.defaultHeaders;

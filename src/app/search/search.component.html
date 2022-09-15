@@ -5,12 +5,13 @@
     <input class="searchInput search form-control m-1 " placeholder="Type here to search!" [disabled]="searchDisabled" 
     [(ngModel)]="search" (ngModelChange)="onSearchbarChanged()"/>
 </div>
+
 <!-- <input class="searchInput" placeholder="Type here to search!" (input)="onSearchbarChange($event)"/>
 <input class="searchInput" placeholder="Type here to search!" [(ngModel)]="search" (ngModelChange)="onSearchbarChange($event)"/> -->
 
 <div class="rounded" style="max-height: 45em; overflow: auto">
     <cdk-virtual-scroll-viewport class="px-1" style="height: 45em" [itemSize]="150">
-      <div class="btn btn-light form-conrol m-1 border rounded float-end w-100"
+        <div class="btn btn-light form-conrol m-1 border rounded float-end w-100"
             *cdkVirtualFor="let item of items | reverse; let i = index;" (click)="onItemSelected(item.id)">
             <h5 class="row text-primary m-2 ">{{item.name}}</h5>
             <div class="row m-1 border-info rounded">
@@ -22,10 +23,12 @@
                 <div class="col-2 p-1" *ngFor="let field of itemFields">
                     <div class="rounded h-100 py-2 bg-light">
                         <i [class]="'bi bi-'+field.icon">
-                            </i><strong> {{field.title}}</strong><br>
+                        </i><strong> {{field.title}}</strong><br>
                         <div class="pt-2">
                             <i *ngIf="['NumberOfShots','XpBonus', 'Feedpower'].includes(field.key)"></i>
-                            {{item[field.key]}}<span *ngIf="field.key =='tier' && item.reskin === true "> Reskin</span><span *ngIf="field.key === 'xpBonus'">%</span><span *ngIf="field.key === 'feedpower'">fp</span>
+                            {{item[field.key]}}<span *ngIf="field.key =='tier' && item.reskin === true ">
+                                Reskin</span><span *ngIf="field.key === 'xpBonus'">%</span><span
+                                *ngIf="field.key === 'feedpower'">fp</span>
                         </div>
                     </div>
                 </div>

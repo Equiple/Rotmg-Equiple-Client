@@ -13,6 +13,7 @@ export class SearchComponent implements OnInit {
   items: Item[] = [];
   search = '';
   searchDisabled = false;
+  @Input() excludeReskins: boolean | undefined;
   readonly itemFields : GuessField[] = [
     {key: "tier", title:"Tier", icon:"star-fill"},
     {key: "type", title:"Item type", icon:"asterisk"},
@@ -46,7 +47,7 @@ export class SearchComponent implements OnInit {
       if (!this.search) {
         return of([]);
       }
-      return this.gameService.findAll(this.search);
+      return this.gameService.findAll(this.search, this.excludeReskins!);
     })).subscribe(items => {
       this.items = items;
     });

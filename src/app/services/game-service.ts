@@ -9,12 +9,12 @@ export class GameService {
         
     }
 
-    findAll(searchInput: string): Observable<Item[]> {
-        return this.gameServiceAPI.findAllGet(searchInput);
+    findAll(searchInput: string, reskinsExcluded: boolean): Observable<Item[]> {
+        return this.gameServiceAPI.findAllGet(searchInput, reskinsExcluded);
     }
 
-    checkGuess(itemId: string, playerId: string, mode: Gamemode): Observable<GuessResult> {
-        return this.gameServiceAPI.checkGuessPost(itemId, playerId, mode);
+    checkGuess(itemId: string, playerId: string, mode: Gamemode, reskinsExcluded: boolean): Observable<GuessResult> {
+        return this.gameServiceAPI.checkGuessPost(itemId, playerId, mode, reskinsExcluded);
     }
 
     wasDailyAttempted(playerId: string): Observable<boolean> {
