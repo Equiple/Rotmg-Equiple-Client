@@ -1,23 +1,26 @@
 <style src="app.component.css"></style>
 
-<div class="navbar border rounded" role="banner"> 
+<div class="navbar border rounded" role="banner">
   <h1 class="ml-4"> Rotmgle</h1>
-  <h3 class="navbar-item" (click)="setGamemode('Daily')" [ngClass]="{'active': isGamemode('Daily')}">Daily</h3>
-  <h3 class="navbar-item" (click)="setGamemode('Normal')" [ngClass]="{'active': isGamemode('Normal')}">Normal</h3>
+  <h3 class="navbar-item bleak" (click)="setGamemode('Daily')" [ngClass]="{'active': isGamemode('Daily')}">Daily</h3>
+  <h3 class="navbar-item bleak" (click)="setGamemode('Normal')" [ngClass]="{'active': isGamemode('Normal')}">Normal</h3>
   <div class="navbar-item mt-2">
-    <input class="form-check-input" type="checkbox" [checked]="excludeReskins" (change)="excludeReskins = !excludeReskins"
-      id="reskinsCheck" [disabled]="isGamemode('Daily')">
-    <label class="form-check-label ml-1" for="reskinsCheck" >
-        Exclude reskins
+    <input class="form-check-input" type="checkbox" [checked]="excludeReskins"
+      (change)="excludeReskins = !excludeReskins" id="reskinsCheck" [disabled]="isGamemode('Daily') || !changeAllowed">
+    <label class="form-check-label ml-1" for="reskinsCheck">
+      Exclude reskins
     </label>
+  </div>
+  <!-- <h3 class="navbar-item" (click)="debugWin()" >DebugWin</h3> -->
 </div>
-</div>
+<div #modal></div>
 <div class="row p-4">
-    <app-results class="col-6" [guesses]="guesses" [hints]="hints"></app-results>
-    <app-search class="col-6" [disabled]="searchDisabled" (itemSelected)="onItemSelected($event)" [excludeReskins]="excludeReskins"></app-search>
-    <div class="container text-center pt-4">
-      <button type="button" class="btn btn-lg btn-danger px-5" *ngIf="gameEnded" (click)="restartGame()">
-        <strong>Restart</strong>
-      </button>
-    </div>
+  <app-results class="col-6" [guesses]="guesses" [hints]="hints"></app-results>
+  <app-search class="col-6" [disabled]="searchDisabled" (itemSelected)="onItemSelected($event)"
+    [excludeReskins]="excludeReskins"></app-search>
+  <div class="container text-center pt-4">
+    <button type="button" class="btn btn-lg btn-danger px-5" *ngIf="gameEnded" (click)="restartGame()">
+      <strong>Restart</strong>
+    </button>
+  </div>
 </div>

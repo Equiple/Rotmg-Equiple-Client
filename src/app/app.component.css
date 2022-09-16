@@ -5,9 +5,11 @@ app-results{
 .form-check-input {
     background-color: #ffffff;
     border-color: #000000;
+    color:#000000;
 }
 
 .form-check-input:checked {
     background-color: #000000;
     border-color: #0d6efd;
+    color:#000000;
 }

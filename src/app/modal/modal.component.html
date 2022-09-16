@@ -1,0 +1,29 @@
+<div class="modal-container">
+    <div class="model-dialog border rounded p-2" [class]="bgColor" role="document">
+        <div class="modal-content">
+            <div class="modal-header mb-2">
+                <h4 class="modal-title text-white ml-2">{{title}}</h4>
+                <button type="button" class="btn-close" aria-label="Close" (click)="closeMe()">
+                    <span aria-hidden="true"></span>
+                </button>
+            </div>
+            <div class="modal-body text-white m-2 mb-3">
+                <div>
+                    <img class="img-center" [src]="imgLink"><br>
+                </div>
+                <div>
+                    {{ body }}
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light m-1" (click)="confirm()">
+                    <strong>Confirm</strong>    
+                </button>
+                <button type="button" class="btn btn-light m-1" data-bs-dismiss="modal" (click)="closeMe()">
+                    <strong>Close</strong> 
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-background"></div>

@@ -15,6 +15,8 @@ import { ReversePipe } from './pipes/reverse.pipe';
 import { GameService } from './services/game-service';
 import { BASE_PATH } from 'src/lib/api';
 import { environment } from 'src/environments/environment';
+import { ModalComponent } from './modal/modal.component';
+import { ModalService } from './services/modal-service';
 
 
 @NgModule({
@@ -23,7 +25,8 @@ import { environment } from 'src/environments/environment';
     SearchComponent,
     ResultsComponent,
     ReversePipe,
-    ItemComponent
+    ItemComponent,
+    ModalComponent
   ],
   imports: [
     BrowserModule,
@@ -38,7 +41,8 @@ import { environment } from 'src/environments/environment';
       provide: BASE_PATH,
       useValue: environment.apiUrl
     },
-    GameService
+    GameService,
+    ModalService
   ],
   bootstrap: [
     AppComponent
