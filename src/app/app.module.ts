@@ -8,7 +8,7 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { SearchComponent } from './search/search.component';
-import { ResultsComponent } from './results/results.component';
+import { GameLogComponent } from './game-log/game-log.component';
 import { ItemComponent } from './item/item.component';
 
 import { ReversePipe } from './pipes/reverse.pipe';
@@ -17,16 +17,18 @@ import { BASE_PATH } from 'src/lib/api';
 import { environment } from 'src/environments/environment';
 import { ModalComponent } from './modal/modal.component';
 import { ModalService } from './services/modal-service';
+import { SearchResultsComponent } from './search-results/search-results.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     SearchComponent,
-    ResultsComponent,
+    GameLogComponent,
     ReversePipe,
     ItemComponent,
-    ModalComponent
+    ModalComponent,
+    SearchResultsComponent
   ],
   imports: [
     BrowserModule,

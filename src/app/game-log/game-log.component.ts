@@ -4,11 +4,11 @@ import { GuessField } from '../GuessField'
 import { GameService } from '../services/game-service';
 
 @Component({
-  selector: 'app-results',
-  templateUrl: './results.component.html',
-  styleUrls: ['./results.component.css']
+  selector: 'app-game-log',
+  templateUrl: './game-log.component.html',
+  styleUrls: ['./game-log.component.css']
 })
-export class ResultsComponent implements OnInit {
+export class GameLogComponent implements OnInit {
   readonly playerId = '6320750b6835566b454b114b';
   @Input() hints = new Array<Hints>();
   @Input() guesses = new Array<Item>();

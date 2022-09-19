@@ -24,5 +24,6 @@ export interface Item {
     numberOfShots?: number | null;
     xpBonus?: number | null;
     feedpower?: number | null;
+    tags?: string | null;
 }
 

@@ -14,13 +14,18 @@
   <!-- <h3 class="navbar-item" (click)="debugWin()" >DebugWin</h3> -->
 </div>
 <div #modal></div>
-<div class="row p-4">
-  <app-results class="col-6" [guesses]="guesses" [hints]="hints"></app-results>
-  <app-search class="col-6" [disabled]="searchDisabled" (itemSelected)="onItemSelected($event)"
-    [excludeReskins]="excludeReskins"></app-search>
-  <div class="container text-center pt-4">
-    <button type="button" class="btn btn-lg btn-danger px-5" *ngIf="gameEnded" (click)="restartGame()">
-      <strong>Restart</strong>
-    </button>
+<div>
+  <div class="row ">
+    <app-search [disabled]="searchDisabled" (searchChanged)="onSearchChanged($event)"></app-search>
+  </div>
+  <div class="row p-2">
+    <app-game-log class="col-6" [guesses]="guesses" [hints]="hints"></app-game-log>
+    <app-search-results class="col-6" (itemSelected)="onItemSelected($event)"
+      [excludeReskins]="excludeReskins" [search]="search"></app-search-results>
+    <div class="container text-center pt-4">
+      <button type="button" class="btn btn-lg btn-danger px-5" *ngIf="gameEnded" (click)="restartGame()">
+        <strong>Restart</strong>
+      </button>
+    </div>
   </div>
 </div>

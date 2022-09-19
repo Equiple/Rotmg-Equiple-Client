@@ -1,7 +1,7 @@
 import { Component, InjectionToken, Input, OnDestroy, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { GuessStatus, Item, Hints, Hint, Gamemode } from 'src/lib/api';
-import { ResultsComponent } from './results/results.component';
+import { GameLogComponent } from './game-log/game-log.component';
 import { GameService } from './services/game-service';
 import { GuessResult } from 'src/lib/api';
 import { forkJoin, of, Subscription, switchMap } from 'rxjs';
@@ -21,10 +21,10 @@ export class AppComponent implements OnInit, OnDestroy {
   excludeReskins = false;
   changeAllowed = true;
   guessLoading = false;
+  search = '';
   private readonly playerId = '6320750b6835566b454b114b';
 
   constructor(private gameService: GameService, private modalService: ModalService) {
-
   }
 
   @ViewChild('modal', { read: ViewContainerRef })
@@ -98,8 +98,12 @@ export class AppComponent implements OnInit, OnDestroy {
     });
   }
 
-  OnCheckboxChange(value: boolean) {
+  onCheckboxChange(value: boolean) {
     this.excludeReskins = value;
+  }
+
+  onSearchChanged(search: string){
+    this.search = search;
   }
 
   onItemSelected(itemId: string) {
