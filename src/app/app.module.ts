@@ -20,6 +20,7 @@ import { ModalComponent } from './modal/modal.component';
 import { ModalService } from './services/modal-service';
 import { SearchResultsComponent } from './search-results/search-results.component';
 import { GuideComponent } from './guide/guide.component';
+import { LeaderboardComponent } from './leaderboard/leaderboard.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { GuideComponent } from './guide/guide.component';
     ReversePipe,
     ModalComponent,
     SearchResultsComponent,
-    GuideComponent
+    GuideComponent,
+    LeaderboardComponent
   ],
   imports: [
     BrowserModule,

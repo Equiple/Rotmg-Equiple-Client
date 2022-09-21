@@ -8,6 +8,7 @@ import { forkJoin, of, Subscription, switchMap } from 'rxjs';
 import { ModalService } from './services/modal-service';
 import { GuideComponent } from './guide/guide.component';
 import {Dialog, DialogRef, DIALOG_DATA} from '@angular/cdk/dialog';
+import { LeaderboardComponent } from './leaderboard/leaderboard.component';
 
 
 @Component({
@@ -64,9 +65,14 @@ export class AppComponent implements OnInit, OnDestroy {
     );
   }
 
+  debugLeaderboard(){
+    let leaderboardRef = this.dialog.open(LeaderboardComponent);
+    leaderboardRef.closed.subscribe( () => {} );
+  }
+
   summonGuide(): void{
     let dialogRef = this.dialog.open(GuideComponent);
-    dialogRef.closed.subscribe( result => {} );
+    dialogRef.closed.subscribe( () => {} );
   }
 
   createGamemodeSwitchModal(activeGamemode: string, newGamemode: string) {
