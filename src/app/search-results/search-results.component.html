@@ -3,9 +3,11 @@
 
 <div class="rounded" style="max-height: 45em; overflow: auto">
     <cdk-virtual-scroll-viewport class="px-1" style="height: 45em" [itemSize]="150">
-        <div class="btn btn-light form-conrol m-1 border rounded float-end w-100"
+        <div class="btn btn-light m-1 border rounded float-start item-element"
             *cdkVirtualFor="let item of items | reverse; let i = index;" (click)="onItemSelected(item.id)">
-            <h5 class="row text-primary m-2 ">{{item.name}}</h5>
+            <h4 class="row text-info m-2 ">
+                <strong class="text-start">{{item.name}}</strong>
+            </h4>
             <div class="row m-1 border-info rounded">
                 <div class="col-2 p-1">
                     <div class="bg-light rounded h-100 py-2" title="Try">

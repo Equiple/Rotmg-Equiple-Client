@@ -15,7 +15,7 @@ export class SearchComponent implements OnInit {
   searchDisabled = false;
   @Input() excludeReskins: boolean | undefined;
   @Input() set disabled(value: boolean){
-    //
+    this.searchDisabled;
   };
 
   constructor(private gameService: GameService) { 

@@ -1,0 +1,121 @@
+<div class="modal-container" style="width: 60em">
+    <div class="model-dialog border rounded px-2 py-3 bg-light" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title ml-2">Equiple Guide</h2>
+                <button type="button" class="btn-close m-3" aria-label="Close" (click)="close()">
+                    <span aria-hidden="true"></span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <cdk-accordion class="cdk-accordion">
+                    <cdk-accordion-item class="accordion-item p-1" #accordionItem="cdkAccordionItem" role="button"
+                        tabindex="0"
+                        [attr.id]="'accordion-header-' + 0"
+                        [attr.aria-expanded]="accordionItem.expanded"
+                        [attr.aria-controls]="'accordion-body-' + 0">
+                        <div class="accordion-header rounded mx-2 bg-info text-white" (click)="accordionItem.toggle()">
+                            <button class="accordion-button ml-2 p-2 row">
+                                <h4 clas="col-3">
+                                    Introduction 
+                                </h4>
+                                <span class="col-3 accordion-item-description">
+                                    Click to {{ accordionItem.expanded ? 'close' : 'open' }}
+                                </span>
+                            </button>
+                        </div>
+                        <div class="accordion-body border rounded bitches mx-3 p-2" role="region" [style.display]="accordionItem.expanded ? '' : 'none'"
+                            [attr.id]="'accordion-body-' + 0"
+                            [attr.aria-labelledby]="'accordion-header-' + 0">
+                            &nbsp;&nbsp;&nbsp;&nbsp;Equiple - item guessing game based off Wordle. You have to guess equipment from the game Realm
+                            of the Mad God in 10 tries. Hints for you are six item attributes, which are:
+                            <ul>
+                                <br>
+                                <li>
+                                    <strong>Tier (Item Tier) </strong>- either "UT" (Untiered), "ST" (Set Tiered) or "Tiered".
+                                    Reskinned items marked as "Reskin" afterwards, which makes 6 tiers in total. If target item is reskin, you will have to guess the reskin. 
+                                    <i>For example: Doom Bow, Sun's Judgement and Bow of the Morning star.</i>
+                                </li>
+                                <li>
+                                    <strong>Type (Slot Type) </strong>- self-explainatory, slot that item takes. Either
+                                    "Weapon", "Ability", "Armor" or "Ring".
+                                </li>
+                                <li>
+                                    <strong>Shots (Number of Shots) </strong>- number of shots item fires. Yes, some items
+                                    don't have any ;)
+                                </li>
+                                <li>
+                                    <strong>Range </strong>- range of the item. Items that technically have range, but as
+                                    "max distance" or "radius" will have that value here instead. <i>For example: traps, prisms, etc.</i>
+                                </li>
+                                <li>
+                                    <strong>Xp Bonus (Fame Bonus) </strong>- xp bonus given by the item.
+                                </li>
+                                <li>
+                                    <strong>Feedpower </strong>- feedpower of the item.
+                                </li>
+                            </ul>
+                            &nbsp;&nbsp;&nbsp;&nbsp;<i>Items that have some type of mathematical modifiers will have either minimal value or zero,
+                                depending on the case.</i><br><br>
+                            There are two gamemodes: <strong>Daily</strong> and <strong>Normal</strong>. <br>&nbsp;&nbsp;&nbsp;&nbsp;In Daily gamemode everyone is given the same item, and you can only do it once per day.
+                            <br>&nbsp;&nbsp;&nbsp;&nbsp;In Normal you can play as much as you want and you can exclude reskinned items from the game. 
+                            <br>Consecutive wins in both gamemodes increase your respective streak, losing on the other hand voids it. Best players show up in the <strong>Leaderboard</strong>.
+                        </div>
+                    </cdk-accordion-item>
+                    <cdk-accordion-item class="accordion-item p-1" #accordionItemTwo="cdkAccordionItem" role="button"
+                        [attr.id]="'accordion-header-' + 1"
+                        [attr.aria-expanded]="accordionItemTwo.expanded"
+                        [attr.aria-controls]="'accordion-body-' + 1">
+                        <div class="accordion-header text-white rounded border bg-success mx-2 ">
+                            <button class="accordion-button ml-2 p-2 row" (click)="accordionItemTwo.toggle()">
+                                <h4 clas="col-3">
+                                    Rules
+                                </h4>
+                                <span class="col-3 accordion-item-description">
+                                    Click to {{ accordionItemTwo.expanded ? 'close' : 'open' }}
+                                </span>
+                            </button>
+                        </div>
+                        <div class="accordion-body mx-3 p-1" role="region" 
+                            [style.display]="accordionItemTwo.expanded ? '' : 'none'"
+                            [attr.id]="'accordion-body-' + 1"
+                            [attr.aria-labelledby]="'accordion-header-' + 1">
+                            <ul>
+                                <li>You have 10 tries to guess the item.</li>
+                                <li>You need to guess exact item that was guessed. <i>You can end up in the situation where several items fit your guess.</i></li>
+                                <li>Don't cheat!</li>
+                            </ul>
+                        </div>
+                    </cdk-accordion-item>
+                    <cdk-accordion-item class="accordion-item p-1" #accordionItemThree="cdkAccordionItem" role="button"
+                        [attr.id]="'accordion-header-' + 2"
+                        [attr.aria-expanded]="accordionItemThree.expanded"
+                        [attr.aria-controls]="'accordion-body-' + 2">
+                        <div class="accordion-header text-white rounded border bg-danger mx-2 ">
+                            <button class="accordion-button ml-2 p-2 row" (click)="accordionItemThree.toggle()">
+                                <h4 clas="col-3">
+                                    Example
+                                </h4>
+                                <span class="col-3 accordion-item-description">
+                                    Click to {{ accordionItemThree.expanded ? 'close' : 'open' }}
+                                </span>
+                            </button>
+                        </div>
+                        <div class="accordion-body mx-3 p-1" role="region" 
+                            [style.display]="accordionItemThree.expanded ? '' : 'none'"
+                            [attr.id]="'accordion-body-' + 2"
+                            [attr.aria-labelledby]="'accordion-header-' + 2">
+                            Let's go over quick game example.
+                        </div>
+                    </cdk-accordion-item>
+                </cdk-accordion>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-info text-white m-1" data-bs-dismiss="modal" (click)="close()">
+                    <strong>Close</strong>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-background"></div>

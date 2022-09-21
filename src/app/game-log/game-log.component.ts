@@ -12,6 +12,7 @@ export class GameLogComponent implements OnInit {
   readonly playerId = '6320750b6835566b454b114b';
   @Input() hints = new Array<Hints>();
   @Input() guesses = new Array<Item>();
+  @Input() status = '';
   readonly guessFields : GuessField[] = [
     {key: "tier", title:"Tier", icon:"star-fill"},
     {key: "type", title:"Item type", icon:"asterisk"},
@@ -28,6 +29,13 @@ export class GameLogComponent implements OnInit {
     
   }
 
+  getBgColor(index: number): string{
+    if(index === this.guesses.length && this.status === 'Guessed'){
+      return 'bg-success';
+    }
+    return 'bg-light';
+  }
+
   getAdditionalClass(param: keyof Item, index: number){
     let hint = this.hints[index];
     if(hint === undefined) return;
@@ -35,7 +43,7 @@ export class GameLogComponent implements OnInit {
     if(hint[param] === Hint.Correct){
       return 'bg-success';
     }
-    return 'bg-danger';
+    return 'bg-primary';
   }
 
   getHintArrow(param: keyof Item, index: number){

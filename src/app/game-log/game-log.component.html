@@ -2,20 +2,22 @@
 
 <div class="rounded" style="max-height: 40em; overflow: auto">
     <div class="px-1">
-        <div class="btn btn-light form-conrol m-1 border rounded float-end w-100 text-center"
+        <div class="btn btn-light form-conrol m-1 border rounded float-end item-element"
             *ngIf="guesses.length === 0">
-            <h5 class="row text-primary m-2 text-center">Click on item in search results to start playing! Choose wisely ;)</h5>
+            <h5 class="row m-2">Click on item in search results to start playing! Choose wisely ;)</h5>
         </div>
-        <div class="btn btn-light form-conrol m-1 border rounded float-end w-100" [title]="guess.name"
+        <div class="btn btn-light form-conrol m-1 border rounded float-end item-element" [title]="guess.name"
             *ngFor="let guess of guesses | reverse; let i = index;">
-            <h5 class="row text-primary m-2 ">{{guess.name}}</h5>
+            <h4 class="row text-info m-2">
+                <strong class="text-start">{{guess.name}}</strong>
+            </h4>
             <div class="row m-1 border-info rounded">
                 <div class="col-2 p-1">
-                    <div class="bg-light rounded h-100 pt-3" title="Try">
+                    <div class="rounded h-100 pt-3" [class]="getBgColor(i)" title="Try">
                         <div class="float-start pt-2 px-3">
                             <i class="bi bi-hash"></i><strong>{{guesses.length - i}}</strong>
                         </div>
-                        <img class="float-center" src="..\assets\images\weapon-default.png">
+                        <img class="float-center"  src="..\assets\images\weapon-default.png">
                     </div>
                 </div>
                 <div class="col-2 p-1" *ngFor="let field of guessFields">

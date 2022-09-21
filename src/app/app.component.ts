@@ -6,6 +6,8 @@ import { GameService } from './services/game-service';
 import { GuessResult } from 'src/lib/api';
 import { forkJoin, of, Subscription, switchMap } from 'rxjs';
 import { ModalService } from './services/modal-service';
+import { GuideComponent } from './guide/guide.component';
+import {Dialog, DialogRef, DIALOG_DATA} from '@angular/cdk/dialog';
 
 
 @Component({
@@ -22,9 +24,10 @@ export class AppComponent implements OnInit, OnDestroy {
   changeAllowed = true;
   guessLoading = false;
   search = '';
+  gameStatus = '';
   private readonly playerId = '6320750b6835566b454b114b';
 
-  constructor(private gameService: GameService, private modalService: ModalService) {
+  constructor(private gameService: GameService, private modalService: ModalService, public dialog: Dialog) {
   }
 
   @ViewChild('modal', { read: ViewContainerRef })
@@ -59,6 +62,11 @@ export class AppComponent implements OnInit, OnDestroy {
     'bg-success',
     'https://i.imgur.com/o6cRNmb.gif'
     );
+  }
+
+  summonGuide(): void{
+    let dialogRef = this.dialog.open(GuideComponent);
+    dialogRef.closed.subscribe( result => {} );
   }
 
   createGamemodeSwitchModal(activeGamemode: string, newGamemode: string) {
@@ -124,6 +132,7 @@ export class AppComponent implements OnInit, OnDestroy {
         'bg-success',
         'https://i.imgur.com/d7nl7uS.png');
         this.gameEnded = true;
+        this.gameStatus = result.status;
       }
       else if (result.status === GuessStatus.Lost) {
         this.createGameResultsModal('You couldn\'t guess the item :C',
