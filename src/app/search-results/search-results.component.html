@@ -3,20 +3,20 @@
 
 <div class="rounded" style="max-height: 45em; overflow: auto">
     <cdk-virtual-scroll-viewport class="px-1" style="height: 45em" [itemSize]="150">
-        <div class="btn btn-light m-1 border rounded float-start item-element"
+        <div class="btn btn-grey m-1 border rounded float-start item-element"
             *cdkVirtualFor="let item of items | reverse; let i = index;" (click)="onItemSelected(item.id)">
             <h4 class="row m-2 ">
                 <strong class="text-start" [class]="'item-'+item.tier.toLowerCase()">{{item.name}}</strong>
             </h4>
             <div class="row m-1 border-info rounded">
                 <div class="col-2 p-1 text-center">
-                    <div class="bg-light rounded h-100 py-2 text-center" title="Try" style="display: flex;
+                    <div class="bg-grey rounded h-100 py-2 text-center" title="Try" style="display: flex;
                     justify-content: center; align-items: center">
                         <img class="" width="40px" height="40px" src="{{item.imageURL}}">
                     </div>
                 </div>
                 <div class="col-2 p-1" *ngFor="let field of itemFields">
-                    <div class="rounded h-100 py-2 bg-light">
+                    <div class="rounded h-100 py-2 bg-grey">
                         <i [class]="'bi bi-'+field.icon">
                         </i><strong> {{field.title}}</strong><br>
                         <div class="pt-2">
@@ -25,8 +25,9 @@
                             <span *ngIf="field.key =='tier' && item.reskin === true ">
                                 Reskin</span><span *ngIf="field.key === 'xpBonus'">%</span><span
                                 *ngIf="field.key === 'feedpower'">fp</span>
-                            <div *ngIf="field.key === 'dominantColor'" placement="top"
-                                ngbTooltip="{{item.dominantColor}}">
+                            <div *ngIf="field.key === 'dominantColor'" #tooltip="matTooltip" matTooltipHideDelay="1000"
+                                matTooltip="{{item.dominantColor}}" matTooltipPosition="above"
+                                matTooltipClass="bg-dark p-2">
                                 <div class="rounded img-center color-box" [ngStyle]="{'background-color': item.dominantColor}">
                                 </div>
                             </div>

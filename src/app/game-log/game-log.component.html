@@ -2,11 +2,11 @@
 
 <div class="rounded" style="max-height: 40em; overflow: auto">
     <div class="px-1">
-        <div class="btn btn-light form-conrol m-1 border rounded float-end item-element"
+        <div class="btn btn-grey form-conrol m-1 border rounded float-end item-element"
             *ngIf="guesses.length === 0">
             <h5 class="row m-2">Click on item in search results to start playing! Choose wisely ;)</h5>
         </div>
-        <div class="btn btn-light form-conrol m-1 border rounded float-end item-element" [title]="guess.name"
+        <div class="btn btn-grey m-1 border rounded float-end item-element" [title]="guess.name"
             *ngFor="let guess of guesses | reverse; let i = index;">
             <h4 class="row m-2">
                 <strong class="text-start" [class]="'item-'+guess.tier.toLowerCase()">{{guess.name}}</strong>
@@ -18,7 +18,7 @@
                         <div class="float-start pr-3">
                             <i class="bi bi-hash"></i><strong>{{guesses.length - i}} </strong>
                         </div>
-                        <img class="" width="40px" height="40px" src="{{guess.imageURL}}">
+                        <img  width="40px" height="40px" src="{{guess.imageURL}}">
                     </div>
                 </div>
                 <div class="col-2 p-1" *ngFor="let field of guessFields">
@@ -33,11 +33,10 @@
                             <span *ngIf="field.key !== 'dominantColor'">{{guess[field.key]}}</span>
                             <span *ngIf="field.key == 'tier' && guess.reskin === true"> Reskin</span>
                             <span *ngIf="field.key === 'xpBonus'">%</span><span *ngIf="field.key === 'feedpower'">fp</span>
-                            <div [title]="guess.dominantColor">
-                                <div class="rounded img-center color-box" *ngIf="field.key === 'dominantColor'"
-                                    [ngStyle]="{'background-color': guess.dominantColor}"> 
-                                    <h3 *ngIf="getHintBackgroundStyle(field.key, guesses.length - i - 1) == '#339900'"
-                                        class="bi bi-check-lg"></h3>
+                            <div *ngIf="field.key === 'dominantColor'" #tooltip="matTooltip" matTooltipHideDelay="1000"
+                                matTooltip="{{guess.dominantColor}}" matTooltipPosition="above"
+                                matTooltipClass="bg-dark p-2">
+                                <div class="rounded img-center color-box" [ngStyle]="{'background-color': guess.dominantColor}">
                                 </div>
                             </div>
                         </div>

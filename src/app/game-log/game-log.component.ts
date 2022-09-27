@@ -36,7 +36,7 @@ export class GameLogComponent implements OnInit {
       this.status = '';
       return 'bg-success';
     }
-    return 'bg-light';
+    return 'bg-grey';
   }
 
   getHintBackgroundStyle(param: keyof Item, index: number){
