@@ -9,17 +9,13 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { Gamemode } from './gamemode';
-import { GameResult } from './gameResult';
 
 
-export interface Game { 
-    mode?: Gamemode;
-    targetItemId?: string | null;
-    guessItemIds?: Array<string> | null;
-    startTime?: string;
-    reskingExcluded?: boolean;
-    isEnded?: boolean;
-    gameResult?: GameResult;
-}
+export type GameResult = 'Won' | 'Lost' | 'Expired';
+
+export const GameResult = {
+    Won: 'Won' as GameResult,
+    Lost: 'Lost' as GameResult,
+    Expired: 'Expired' as GameResult
+};
 

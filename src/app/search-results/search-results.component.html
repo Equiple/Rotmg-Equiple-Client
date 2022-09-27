@@ -5,13 +5,14 @@
     <cdk-virtual-scroll-viewport class="px-1" style="height: 45em" [itemSize]="150">
         <div class="btn btn-light m-1 border rounded float-start item-element"
             *cdkVirtualFor="let item of items | reverse; let i = index;" (click)="onItemSelected(item.id)">
-            <h4 class="row text-info m-2 ">
-                <strong class="text-start">{{item.name}}</strong>
+            <h4 class="row m-2 ">
+                <strong class="text-start" [class]="'item-'+item.tier.toLowerCase()">{{item.name}}</strong>
             </h4>
             <div class="row m-1 border-info rounded">
-                <div class="col-2 p-1">
-                    <div class="bg-light rounded h-100 py-2" title="Try">
-                        <img class="p-2" src="..\assets\images\weapon-default.png">
+                <div class="col-2 p-1 text-center">
+                    <div class="bg-light rounded h-100 py-2 text-center" title="Try" style="display: flex;
+                    justify-content: center; align-items: center">
+                        <img class="" width="40px" height="40px" src="{{item.imageURL}}">
                     </div>
                 </div>
                 <div class="col-2 p-1" *ngFor="let field of itemFields">
@@ -20,9 +21,15 @@
                         </i><strong> {{field.title}}</strong><br>
                         <div class="pt-2">
                             <i *ngIf="['NumberOfShots','XpBonus', 'Feedpower'].includes(field.key)"></i>
-                            {{item[field.key]}}<span *ngIf="field.key =='tier' && item.reskin === true ">
+                            <span *ngIf="field.key !=='dominantColor'">{{item[field.key]}}</span>
+                            <span *ngIf="field.key =='tier' && item.reskin === true ">
                                 Reskin</span><span *ngIf="field.key === 'xpBonus'">%</span><span
                                 *ngIf="field.key === 'feedpower'">fp</span>
+                            <div *ngIf="field.key === 'dominantColor'" placement="top"
+                                ngbTooltip="{{item.dominantColor}}">
+                                <div class="rounded img-center color-box" [ngStyle]="{'background-color': item.dominantColor}">
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

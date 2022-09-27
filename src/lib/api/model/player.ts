@@ -22,6 +22,6 @@ export interface Player {
     normalStats?: GameStatistic;
     dailyStats?: GameStatistic;
     currentGame?: Game;
-    dailyAttempted?: boolean;
+    endedGames?: Array<Game> | null;
 }
 

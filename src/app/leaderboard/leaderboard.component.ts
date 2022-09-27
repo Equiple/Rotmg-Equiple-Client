@@ -11,13 +11,15 @@ export class LeaderboardComponent implements OnInit {
     "Player 6", "Player 7","Player 8","Player 9", "Player 10"];
   currentGamemode = "Daily";
   bgColor = "-primary";
-  constructor(private dialogRef: DialogRef<string>) { }
   readonly playerPlaces = [
     {key: "0", color:"table-warning", icon:"star-fill"},
     {key: "1", color:"table-secondary", icon:"asterisk"},
     {key: "2", color:"table-primary", icon:"heart-arrow"}
   ];
 
+  constructor(private dialogRef: DialogRef<string>) { 
+  }
+  
   ngOnInit(): void {
   }
 

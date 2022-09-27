@@ -8,26 +8,38 @@
         </div>
         <div class="btn btn-light form-conrol m-1 border rounded float-end item-element" [title]="guess.name"
             *ngFor="let guess of guesses | reverse; let i = index;">
-            <h4 class="row text-info m-2">
-                <strong class="text-start">{{guess.name}}</strong>
+            <h4 class="row m-2">
+                <strong class="text-start" [class]="'item-'+guess.tier.toLowerCase()">{{guess.name}}</strong>
             </h4>
             <div class="row m-1 border-info rounded">
-                <div class="col-2 p-1">
-                    <div class="rounded h-100 pt-3" [class]="getBgColor(i)" title="Try">
-                        <div class="float-start pt-2 px-3">
-                            <i class="bi bi-hash"></i><strong>{{guesses.length - i}}</strong>
+                <div class="col-2 p-1 text-center">
+                    <div class="rounded h-100 py-2 text-center" [class]="getElementBgColor(i)" title="Try" style="display: flex;
+                        justify-content: center; align-items: center">
+                        <div class="float-start pr-3">
+                            <i class="bi bi-hash"></i><strong>{{guesses.length - i}} </strong>
                         </div>
-                        <img class="float-center"  src="..\assets\images\weapon-default.png">
+                        <img class="" width="40px" height="40px" src="{{guess.imageURL}}">
                     </div>
                 </div>
                 <div class="col-2 p-1" *ngFor="let field of guessFields">
-                    <div class="rounded h-100 py-2" [class]="getAdditionalClass(field.key, guesses.length - i - 1)">
+                    <!-- [class]="getAdditionalClass(field.key, guesses.length - i - 1)" -->
+                    <div class="rounded h-100 py-2" 
+                        [ngStyle]="{'background-color': getHintBackgroundStyle(field.key, guesses.length - i - 1)}">
                         <i [class]="'bi bi-'+field.icon">
                             </i><strong> {{field.title}}</strong><br>
                         <div class="pt-2">
                             <i *ngIf="['numberOfShots','xpBonus', 'feedpower'].includes(field.key)"
-                            [class]="getHintArrow(field.key, guesses.length - i - 1)"></i>
-                            {{guess[field.key]}}<span *ngIf="field.key =='tier' && guess.reskin === true"> Reskin</span><span *ngIf="field.key === 'xpBonus'">%</span><span *ngIf="field.key === 'feedpower'">fp</span>
+                                [class]="getHintArrow(field.key, guesses.length - i - 1)"></i>
+                            <span *ngIf="field.key !== 'dominantColor'">{{guess[field.key]}}</span>
+                            <span *ngIf="field.key == 'tier' && guess.reskin === true"> Reskin</span>
+                            <span *ngIf="field.key === 'xpBonus'">%</span><span *ngIf="field.key === 'feedpower'">fp</span>
+                            <div [title]="guess.dominantColor">
+                                <div class="rounded img-center color-box" *ngIf="field.key === 'dominantColor'"
+                                    [ngStyle]="{'background-color': guess.dominantColor}"> 
+                                    <h3 *ngIf="getHintBackgroundStyle(field.key, guesses.length - i - 1) == '#339900'"
+                                        class="bi bi-check-lg"></h3>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

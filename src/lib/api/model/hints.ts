@@ -18,5 +18,7 @@ export interface Hints {
     numberOfShots?: Hint;
     xpBonus?: Hint;
     feedpower?: Hint;
+    colorClass?: Hint;
+    dominantColor?: string | null;
 }
 

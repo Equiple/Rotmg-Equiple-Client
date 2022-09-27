@@ -24,6 +24,7 @@ export class AppComponent implements OnInit, OnDestroy {
   excludeReskins = false;
   changeAllowed = true;
   guessLoading = false;
+  dailyAttempted = false;
   search = '';
   gameStatus = '';
   private readonly playerId = '6320750b6835566b454b114b';
@@ -36,7 +37,7 @@ export class AppComponent implements OnInit, OnDestroy {
   sub!: Subscription;
 
   get searchDisabled() {
-    return this.gameEnded || this.guessLoading;
+    return this.gameEnded || this.guessLoading || (this.gamemode === Gamemode.Daily && this.dailyAttempted === true);
   }
 
   ngOnInit() {
@@ -44,11 +45,20 @@ export class AppComponent implements OnInit, OnDestroy {
       if (activeGameOptions) {
         this.gameService.getGuesses(this.playerId).subscribe(guesses => this.guesses = guesses);
         this.gameService.getAllHints(this.playerId).subscribe(hints => this.hints = hints);
+        
         this.gamemode = activeGameOptions.mode!;
         this.excludeReskins = activeGameOptions.reskinsExcluded!;
         this.changeAllowed = false;
+      }else{
+        this.gameService.wasDailyAttempted(this.playerId).subscribe(x => {
+          this.dailyAttempted = x;
+          if(x){
+            this.gamemode = Gamemode.Normal;
+          }
+        });
       }
     });
+    
   }
 
   ngOnDestroy(): void {
@@ -120,6 +130,17 @@ export class AppComponent implements OnInit, OnDestroy {
     this.search = search;
   }
 
+  disableDaily(){
+    if(this.gameEnded === true && this.gamemode === Gamemode.Daily){
+      this.dailyAttempted = true;
+    }
+  }
+
+  endGame(result: GuessResult) {
+    this.gameEnded = true;
+    this.gameStatus = result.status!.toString();
+  }
+
   onItemSelected(itemId: string) {
     this.guessLoading = true;
     this.gameService.checkGuess(itemId, this.playerId, this.gamemode, this.excludeReskins).pipe(
@@ -132,20 +153,21 @@ export class AppComponent implements OnInit, OnDestroy {
     ).subscribe(([result, guess, tries, hints]) => {
       this.guesses.push(guess);
       this.hints.push(hints);
+      
       if (result.status === GuessStatus.Guessed) {
         this.createGameResultsModal(`You\'ve guessed the ${guess.name} with ${tries} tries!`,
         `Your current streak in ${this.gamemode} is {streakNumber}`,
         'bg-success',
-        'https://i.imgur.com/d7nl7uS.png');
-        this.gameEnded = true;
-        this.gameStatus = result.status;
+        guess.imageURL ?? "");
       }
       else if (result.status === GuessStatus.Lost) {
         this.createGameResultsModal('You couldn\'t guess the item :C',
         'Very sad!',
         'bg-danger',
-        'https://i.imgur.com/d7nl7uS.png');
-        this.gameEnded = true;
+        'https://static.drips.pw/rotmg/wiki/Environment/Gravestone%201.png');
+      }
+      if(result.status === GuessStatus.Guessed || result.status === GuessStatus.Lost){
+        this.endGame(result);
       }
       this.guessLoading = false;
     });

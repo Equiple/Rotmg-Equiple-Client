@@ -20,11 +20,13 @@ export class SearchResultsComponent implements OnInit {
   @Output() itemSelected = new EventEmitter<string>();
   private itemsRequest = new Subject();
   readonly itemFields : GuessField[] = [
-    {key: "tier", title:"Tier", icon:"star-fill"},
-    {key: "type", title:"Item type", icon:"asterisk"},
-    {key: "numberOfShots", title:"Shots", icon:"heart-arrow"},
-    {key: "xpBonus", title:"XP Bonus", icon:"lightning-fill"},
-    {key: "feedpower", title:"Feedpower", icon:"trash3"}
+    {key: "tier", title: "Tier", icon: "star-fill"},
+    {key: "type", title: "Item type", icon: "asterisk"},
+    //{key: "colorClass", title: "Color", icon: "palette-fill"},
+    {key: "dominantColor", title: "Color", icon: "palette-fill"},
+    //{key: "numberOfShots", title:"Shots", icon:"heart-arrow"},
+    {key: "xpBonus", title: "XP Bonus", icon: "lightning-fill"},
+    {key: "feedpower", title: "Feedpower", icon: "trash3"}
   ];
   
   constructor(private gameService: GameService) { 

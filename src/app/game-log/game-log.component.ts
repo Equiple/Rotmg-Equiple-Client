@@ -16,7 +16,9 @@ export class GameLogComponent implements OnInit {
   readonly guessFields : GuessField[] = [
     {key: "tier", title:"Tier", icon:"star-fill"},
     {key: "type", title:"Item type", icon:"asterisk"},
-    {key: "numberOfShots", title:"Shots", icon:"heart-arrow"},
+    //{key: "colorClass", title: "Color", icon: "palette-fill"},
+    {key: "dominantColor", title: "Color", icon: "palette-fill"},
+    //{key: "numberOfShots", title:"Shots", icon:"heart-arrow"},
     {key: "xpBonus", title:"XP Bonus", icon:"lightning-fill"},
     {key: "feedpower", title:"Feedpower", icon:"trash3"}
   ];
@@ -29,16 +31,34 @@ export class GameLogComponent implements OnInit {
     
   }
 
-  getBgColor(index: number): string{
-    if(index === this.guesses.length && this.status === 'Guessed'){
+  getElementBgColor(index: number): string{
+    if(index === 0 && this.status === 'Guessed'){
+      this.status = '';
       return 'bg-success';
     }
     return 'bg-light';
   }
 
+  getHintBackgroundStyle(param: keyof Item, index: number){
+    let hint = this.hints[index];
+    if(hint === undefined){
+      return;
+    } 
+    param = param as keyof Hints;
+    if(param === 'dominantColor'){
+      return hint[param];
+    }
+    else if(hint[param] === Hint.Correct){
+      return "#339900";
+    }
+    return "#CC0000";
+  }
+
   getAdditionalClass(param: keyof Item, index: number){
     let hint = this.hints[index];
-    if(hint === undefined) return;
+    if(hint === undefined){
+      return;
+    } 
     param = param as keyof Hints;
     if(hint[param] === Hint.Correct){
       return 'bg-success';

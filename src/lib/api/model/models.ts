@@ -1,5 +1,6 @@
 export * from './game';
 export * from './gameOptions';
+export * from './gameResult';
 export * from './gameStatistic';
 export * from './gamemode';
 export * from './guessResult';

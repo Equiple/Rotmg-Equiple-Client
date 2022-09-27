@@ -14,6 +14,7 @@
 export interface Item { 
     id?: string | null;
     name?: string | null;
+    imageURL?: string | null;
     xmlId?: string | null;
     tier?: string | null;
     reskin?: boolean;
@@ -25,5 +26,7 @@ export interface Item {
     xpBonus?: number | null;
     feedpower?: number | null;
     tags?: string | null;
+    dominantColor?: string | null;
+    colorClass?: string | null;
 }
 

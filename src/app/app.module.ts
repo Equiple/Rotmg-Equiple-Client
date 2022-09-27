@@ -21,6 +21,8 @@ import { ModalService } from './services/modal-service';
 import { SearchResultsComponent } from './search-results/search-results.component';
 import { GuideComponent } from './guide/guide.component';
 import { LeaderboardComponent } from './leaderboard/leaderboard.component';
+import { SafeStylePipe } from './pipes/savestyle.pipe';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -28,6 +30,7 @@ import { LeaderboardComponent } from './leaderboard/leaderboard.component';
     SearchComponent,
     GameLogComponent,
     ReversePipe,
+    SafeStylePipe,
     ModalComponent,
     SearchResultsComponent,
     GuideComponent,
@@ -41,7 +44,8 @@ import { LeaderboardComponent } from './leaderboard/leaderboard.component';
     HttpClientModule,
     ScrollingModule,
     CdkAccordionModule,
-    DialogModule
+    DialogModule,
+    NgbModule
   ],
   providers: [
     {
