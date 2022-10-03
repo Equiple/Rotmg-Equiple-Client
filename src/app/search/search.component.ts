@@ -10,7 +10,7 @@ import { GameService } from '../services/game-service';
   styleUrls: ['./search.component.css']
 })
 export class SearchComponent implements OnInit {
-  search = '';
+  @Input() search = '';
   @Output() searchChanged = new EventEmitter<string>();
   searchDisabled = false;
   @Input() excludeReskins: boolean | undefined;

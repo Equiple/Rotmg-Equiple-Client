@@ -23,7 +23,7 @@
       </button>
     </div>
     <div class="col-6">
-      <app-search [disabled]="searchDisabled" (searchChanged)="onSearchChanged($event)"></app-search>
+      <app-search [disabled]="searchDisabled" [search]="search" (searchChanged)="onSearchChanged($event)"></app-search>
     </div>
   </div>
   <div class="row p-2">

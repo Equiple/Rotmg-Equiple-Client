@@ -171,3 +171,13 @@
     --bs-btn-disabled-bg: #D3D4D5;
     --bs-btn-disabled-border-color: #D3D4D5;
 }
+
+.cdk-describedby-message-container
+{
+    width: 0px !important;
+    height: 0px !important;
+}
+    .cdk-describedby-message-container div {
+        width: 0px !important;
+        height: 0px !important;
+    }

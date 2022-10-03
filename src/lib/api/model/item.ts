@@ -23,9 +23,9 @@ export interface Item {
     damageTop?: number | null;
     range?: number | null;
     numberOfShots?: number | null;
-    xpBonus?: number | null;
-    feedpower?: number | null;
-    tags?: string | null;
+    xpBonus?: number;
+    feedpower?: number;
+    tags?: Array<string> | null;
     dominantColor?: string | null;
     colorClass?: string | null;
 }

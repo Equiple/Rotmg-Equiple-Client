@@ -26,7 +26,7 @@ export class SearchResultsComponent implements OnInit {
     {key: "dominantColor", title: "Color", icon: "palette-fill"},
     //{key: "numberOfShots", title:"Shots", icon:"heart-arrow"},
     {key: "xpBonus", title: "XP Bonus", icon: "lightning-fill"},
-    {key: "feedpower", title: "Feedpower", icon: "trash3"}
+    {key: "feedpower", title: "Feedpower", icon: "trash-fill"}
   ];
   
   constructor(private gameService: GameService) { 

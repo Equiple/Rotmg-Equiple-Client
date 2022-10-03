@@ -159,6 +159,7 @@ export class AppComponent implements OnInit, OnDestroy {
         `Your current streak in ${this.gamemode} is {streakNumber}`,
         'bg-success',
         guess.imageURL ?? "");
+        this.search = '';
       }
       else if (result.status === GuessStatus.Lost) {
         this.createGameResultsModal('You couldn\'t guess the item :C',
