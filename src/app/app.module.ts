@@ -1,3 +1,4 @@
+//Modules
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
@@ -9,7 +10,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { DialogModule } from '@angular/cdk/dialog';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
+import { RouterModule } from '@angular/router';
+//Components
 import { AppComponent } from './app.component';
 import { SearchComponent } from './search/search.component';
 import { GameLogComponent } from './game-log/game-log.component';
@@ -17,15 +19,18 @@ import { LeaderboardComponent } from './leaderboard/leaderboard.component';
 import { SearchResultsComponent } from './search-results/search-results.component';
 import { ModalComponent } from './modal/modal.component';
 import { GuideComponent } from './guide/guide.component';
-
-import { ModalService } from './services/modal-service';
+//Services
+//import { ModalService } from './services/modal-service';
 import { GameService } from './services/game-service';
-
+import { ProfileService } from './services/profile-service';
+//Pipes
 import { ReversePipe } from './pipes/reverse.pipe';
 import { SafeStylePipe } from './pipes/savestyle.pipe';
-
+//Misc
 import { BASE_PATH } from 'src/lib/api';
 import { environment } from 'src/environments/environment';
+import { ProfileComponent } from './profile/profile.component';
+import { MainComponent } from './main/main.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +42,9 @@ import { environment } from 'src/environments/environment';
     ModalComponent,
     SearchResultsComponent,
     GuideComponent,
-    LeaderboardComponent
+    LeaderboardComponent,
+    ProfileComponent,
+    MainComponent
   ],
   imports: [
     BrowserModule,
@@ -49,7 +56,12 @@ import { environment } from 'src/environments/environment';
     CdkAccordionModule,
     DialogModule,
     BrowserAnimationsModule,
-    MatTooltipModule
+    MatTooltipModule,
+    RouterModule.forRoot([
+      { path: '', component: MainComponent},
+      { path:'profile', component: ProfileComponent},
+      { path:'**', redirectTo:'', pathMatch:'full'}
+    ])
   ],
   providers: [
     {
@@ -57,7 +69,7 @@ import { environment } from 'src/environments/environment';
       useValue: environment.apiUrl
     },
     GameService,
-    ModalService
+    ProfileService
   ],
   bootstrap: [
     AppComponent

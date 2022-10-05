@@ -181,3 +181,14 @@
         width: 0px !important;
         height: 0px !important;
     }
+
+.cdk-dialog-container {
+    padding-bottom: 600px !important;
+    padding-top: 100px !important;
+}
+
+.block-right {
+    position: absolute;
+    right: 0px;
+    padding: 10px;
+}

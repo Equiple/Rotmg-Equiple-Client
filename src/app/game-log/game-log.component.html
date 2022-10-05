@@ -33,7 +33,7 @@
                             <i *ngIf="['numberOfShots','xpBonus', 'feedpower'].includes(field.key)"
                                 [class]="getHintArrow(field.key, guesses.length - i - 1)"></i>
                             <span *ngIf="field.key !== 'dominantColor'">{{guess[field.key]}}</span>
-                            <span *ngIf="field.key == 'tier' && guess.reskin === true"> Reskin</span>
+                            <span *ngIf="field.key === 'tier' && guess.reskin === true"> Reskin</span>
                             <span *ngIf="field.key === 'xpBonus'">%</span><span *ngIf="field.key === 'feedpower'">fp</span>
                             <div *ngIf="field.key === 'dominantColor'" #tooltip="matTooltip" matTooltipHideDelay="1000"
                                 matTooltip="{{guess.dominantColor}}" matTooltipPosition="above"

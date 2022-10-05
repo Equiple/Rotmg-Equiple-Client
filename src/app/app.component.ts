@@ -1,14 +1,12 @@
-import { Component, InjectionToken, Input, OnDestroy, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
-import { Title } from '@angular/platform-browser';
-import { GuessStatus, Item, Hints, Hint, Gamemode } from 'src/lib/api';
-import { GameLogComponent } from './game-log/game-log.component';
+import { Component, OnDestroy, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
+import { GuessStatus, Item, Hints, Gamemode } from 'src/lib/api';
 import { GameService } from './services/game-service';
 import { GuessResult } from 'src/lib/api';
-import { forkJoin, of, Subscription, switchMap } from 'rxjs';
-import { ModalService } from './services/modal-service';
+import { forkJoin, of, switchMap } from 'rxjs';
 import { GuideComponent } from './guide/guide.component';
-import {Dialog, DialogRef, DIALOG_DATA} from '@angular/cdk/dialog';
+import { Dialog } from '@angular/cdk/dialog';
 import { LeaderboardComponent } from './leaderboard/leaderboard.component';
+import { ModalComponent } from './modal/modal.component';
 
 
 @Component({
@@ -16,7 +14,7 @@ import { LeaderboardComponent } from './leaderboard/leaderboard.component';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit, OnDestroy {
+export class AppComponent implements OnInit {
   guesses = new Array<Item>();
   hints = new Array<Hints>();
   gamemode = Gamemode.Daily;
@@ -29,148 +27,19 @@ export class AppComponent implements OnInit, OnDestroy {
   gameStatus = '';
   private readonly playerId = '6320750b6835566b454b114b';
 
-  constructor(private gameService: GameService, private modalService: ModalService, public dialog: Dialog) {
-  }
-
-  @ViewChild('modal', { read: ViewContainerRef })
-  entry!: ViewContainerRef;
-  sub!: Subscription;
-
-  get searchDisabled() {
-    return this.gameEnded || this.guessLoading || (this.gamemode === Gamemode.Daily && this.dailyAttempted === true);
+  constructor( private dialog: Dialog) {
   }
 
   ngOnInit() {
-    this.gameService.getActiveGameOptions(this.playerId).subscribe(activeGameOptions => {
-      if (activeGameOptions) {
-        this.gameService.getGuesses(this.playerId).subscribe(guesses => this.guesses = guesses);
-        this.gameService.getAllHints(this.playerId).subscribe(hints => this.hints = hints);
-        
-        this.gamemode = activeGameOptions.mode!;
-        this.excludeReskins = activeGameOptions.reskinsExcluded!;
-        this.changeAllowed = false;
-      }else{
-        this.gameService.wasDailyAttempted(this.playerId).subscribe(x => {
-          this.dailyAttempted = x;
-          if(x){
-            this.gamemode = Gamemode.Normal;
-          }
-        });
-      }
-    });
-    
   }
 
-  ngOnDestroy(): void {
-    if (this.sub) {
-      this.sub.unsubscribe();
-    }
+  showGuideModal(): void{
+    let guideModalRef = this.dialog.open(GuideComponent);
+    guideModalRef.closed.subscribe( () => {} );
   }
 
-  debugWin(){
-    this.createGameResultsModal('You have guessed the item with 4 tries!',
-    'Your current streak in normal mode: 6',
-    'bg-success',
-    'https://i.imgur.com/o6cRNmb.gif'
-    );
-  }
-
-  debugLeaderboard(){
-    let leaderboardRef = this.dialog.open(LeaderboardComponent);
-    leaderboardRef.closed.subscribe( () => {} );
-  }
-
-  summonGuide(): void{
-    let dialogRef = this.dialog.open(GuideComponent);
-    dialogRef.closed.subscribe( () => {} );
-  }
-
-  createGamemodeSwitchModal(activeGamemode: string, newGamemode: string) {
-    this.sub = this.modalService.openModal(this.entry,
-      `You have an active game in ${activeGamemode}!`,
-      `Do you want to start a new ${newGamemode.toLowerCase()} game? Doing so will count as a lose and your current streak in ${activeGamemode.toLowerCase()} will be reset!`,
-      'bg-danger', '').subscribe(result => {
-        if (result === 'confirm') {
-          this.gameService.closeTheGame(this.playerId);
-        }
-      });
-  }
-
-  createGameResultsModal(title: string, body: string, bgColor: string, imgLink: string){
-    this.sub = this.modalService.openModal(this.entry, title, body, bgColor, imgLink).subscribe(result => {});
-  }
-
-  restartGame() {
-    this.gameEnded = false;
-    this.guesses = [];
-    this.hints = [];
-    this.changeAllowed = true;
-  }
-
-  isGamemode(gamemode: Gamemode) {
-    return this.gamemode === gamemode;
-  }
-
-  setGamemode(gamemode: Gamemode) {
-    this.gameService.getActiveGameOptions(this.playerId).subscribe(activeGameOptions => {
-      if (!activeGameOptions) {
-        this.gamemode = gamemode;
-      }
-      else if (gamemode !== activeGameOptions.mode) {
-        this.createGamemodeSwitchModal(activeGameOptions.mode!, gamemode);
-      }
-    });
-  }
-
-  onCheckboxChange(value: boolean) {
-    this.excludeReskins = value;
-  }
-
-  onSearchChanged(search: string){
-    this.search = search;
-  }
-
-  disableDaily(){
-    if(this.gameEnded === true && this.gamemode === Gamemode.Daily){
-      this.dailyAttempted = true;
-    }
-  }
-
-  endGame(result: GuessResult) {
-    this.gameEnded = true;
-    this.gameStatus = result.status!.toString();
-  }
-
-  onItemSelected(itemId: string) {
-    this.guessLoading = true;
-    this.gameService.checkGuess(itemId, this.playerId, this.gamemode, this.excludeReskins).pipe(
-      switchMap(result => forkJoin([
-        of(result),
-        this.gameService.getGuess(itemId),
-        this.gameService.getTries(this.playerId),
-        this.gameService.getHints(this.playerId, itemId)
-      ]))
-    ).subscribe(([result, guess, tries, hints]) => {
-      this.guesses.push(guess);
-      this.hints.push(hints);
-      
-      if (result.status === GuessStatus.Guessed) {
-        this.createGameResultsModal(`You\'ve guessed the ${guess.name} with ${tries} tries!`,
-        `Your current streak in ${this.gamemode} is {streakNumber}`,
-        'bg-success',
-        guess.imageURL ?? "");
-        this.search = '';
-      }
-      else if (result.status === GuessStatus.Lost) {
-        this.createGameResultsModal('You couldn\'t guess the item :C',
-        'Very sad!',
-        'bg-danger',
-        'https://static.drips.pw/rotmg/wiki/Environment/Gravestone%201.png');
-      }
-      if(result.status === GuessStatus.Guessed || result.status === GuessStatus.Lost){
-        this.endGame(result);
-      }
-      this.guessLoading = false;
-    });
+  showLeaderboardModal(){
+    let leaderboardModalRef = this.dialog.open(LeaderboardComponent);
+    leaderboardModalRef.closed.subscribe( result => {} );
   }
 }

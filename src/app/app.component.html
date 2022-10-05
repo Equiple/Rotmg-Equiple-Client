@@ -1,39 +1,15 @@
 <style src="app.component.css"></style>
 
 <div class="navbar border rounded" role="banner">
-  <h1 class="ml-4"> Rotmgle</h1>
-  <h3 class="navbar-item bleak" (click)="setGamemode('Daily')" [ngClass]="{'active': isGamemode('Daily')}">Daily</h3>
-  <h3 class="navbar-item bleak" (click)="setGamemode('Normal')" [ngClass]="{'active': isGamemode('Normal')}">Normal</h3>
-  <div class="navbar-item mt-2">
-    <input class="form-check-input" type="checkbox" [checked]="excludeReskins"
-      (change)="excludeReskins = !excludeReskins" id="reskinsCheck" [disabled]="isGamemode('Daily') || !changeAllowed">
-    <label class="form-check-label ml-1" for="reskinsCheck">
-      Exclude reskins
-    </label>
-  </div>
-  <h3 class="navbar-item" (click)="debugWin()" >DebugWin</h3>
-  <h3 class="navbar-item" (click)="debugLeaderboard()" >DebugL</h3>
+   <a class="text-black text-decoration-none" routerLink="">
+    <h1 class="ml-4">Rotmgle</h1>
+  </a>
+  <h3 class="navbar-item" (click)="showGuideModal()">Guide</h3>
+  <h3 class="navbar-item" (click)="showLeaderboardModal()">Leaderboard</h3>
+  <a class="block-right px-3 mx-3" routerLink="/profile">
+    <h3 class="navbar-item text-black float-end">
+      <i class="bi bi-person-fill"></i>Profile
+    </h3>
+  </a>
 </div>
-<div #modal></div>
-<div>
-  <div class="row p-2">
-    <div class="col-6">
-      <button type="button" class="btn btn-lg text-white btn-info px-5" (click)="summonGuide()">
-        <strong>Guide</strong>
-      </button>
-    </div>
-    <div class="col-6">
-      <app-search [disabled]="searchDisabled" [search]="search" (searchChanged)="onSearchChanged($event)"></app-search>
-    </div>
-  </div>
-  <div class="row p-2">
-    <app-game-log class="col-6" [guesses]="guesses" [hints]="hints" [status]="gameStatus"></app-game-log>
-    <app-search-results class="col-6" (itemSelected)="onItemSelected($event)"
-      [excludeReskins]="excludeReskins" [search]="search"></app-search-results>
-    <div class="container text-center pt-4">
-      <button type="button" class="btn btn-lg btn-primary px-5" *ngIf="gameEnded" (click)="restartGame()">
-        <strong>Restart</strong>
-      </button>
-    </div>
-  </div>
-</div>
+<router-outlet></router-outlet>

@@ -1,25 +1,25 @@
 <div class="modal-container">
-    <div class="model-dialog border rounded p-2" [class]="bgColor" role="document">
+    <div class="model-dialog border rounded p-2" [class]="data.modalBgColor" role="document">
         <div class="modal-content">
             <div class="modal-header mb-2">
-                <h4 class="modal-title text-white ml-2">{{title}}</h4>
-                <button type="button" class="btn-close" aria-label="Close" (click)="closeMe()">
+                <h4 class="modal-title text-white ml-2">{{data.modalTitle}}</h4>
+                <button type="button" class="btn-close" (click)="dialogRef.close('close')" aria-label="Close" >
                     <span aria-hidden="true"></span>
                 </button>
             </div>
             <div class="modal-body text-white">
                 <div>
-                    <img class="img-center" height="40px" width="40px" [src]="imgLink"><br>
+                    <img *ngIf=" data.modalImageLink !== '' " class="img-center" height="40px" width="40px" [src]="data.modalImageLink"><br>
                 </div>
                 <div>
-                    {{ body }}
+                    {{ data.modalBody }}
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-light m-1" (click)="confirm()">
+                <button type="button" class="btn btn-light m-1" (click)="dialogRef.close('confirm')">
                     <strong>Confirm</strong>    
                 </button>
-                <button type="button" class="btn btn-light m-1" data-bs-dismiss="modal" (click)="closeMe()">
+                <button type="button" class="btn btn-light m-1" data-bs-dismiss="modal" (click)="dialogRef.close('close')">
                     <strong>Close</strong> 
                 </button>
             </div>

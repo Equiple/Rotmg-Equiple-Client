@@ -1,6 +1,4 @@
-export * from './game';
 export * from './gameOptions';
-export * from './gameResult';
 export * from './gameStatistic';
 export * from './gamemode';
 export * from './guessResult';
@@ -8,4 +6,4 @@ export * from './guessStatus';
 export * from './hint';
 export * from './hints';
 export * from './item';
-export * from './player';
+export * from './playerProfile';

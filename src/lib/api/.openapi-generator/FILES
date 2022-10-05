@@ -3,13 +3,12 @@ README.md
 api.module.ts
 api/api.ts
 api/game.service.ts
+api/profile.service.ts
 configuration.ts
 encoder.ts
 git_push.sh
 index.ts
-model/game.ts
 model/gameOptions.ts
-model/gameResult.ts
 model/gameStatistic.ts
 model/gamemode.ts
 model/guessResult.ts
@@ -18,5 +17,5 @@ model/hint.ts
 model/hints.ts
 model/item.ts
 model/models.ts
-model/player.ts
+model/playerProfile.ts
 variables.ts

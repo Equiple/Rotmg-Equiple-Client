@@ -1,0 +1,23 @@
+<div class="p-5">
+    <div class="row p-3">
+        <h1>Your profile, Name</h1>
+        <div>Registered at {{player.registrationDate}}</div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-2" *ngFor="let stat of stats; let i = index">
+            <div class="card text-white mb-3" [class]="statFields[i].color" style="max-width: 20rem; height: 20rem;">
+                <h4 class="card-header">{{statFields[i].title}} Stats</h4>
+                <div class="card-body">
+                    <!-- <h4 class="card-title">Primary card title</h4> -->
+                    <div class="card-text">
+                        <div *ngFor="let attribute of attrFields"> 
+                            <p *ngIf=" attribute.key !== 'currentStreak' || statFields[i].title !== 'Total' ">
+                                {{attribute.title}} {{stat[attribute.key]}}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

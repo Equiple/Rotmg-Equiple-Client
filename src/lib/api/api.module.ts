@@ -3,6 +3,7 @@ import { Configuration } from './configuration';
 import { HttpClient } from '@angular/common/http';
 
 import { GameService } from './api/game.service';
+import { ProfileService } from './api/profile.service';
 
 @NgModule({
   imports:      [],

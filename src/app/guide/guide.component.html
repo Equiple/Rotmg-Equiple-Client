@@ -69,7 +69,7 @@
                             <br>&nbsp;&nbsp;&nbsp;&nbsp;In Normal you can play as much as you want and you can exclude reskinned items from the game. Tick off 
                             "Exclude reskins" checkbox before starting a new game.
                             <br>Consecutive wins in both gamemodes increase your respective winning streak, losing on the other hand voids it. Best players show up in 
-                            the <strong>Leaderboard</strong>.
+                            the <strong>Leaderboard</strong>.<br>
                         </div>
                     </cdk-accordion-item>
                     <!-- Tips -->
@@ -86,7 +86,7 @@
                                 </span>
                             </button>
                         </div>
-                        <div class="accordion-body mx-3 p-1" role="region" 
+                        <div class="accordion-body border rounded mx-3 p-1" role="region" 
                             [style.display]="accordionItemTwo.expanded ? '' : 'none'"
                             [attr.id]="'accordion-body-' + 1"
                             [attr.aria-labelledby]="'accordion-header-' + 1">
@@ -100,10 +100,10 @@
                                 <li>You can combine prompts for more specific search, e.g. "st weapon", "t6 ability" or "ut ring".
                                 </li>
                                 <li>Try to remember unique item cases, for example <b>The Forgotten Crown</b> is the only <b>UT</b> ring with <b>8%</b> xp bonus
-                                     and <b>1400</b> feedpower. <b>Corruption Tether</b> is the only <b>ST</b> weapon with <b>7%</b> xp bonus. 
+                                     and <b>1400</b> feedpower; <b>Corruption Tether</b> is the only <b>ST weapon</b> with <b>7%</b> xp bonus. 
                                      There are more items like this! ;)
                                 </li>
-                            </ul>
+                            </ul><br>
                         </div>
                     </cdk-accordion-item>
                     <!-- Game Example -->
@@ -121,11 +121,28 @@
                                 </span>
                             </button>
                         </div>
-                        <div class="accordion-body mx-3 p-1" role="region" 
+                        <div class="accordion-body border rounded mx-3 p-1" role="region" 
                             [style.display]="accordionItemFour.expanded ? '' : 'none'"
                             [attr.id]="'accordion-body-' + 2"
                             [attr.aria-labelledby]="'accordion-header-' + 2">
-                            Let's go over quick game example.
+                            &nbsp;&nbsp;&nbsp;&nbsp;Let's go over quick game example. First pick shouldn't matter that much, but can lean in you 
+                            in the right direction. I think good strategy is to pick something average.<br>
+                            <br><img class="img-center"src="/assets/images/game-example/example-1.png">
+                            &nbsp;&nbsp;&nbsp;&nbsp;My first guess is <b>Sunset Tachi</b>, and it was absolutely wrong. Howewer now we know 
+                            that target is not a tiered item, which filters away a huge chunk of items (probably the biggest). But not only that, 
+                            now we know the item is not a <b>weapon</b> and can not be a "regular"<b>set piece</b>. There are only two st items 
+                            that have 8% xp bonus, if target item happened to be one of them we can quickly find out.<br>
+                            <br><img class="img-center"src="/assets/images/game-example/example-2.png">
+                            &nbsp;&nbsp;&nbsp;&nbsp;My second guess is <b>Ballistic Star</b>, which was picked because of high feedpower and 8% 
+                            xp bonus. If xp bonus wasn't right I'd immediately know what that item is (<i>Chrysalis</i>).<br>
+                            <br><img class="img-center"src="/assets/images/game-example/example-3.png">
+                            &nbsp;&nbsp;&nbsp;&nbsp;And now we know that it is a ring with feedpower value somewhere in between 1300 and 1100.
+                            There aren't that many rings that fit this description. I can say with confidence this is in fact 
+                            <b>The Twilight Gemstone</b>!<br>
+                            <br><img class="img-center"src="/assets/images/game-example/example-4.png">
+                            &nbsp;&nbsp;&nbsp;&nbsp;Yes, color wasn't that much help in this game, but that's expected. The color is there to help 
+                            you in difficult situations that might arise while trying to guess more tightly grouped items, such as tiered rings,
+                            themed sets or reskins<br>
                         </div>
                     </cdk-accordion-item>
                     <!-- Creator Notes -->
@@ -142,7 +159,7 @@
                                 </span>
                             </button>
                         </div>
-                        <div class="accordion-body mx-3 p-1" role="region" 
+                        <div class="accordion-body border rounded mx-3 p-1" role="region" 
                             [style.display]="accordionItemThree.expanded ? '' : 'none'"
                             [attr.id]="'accordion-body-' + 1"
                             [attr.aria-labelledby]="'accordion-header-' + 1">
@@ -154,7 +171,7 @@
                             that have exact same <strong>tier</strong>, <strong>lootbag</strong>, <strong>xp bonus</strong>, <strong>feedpower</strong> 
                             and <strong>slot type</strong>. 10 of them have no shots whatsoever, 7 have no range and 9 have no damage values. Which makes 
                             it harder to balance the game around if you had to use damage, range and/or amount of shots. Dungeon is also the same (<i>if you had that kind of idea in your mind ;)</i> ).<br>
-                            &nbsp;&nbsp;&nbsp;&nbsp;Color initially was introduced because of this two problems, and so far it seems like the only good solution.
+                            &nbsp;&nbsp;&nbsp;&nbsp;Color initially was introduced because of this two problems, and so far it seems like the only good solution.<br>
                         </div>
                     </cdk-accordion-item>
                 </cdk-accordion>

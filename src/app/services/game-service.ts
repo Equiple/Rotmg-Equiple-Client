@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { tick } from "@angular/core/testing";
 import { Observable } from "rxjs";
-import { Gamemode, GameOptions, GameService as GameServiceAPI, GuessResult, Hints, Item, Player } from "src/lib/api";
+import { Gamemode, GameOptions, GameService as GameServiceAPI, GameStatistic, GuessResult, Hints, Item, PlayerProfile } from "src/lib/api";
 
 @Injectable()
 export class GameService {
@@ -53,11 +53,15 @@ export class GameService {
         return this.gameServiceAPI.closeTheGamePost(playerId);
     }
 
-    getCurrentStreak(playerId: string) : Observable<number> {
-        return this.gameServiceAPI.getCurrentStreakGet(playerId);
+    getCurrentStreak(playerId: string, mode: Gamemode) : Observable<number> {
+        return this.gameServiceAPI.getCurrentStreakGet(playerId, mode);
     }
 
-    getPlayer(playerId: string) : Observable<Player> {
-        return this.gameServiceAPI.getPlayerGet(playerId)
+    getBestStreak(playerId: string, mode: Gamemode): Observable<number> {
+        return this.gameServiceAPI.getBestStreakGet(playerId, mode);
+    }
+
+    getTargetItemImage(playerId: string): Observable<string> {
+        return this.gameServiceAPI.getTargetItemImageGet(playerId);
     }
 }
