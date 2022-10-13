@@ -12,7 +12,7 @@ import { StatField } from './statField';
 export class ProfileComponent implements OnInit {
   player: PlayerProfile = {};
   stats: GameStatistic[] = [];
-  private readonly playerId = '6320750b6835566b454b114b';
+  private readonly playerId = '63468622d01c82bd9efc0598';
   readonly statFields = [
     { title: "Daily", color: "bg-primary", icon: "" },
     { title: "Normal", color: "bg-info", icon: "" },

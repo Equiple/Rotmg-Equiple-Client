@@ -15,8 +15,10 @@ import { GameStatistic } from './gameStatistic';
 export interface PlayerProfile { 
     id?: string | null;
     name?: string | null;
-    registrationDate?: string;
+    registrationDate?: string | null;
+    registrationTime?: string | null;
     normalStats?: GameStatistic;
     dailyStats?: GameStatistic;
+    dailyGuesses?: number;
 }
 

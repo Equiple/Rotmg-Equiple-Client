@@ -1,16 +1,24 @@
 <div>
     <div class="row p-2">
       <div class="col-5">
+        <button class="btn btn-lg btn-outline-danger rounded px-3 mx-2">
+          Winstreak: <strong>{{getCurrentStreak()}}</strong>
+        </button>
+        <button class="btn btn-lg btn-outline-warning rounded px-3 mx-2">
+          Best: <strong>{{getBestStreak()}}</strong>
+        </button>
       </div>
       <div class="col-1 pt-1">
         <button type="button" class="btn btn-lg text-white px-3 mx-2" 
-            [ngClass]="{'btn-danger': isGamemode('Daily'), 'btn-info': isGamemode('Normal')}">
+            [ngClass]="{'btn-danger': isGamemode('Daily'), 'btn-info': isGamemode('Normal')}" 
+            #tooltip="matTooltip" matTooltipHideDelay="100" matTooltip="Change your gamemode here." 
+            matTooltipPosition="above" matTooltipClass="bg-dark p-2">
             <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button">
                 <strong>{{gamemode}}</strong>
             </a>
             <div class="dropdown-menu mt-2">
-                <a class="dropdown-item" (click)="setGamemode('Normal')">Normal</a>
-                <a class="dropdown-item" (click)="setGamemode('Daily')">Daily</a>
+                <button class="dropdown-item" (click)="setGamemode('Normal')">Normal</button>
+                <button class="dropdown-item" (click)="setGamemode('Daily')" [disabled]="dailyAttempted">Daily</button>
             </div>
         </button>
       </div>

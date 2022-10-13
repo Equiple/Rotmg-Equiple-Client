@@ -10,7 +10,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { DialogModule } from '@angular/cdk/dialog';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { RouterModule } from '@angular/router';
 //Components
 import { AppComponent } from './app.component';
 import { SearchComponent } from './search/search.component';
@@ -56,12 +55,7 @@ import { MainComponent } from './main/main.component';
     CdkAccordionModule,
     DialogModule,
     BrowserAnimationsModule,
-    MatTooltipModule,
-    RouterModule.forRoot([
-      { path: '', component: MainComponent},
-      { path:'profile', component: ProfileComponent},
-      { path:'**', redirectTo:'', pathMatch:'full'}
-    ])
+    MatTooltipModule
   ],
   providers: [
     {

@@ -1,5 +1,7 @@
 import { DialogRef } from '@angular/cdk/dialog';
 import { Component, OnInit } from '@angular/core';
+import { PlayerProfile } from 'src/lib/api';
+import { GameService } from '../services/game-service';
 
 @Component({
   selector: 'app-leaderboard',
@@ -7,20 +9,20 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./leaderboard.component.css']
 })
 export class LeaderboardComponent implements OnInit {
-  players : string[] = ["Player 1", "Player 2", "Player 3", "Player 4", "Player 5", 
-    "Player 6", "Player 7","Player 8","Player 9", "Player 10"];
+  leaderboard : PlayerProfile[] = [];
   currentGamemode = "Daily";
-  bgColor = "-primary";
+  bgColor = "-danger";
   readonly playerPlaces = [
     {key: "0", color:"table-warning", icon:"star-fill"},
     {key: "1", color:"table-secondary", icon:"asterisk"},
     {key: "2", color:"table-primary", icon:"heart-arrow"}
   ];
 
-  constructor(private dialogRef: DialogRef<string>) { 
+  constructor(private gameService: GameService, private dialogRef: DialogRef<string>) { 
   }
   
   ngOnInit(): void {
+    this.changeMode('Daily');
   }
 
   close(){
@@ -28,20 +30,39 @@ export class LeaderboardComponent implements OnInit {
   }
 
   getPlayerBgColor(index: number): string {
-    if(index<3){
+    if (index<3) {
       return this.playerPlaces[index].color;
     }
-    return "table-danger";
+    return "";//"table-danger";
+  }
+
+  getMedal(index: number){
+    if (index === 0){
+      return "🥇";
+    } else if (index === 1){
+      return "🥈";
+    } else if (index === 2){
+      return "🥉";
+    }
+    return "";
   }
 
   changeMode(gamemode: string){
     this.currentGamemode = gamemode;
-    if(gamemode === "Daily"){
-      this.bgColor="-primary"
-    }else{
+    if (gamemode === "Daily") {
+      this.gameService.getDailyLeaderboard().subscribe(leaderboard => {
+          if (leaderboard) {
+            this.leaderboard= leaderboard
+          }
+        });
+      this.bgColor="-danger"
+    } else {
+      this.gameService.getNormalLeaderboard().subscribe(leaderboard => {
+        if (leaderboard) {
+          this.leaderboard= leaderboard
+        }
+      });
       this.bgColor="-info"
     }
-    //get leaderboard for this gamemode
-    //upload it to this.players
   }
 }

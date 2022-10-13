@@ -1,14 +1,23 @@
 <style src="app.component.css"></style>
 
 <div class="navbar border rounded" role="banner">
-   <a class="text-black text-decoration-none" routerLink="">
-    <h1 class="ml-4">Rotmgle</h1>
+  <!-- <a class="text-black text-decoration-none logo-simple mx-2" routerLink="">
+    <img class="" style="max-width:100%; max-height:100%;" alt="logo" src="/assets/images/equiple-logo-simple.png">
+  </a> -->
+  <!-- <a class="text-black text-decoration-none logo mx-2" routerLink="">
+    <img class="" style="max-width:100%; max-height:100%;" src="/assets/images/equiple-logo.png">
+  </a> -->
+  <a class="text-black text-decoration-none logo-noshadow mx-2" routerLink="">
+    <img class="" style="max-width:100%; max-height:100%;" src="/assets/images/equiple-logo-noshadow.png">
   </a>
   <h3 class="navbar-item" (click)="showGuideModal()">Guide</h3>
   <h3 class="navbar-item" (click)="showLeaderboardModal()">Leaderboard</h3>
+  <h3 class="navbar-item" (click)="toggleDarkTheme()">
+    <i class="bi bi-lightbulb-fill"></i>
+  </h3>
   <a class="block-right px-3 mx-3" routerLink="/profile">
     <h3 class="navbar-item text-black float-end">
-      <i class="bi bi-person-fill"></i>Profile
+      <i class="bi bi-person-fill"></i> Profile
     </h3>
   </a>
 </div>

@@ -9,7 +9,7 @@ import { GameService } from '../services/game-service';
   styleUrls: ['./game-log.component.css']
 })
 export class GameLogComponent implements OnInit {
-  readonly playerId = '6320750b6835566b454b114b';
+  readonly playerId = '63468622d01c82bd9efc0598';
   @Input() hints = new Array<Hints>();
   @Input() guesses = new Array<Item>();
   @Input() status = '';
@@ -56,7 +56,7 @@ export class GameLogComponent implements OnInit {
 
   getAdditionalClass(param: keyof Item, index: number){
     let hint = this.hints[index];
-    if(hint === undefined){
+    if(!hint){
       return;
     } 
     param = param as keyof Hints;
@@ -68,11 +68,13 @@ export class GameLogComponent implements OnInit {
 
   getHintArrow(param: keyof Item, index: number){
     let hint = this.hints[index];
-    if(hint === undefined) return;
+    if(!hint){
+      return;
+    } 
     param = param as keyof Hints;
-    if(hint[param] === Hint.Greater){
+    if (hint[param] === Hint.Greater){
       return 'bi-caret-up';
-    }else if(hint[param] === Hint.Less){
+    } else if (hint[param] === Hint.Less){
       return 'bi-caret-down';
     }
     return '';

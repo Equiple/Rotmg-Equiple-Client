@@ -1,6 +1,14 @@
 /* You can add global styles to this file, and also import other style files */
 /*Margin-left*/
 
+body.dark-theme {
+    --text-color: white;
+    --bkg-color: #212529;
+    --btn-bg-color: #4d4e4f;
+    --btn-text-color: white;
+}
+
+
 .ml-0 {
     margin-left: 0 !important
 }
@@ -97,7 +105,8 @@
 
 .navbar-item { 
     margin-bottom: 0;
-    margin-left: 1.5rem;
+    margin-right: 0.5rem;
+    margin-left: 0.5rem;
 }
 
 .bleak {
@@ -191,4 +200,24 @@
     position: absolute;
     right: 0px;
     padding: 10px;
+}
+
+.portrait {
+    height: 80px;
+    width: 30px;
+}
+
+.logo-simple {
+    height: 50px;
+    width: 150px;
+}
+
+.logo-noshadow {
+    height: 50px;
+    width: 250px;
+}
+
+.logo {
+    height: 50px;
+    width: 250px;
 }

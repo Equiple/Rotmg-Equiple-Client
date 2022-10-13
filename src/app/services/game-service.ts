@@ -64,4 +64,16 @@ export class GameService {
     getTargetItemImage(playerId: string): Observable<string> {
         return this.gameServiceAPI.getTargetItemImageGet(playerId);
     }
+
+    getNormalLeaderboard(): Observable<PlayerProfile[]>{
+        return this.gameServiceAPI.getNormalLeaderboardGet();
+    }
+
+    getDailyLeaderboard(): Observable<PlayerProfile[]>{
+        return this.gameServiceAPI.getDailyLeaderboardGet();
+    }
+
+    getPlayerLeaderboardPlacement(playerId: string, mode: Gamemode){
+        return this.gameServiceAPI.getPlayerLeaderboardPlacementGet(playerId, mode);
+    }
 }

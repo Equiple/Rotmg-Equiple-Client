@@ -1,5 +1,5 @@
 <div class="modal-container" style="width: 30em">
-    <div class="model-dialog border rounded p-2" [class]="'bg' + bgColor" role="document">
+    <div class="model-dialog rounded p-2" [class]="'bg' + bgColor" role="document">
         <div class="modal-content">
             <div class="modal-header mb-2">
                 <h4 class="modal-title text-white ml-2">Leaderboard</h4>
@@ -9,10 +9,10 @@
             </div>
             <div class="modal-body text-white m-2 mb-3">
                 <div class="p-2 justify-content-center row">
-                    <button class="btn btn-primary m-1 col-5" (click)="changeMode('Daily')">
+                    <button class="btn btn-danger shadow m-1 col-5" (click)="changeMode('Daily')">
                         <strong>Daily</strong>
                     </button>
-                    <button class="btn btn-secondary m-1 col-5" (click)="changeMode('Normal')">
+                    <button class="btn btn-info shadow m-1 col-5" (click)="changeMode('Normal')">
                         <strong>Normal</strong>
                     </button>
                 </div>
@@ -23,19 +23,23 @@
                                 <th scope="col">#</th>
                                 <th scope="col"><i class="bi bi-trophy-fill"></i></th>
                                 <th scope="col">Name</th>
-                                <th scope="col">Streak</th>
-                                <th scope="col">Wins</th>
+                                <th *ngIf="currentGamemode === 'Daily'" scope="col">Guesses</th>
+                                <th *ngIf="currentGamemode === 'Daily'" scope="col">Current Streak</th>
+                                <th *ngIf="currentGamemode === 'Normal'" scope="col">Current Streak</th>
+                                <th *ngIf="currentGamemode === 'Normal'" scope="col">Runs Won</th>
                             </tr>
                         </thead>
                         <tbody class="">
                             <tr class=""  
-                                *ngFor="let player of players; let i = index" 
+                                *ngFor="let player of leaderboard; let i = index" 
                                 [class]="getPlayerBgColor(i)">
                                 <th scope="row">{{i+1}}</th>
-                                <td>.</td>
-                                <td>{{player}}</td>
-                                <td>100</td>
-                                <td>100</td>
+                                <td>{{getMedal(i)}}</td>
+                                <td>{{player.name}}</td>
+                                <td *ngIf="currentGamemode === 'Daily'">{{player.dailyGuesses}}</td>
+                                <td *ngIf="currentGamemode === 'Daily'">{{player.dailyStats!.currentStreak}}</td>
+                                <td *ngIf="currentGamemode === 'Normal'">{{player.normalStats!.currentStreak}}</td>
+                                <td *ngIf="currentGamemode === 'Normal'">{{player.normalStats!.runsWon}}</td>
                             </tr>
                         </tbody>
                     </table>

@@ -25,12 +25,15 @@ export class AppComponent implements OnInit {
   dailyAttempted = false;
   search = '';
   gameStatus = '';
-  private readonly playerId = '6320750b6835566b454b114b';
+  private readonly playerId = '63468622d01c82bd9efc0598';
 
-  constructor( private dialog: Dialog) {
-  }
+  constructor( private dialog: Dialog) {}
 
   ngOnInit() {
+  }
+
+  toggleDarkTheme(){
+    document.body.classList.toggle('dark-theme');
   }
 
   showGuideModal(): void{
