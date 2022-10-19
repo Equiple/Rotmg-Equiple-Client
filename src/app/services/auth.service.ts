@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { catchError, map, Observable, of, ReplaySubject, share, switchMap, tap, throwError } from "rxjs";
+import { catchError, map, MonoTypeOperatorFunction, Observable, of, pipe, ReplaySubject, share, switchMap, tap, throwError } from "rxjs";
 import { AuthenticationResponse, AuthenticationService } from "src/lib/api";
 
 export interface RefreshResponse {
@@ -19,7 +19,7 @@ export class AuthService {
     private readonly savedAuthData: { [key in AuthData]?: string | null } = {};
 
     private readonly $refreshOrGetGuestTokens: Observable<RefreshResponse> = of(true).pipe(
-        this.warmUpAccessToken,
+        this.warmUpAccessToken(),
         switchMap(() => {
             let request = this.authenticationService.authenticationAuthenticateGuestPost();
             const refreshToken = this.getAuthData('refreshToken');
@@ -34,7 +34,7 @@ export class AuthService {
                 );
             }
             const response = request.pipe(
-                this.processAuthData,
+                this.processAuthData(),
                 map(response => {
                     if (!response.isAuthenticated) {
                         throw new Error('somehow not authenticated');
@@ -63,8 +63,8 @@ export class AuthService {
         return this.$refreshOrGetGuestTokens;
     }
 
-    private warmUpAccessToken<T>(source: Observable<T>): Observable<T> {
-        return source.pipe(
+    private warmUpAccessToken<T>(): MonoTypeOperatorFunction<T> {
+        return pipe(
             tap(() => {
                 this.accessTokenSubject = new ReplaySubject(1);
                 this.$accessToken = this.accessTokenSubject.asObservable();
@@ -72,8 +72,8 @@ export class AuthService {
         );
     }
 
-    private processAuthData(source: Observable<AuthenticationResponse>): Observable<AuthenticationResponse> {
-        return source.pipe(
+    private processAuthData(): MonoTypeOperatorFunction<AuthenticationResponse> {
+        return pipe(
             tap(() => {
                 if (!this.accessTokenSubject) {
                     throw new Error('warmUpAccessToken must be piped before processAuthData');
