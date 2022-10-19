@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Gamemode, GameStatistic, PlayerProfile } from 'src/lib/api';
-import { ProfileService } from '../services/profile-service';
+import { ProfileService } from '../services/profile.service';
 import { getPlayerStats } from '../utils/helperFunctions';
 
 interface DisplayGameStatistic extends Omit<GameStatistic, 'bestGuessItemId'> {

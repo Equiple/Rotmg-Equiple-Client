@@ -1,7 +1,7 @@
 import { DialogRef } from '@angular/cdk/dialog';
 import { Component, OnInit } from '@angular/core';
 import { PlayerProfile } from 'src/lib/api';
-import { GameService } from '../services/game-service';
+import { GameService } from '../services/game.service';
 
 @Component({
     selector: 'app-leaderboard',

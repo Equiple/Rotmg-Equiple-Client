@@ -3,8 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import { forkJoin, of, switchMap } from 'rxjs';
 import { Gamemode, GuessResult, GuessStatus, Hints, Item, PlayerProfile } from 'src/lib/api';
 import { ModalComponent } from '../modal/modal.component';
-import { GameService } from '../services/game-service';
-import { ProfileService } from '../services/profile-service';
+import { GameService } from '../services/game.service';
+import { ProfileService } from '../services/profile.service';
 import { getPlayerStats } from '../utils/helperFunctions';
 
 @Component({

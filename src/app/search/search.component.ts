@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { of, Subject, switchMap } from 'rxjs';
 import { Item } from 'src/lib/api';
 import { GuessField } from '../GuessField';
-import { GameService } from '../services/game-service';
+import { GameService } from '../services/game.service';
 
 @Component({
   selector: 'app-search',

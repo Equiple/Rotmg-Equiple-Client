@@ -20,8 +20,8 @@ import { ModalComponent } from './modal/modal.component';
 import { GuideComponent } from './guide/guide.component';
 //Services
 //import { ModalService } from './services/modal-service';
-import { GameService } from './services/game-service';
-import { ProfileService } from './services/profile-service';
+import { GameService } from './services/game.service';
+import { ProfileService } from './services/profile.service';
 //Pipes
 import { ReversePipe } from './pipes/reverse.pipe';
 import { SafeStylePipe } from './pipes/savestyle.pipe';

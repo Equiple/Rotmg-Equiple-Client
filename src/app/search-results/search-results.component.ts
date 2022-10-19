@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { of, Subject, switchMap } from 'rxjs';
 import { Item } from 'src/lib/api';
-import { GameService } from '../services/game-service';
+import { GameService } from '../services/game.service';
 import { GuessField } from '../GuessField';
 
 @Component({

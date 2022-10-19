@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Hint, Hints, Item } from 'src/lib/api';
 import { GuessField } from '../GuessField'
-import { GameService } from '../services/game-service';
+import { GameService } from '../services/game.service';
 
 @Component({
   selector: 'app-game-log',
