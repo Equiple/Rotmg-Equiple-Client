@@ -1,7 +1,6 @@
 import { Injectable } from "@angular/core";
-import { tick } from "@angular/core/testing";
 import { Observable } from "rxjs";
-import { Gamemode, GameOptions, GameService as GameServiceAPI, GameStatistic, GuessResult, Hints, Item, PlayerProfile } from "src/lib/api";
+import { Gamemode, GameOptions, GameService as GameServiceAPI, GuessResult, Hints, Item, PlayerProfile } from "src/lib/api";
 
 @Injectable()
 export class GameService {
@@ -13,67 +12,63 @@ export class GameService {
         return this.gameServiceAPI.findAllGet(searchInput, reskinsExcluded);
     }
 
-    checkGuess(itemId: string, playerId: string, mode: Gamemode, reskinsExcluded: boolean) : Observable<GuessResult> {
-        return this.gameServiceAPI.checkGuessPost(itemId, playerId, mode, reskinsExcluded);
+    checkGuess(itemId: string, mode: Gamemode, reskinsExcluded: boolean) : Observable<GuessResult> {
+        return this.gameServiceAPI.checkGuessPost(itemId, mode, reskinsExcluded);
     }
 
-    wasDailyAttempted(playerId: string) : Observable<boolean> {
-        return this.gameServiceAPI.wasDailyAttemptedGet(playerId);
+    wasDailyAttempted() : Observable<boolean> {
+        return this.gameServiceAPI.wasDailyAttemptedGet();
     }
 
-    getTries(playerId: string) : Observable<number> {
-        return this.gameServiceAPI.getTriesGet(playerId);
+    getTries() : Observable<number> {
+        return this.gameServiceAPI.getTriesGet();
     }
 
-    getGuesses(playerId: string) : Observable<Item[]> {
-        return this.gameServiceAPI.getGuessesGet(playerId);
+    getGuesses() : Observable<Item[]> {
+        return this.gameServiceAPI.getGuessesGet();
     }
 
     getGuess(itemId: string) : Observable<Item> {
         return this.gameServiceAPI.getGuessGet(itemId);
     }
 
-    getHints(playerId: string, itemId: string) : Observable<Hints> {
-        return this.gameServiceAPI.getHintsGet(playerId, itemId)
+    getHints(itemId: string) : Observable<Hints> {
+        return this.gameServiceAPI.getHintsGet(itemId)
     }
 
-    getAllHints(playerId: string) : Observable<Hints[]> {
-        return this.gameServiceAPI.getAllHintsGet(playerId);
-    }
-
-    createNewPlayer(name: string, password: string, email: string) : Observable<any> {
-        return this.gameServiceAPI.createNewPlayerPut(name, password, email);
+    getAllHints() : Observable<Hints[]> {
+        return this.gameServiceAPI.getAllHintsGet();
     }
     
-    getActiveGameOptions(playerId: string) : Observable<GameOptions> {
-        return this.gameServiceAPI.getActiveGameOptionsGet(playerId);
+    getActiveGameOptions() : Observable<GameOptions> {
+        return this.gameServiceAPI.getActiveGameOptionsGet();
     }
 
-    closeTheGame(playerId: string) : Observable<any> {
-        return this.gameServiceAPI.closeTheGamePost(playerId);
+    closeTheGame() : Observable<any> {
+        return this.gameServiceAPI.closeTheGamePost();
     }
 
-    getCurrentStreak(playerId: string, mode: Gamemode) : Observable<number> {
-        return this.gameServiceAPI.getCurrentStreakGet(playerId, mode);
+    getCurrentStreak(mode: Gamemode) : Observable<number> {
+        return this.gameServiceAPI.getCurrentStreakGet(mode);
     }
 
-    getBestStreak(playerId: string, mode: Gamemode): Observable<number> {
-        return this.gameServiceAPI.getBestStreakGet(playerId, mode);
+    getBestStreak(mode: Gamemode): Observable<number> {
+        return this.gameServiceAPI.getBestStreakGet(mode);
     }
 
-    getTargetItemImage(playerId: string): Observable<string> {
-        return this.gameServiceAPI.getTargetItemImageGet(playerId);
+    getTargetItem(): Observable<Item> {
+        return this.gameServiceAPI.getTargetItemGet();
     }
 
-    getNormalLeaderboard(): Observable<PlayerProfile[]>{
+    getNormalLeaderboard(): Observable<PlayerProfile[]> {
         return this.gameServiceAPI.getNormalLeaderboardGet();
     }
 
-    getDailyLeaderboard(): Observable<PlayerProfile[]>{
+    getDailyLeaderboard(): Observable<PlayerProfile[]> {
         return this.gameServiceAPI.getDailyLeaderboardGet();
     }
 
-    getPlayerLeaderboardPlacement(playerId: string, mode: Gamemode){
-        return this.gameServiceAPI.getPlayerLeaderboardPlacementGet(playerId, mode);
+    getPlayerLeaderboardPlacement(mode: Gamemode): Observable<number> {
+        return this.gameServiceAPI.getPlayerLeaderboardPlacementGet(mode);
     }
 }

@@ -9,19 +9,9 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { Game } from './game';
-import { GameStatistic } from './gameStatistic';
 
 
-export interface Player { 
-    id?: string | null;
+export interface IdentityDetails { 
     name?: string | null;
-    email?: string | null;
-    password?: string | null;
-    registrationDate?: string;
-    normalStats?: GameStatistic;
-    dailyStats?: GameStatistic;
-    currentGame?: Game;
-    endedGames?: Array<Game> | null;
 }
 

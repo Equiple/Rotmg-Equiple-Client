@@ -1,3 +1,7 @@
+export * from './authenticationPermit';
+export * from './authenticationResponse';
+export * from './dateAndTime';
+export * from './detailedGameStatistic';
 export * from './gameOptions';
 export * from './gameStatistic';
 export * from './gamemode';
@@ -5,5 +9,7 @@ export * from './guessResult';
 export * from './guessStatus';
 export * from './hint';
 export * from './hints';
+export * from './identityProvider';
 export * from './item';
 export * from './playerProfile';
+export * from './timeSpan';

@@ -12,8 +12,8 @@
 
 
 export interface GameStatistic { 
-    bestRun?: number;
-    bestGuess?: string | null;
+    bestRun?: number | null;
+    bestGuessItemId?: string | null;
     runsLost?: number;
     runsWon?: number;
     currentStreak?: number;

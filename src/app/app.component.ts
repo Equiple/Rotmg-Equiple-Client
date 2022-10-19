@@ -1,12 +1,8 @@
-import { Component, OnDestroy, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
-import { GuessStatus, Item, Hints, Gamemode } from 'src/lib/api';
-import { GameService } from './services/game-service';
-import { GuessResult } from 'src/lib/api';
-import { forkJoin, of, switchMap } from 'rxjs';
+import { Component, OnInit } from '@angular/core';
+import { Item, Hints, Gamemode } from 'src/lib/api';
 import { GuideComponent } from './guide/guide.component';
 import { Dialog } from '@angular/cdk/dialog';
 import { LeaderboardComponent } from './leaderboard/leaderboard.component';
-import { ModalComponent } from './modal/modal.component';
 
 
 @Component({

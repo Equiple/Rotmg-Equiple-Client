@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
-import { Gamemode, GameStatistic, PlayerProfile, ProfileService as ProfileServiceAPI } from "src/lib/api";
+import { DetailedGameStatistic, Gamemode, PlayerProfile, ProfileService as ProfileServiceAPI } from "src/lib/api";
 
 @Injectable()
 export class ProfileService
@@ -8,12 +8,12 @@ export class ProfileService
     constructor(private profileServiceAPI: ProfileServiceAPI ){
 
     }
-    getPlayerStats(playerId: string, mode: Gamemode): Observable<GameStatistic> {
-        return this.profileServiceAPI.profileGetPlayerStatsGet(playerId, mode);
+    getPlayerStats(mode: Gamemode): Observable<DetailedGameStatistic> {
+        return this.profileServiceAPI.profileGetPlayerStatsGet(mode);
     }
 
-    getPlayerProfile(playerId: string): Observable<PlayerProfile> {
-        return this.profileServiceAPI.profileGetPlayerProfileGet(playerId);
+    getPlayerProfile(): Observable<PlayerProfile> {
+        return this.profileServiceAPI.profileGetPlayerProfileGet();
     }
 }
 

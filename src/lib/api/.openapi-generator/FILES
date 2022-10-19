@@ -2,12 +2,17 @@
 README.md
 api.module.ts
 api/api.ts
+api/authentication.service.ts
 api/game.service.ts
 api/profile.service.ts
 configuration.ts
 encoder.ts
 git_push.sh
 index.ts
+model/authenticationPermit.ts
+model/authenticationResponse.ts
+model/dateAndTime.ts
+model/detailedGameStatistic.ts
 model/gameOptions.ts
 model/gameStatistic.ts
 model/gamemode.ts
@@ -15,7 +20,9 @@ model/guessResult.ts
 model/guessStatus.ts
 model/hint.ts
 model/hints.ts
+model/identityProvider.ts
 model/item.ts
 model/models.ts
 model/playerProfile.ts
+model/timeSpan.ts
 variables.ts

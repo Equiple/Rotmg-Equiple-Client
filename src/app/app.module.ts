@@ -30,6 +30,8 @@ import { BASE_PATH } from 'src/lib/api';
 import { environment } from 'src/environments/environment';
 import { ProfileComponent } from './profile/profile.component';
 import { MainComponent } from './main/main.component';
+import { httpInterceptorProviders } from './http-interceptors';
+import { AuthService } from './services/auth.service';
 
 @NgModule({
   declarations: [
@@ -62,6 +64,8 @@ import { MainComponent } from './main/main.component';
       provide: BASE_PATH,
       useValue: environment.apiUrl
     },
+    httpInterceptorProviders,
+    AuthService,
     GameService,
     ProfileService
   ],

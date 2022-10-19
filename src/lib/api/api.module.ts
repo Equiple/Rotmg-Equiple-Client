@@ -2,6 +2,7 @@ import { NgModule, ModuleWithProviders, SkipSelf, Optional } from '@angular/core
 import { Configuration } from './configuration';
 import { HttpClient } from '@angular/common/http';
 
+import { AuthenticationService } from './api/authentication.service';
 import { GameService } from './api/game.service';
 import { ProfileService } from './api/profile.service';
 

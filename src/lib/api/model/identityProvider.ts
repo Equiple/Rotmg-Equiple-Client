@@ -9,17 +9,13 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { Gamemode } from './gamemode';
-import { GameResult } from './gameResult';
 
 
-export interface Game { 
-    mode?: Gamemode;
-    targetItemId?: string | null;
-    guessItemIds?: Array<string> | null;
-    startTime?: string;
-    reskingExcluded?: boolean;
-    isEnded?: boolean;
-    gameResult?: GameResult;
-}
+export type IdentityProvider = 'Self' | 'Google' | 'Discord';
+
+export const IdentityProvider = {
+    Self: 'Self' as IdentityProvider,
+    Google: 'Google' as IdentityProvider,
+    Discord: 'Discord' as IdentityProvider
+};
 

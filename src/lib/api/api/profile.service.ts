@@ -19,7 +19,7 @@ import { CustomHttpParameterCodec }                          from '../encoder';
 import { Observable }                                        from 'rxjs';
 
 // @ts-ignore
-import { GameStatistic } from '../model/gameStatistic';
+import { DetailedGameStatistic } from '../model/detailedGameStatistic';
 // @ts-ignore
 import { Gamemode } from '../model/gamemode';
 // @ts-ignore
@@ -92,20 +92,13 @@ export class ProfileService {
     }
 
     /**
-     * @param playerId 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public profileGetPlayerProfileGet(playerId?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<PlayerProfile>;
-    public profileGetPlayerProfileGet(playerId?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<PlayerProfile>>;
-    public profileGetPlayerProfileGet(playerId?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<PlayerProfile>>;
-    public profileGetPlayerProfileGet(playerId?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<any> {
-
-        let localVarQueryParameters = new HttpParams({encoder: this.encoder});
-        if (playerId !== undefined && playerId !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>playerId, 'playerId');
-        }
+    public profileGetPlayerProfileGet(observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<PlayerProfile>;
+    public profileGetPlayerProfileGet(observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<PlayerProfile>>;
+    public profileGetPlayerProfileGet(observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<PlayerProfile>>;
+    public profileGetPlayerProfileGet(observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<any> {
 
         let localVarHeaders = this.defaultHeaders;
 
@@ -143,7 +136,6 @@ export class ProfileService {
         return this.httpClient.get<PlayerProfile>(`${this.configuration.basePath}/profile/GetPlayerProfile`,
             {
                 context: localVarHttpContext,
-                params: localVarQueryParameters,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,
@@ -154,21 +146,16 @@ export class ProfileService {
     }
 
     /**
-     * @param playerId 
      * @param mode 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public profileGetPlayerStatsGet(playerId?: string, mode?: Gamemode, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<GameStatistic>;
-    public profileGetPlayerStatsGet(playerId?: string, mode?: Gamemode, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<GameStatistic>>;
-    public profileGetPlayerStatsGet(playerId?: string, mode?: Gamemode, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<GameStatistic>>;
-    public profileGetPlayerStatsGet(playerId?: string, mode?: Gamemode, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<any> {
+    public profileGetPlayerStatsGet(mode?: Gamemode, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<DetailedGameStatistic>;
+    public profileGetPlayerStatsGet(mode?: Gamemode, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<DetailedGameStatistic>>;
+    public profileGetPlayerStatsGet(mode?: Gamemode, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<DetailedGameStatistic>>;
+    public profileGetPlayerStatsGet(mode?: Gamemode, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<any> {
 
         let localVarQueryParameters = new HttpParams({encoder: this.encoder});
-        if (playerId !== undefined && playerId !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>playerId, 'playerId');
-        }
         if (mode !== undefined && mode !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
             <any>mode, 'mode');
@@ -207,7 +194,7 @@ export class ProfileService {
             }
         }
 
-        return this.httpClient.get<GameStatistic>(`${this.configuration.basePath}/profile/GetPlayerStats`,
+        return this.httpClient.get<DetailedGameStatistic>(`${this.configuration.basePath}/profile/GetPlayerStats`,
             {
                 context: localVarHttpContext,
                 params: localVarQueryParameters,

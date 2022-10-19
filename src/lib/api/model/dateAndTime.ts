@@ -9,13 +9,11 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { TimeSpan } from './timeSpan';
 
 
-export type GameResult = 'Won' | 'Lost' | 'Expired';
-
-export const GameResult = {
-    Won: 'Won' as GameResult,
-    Lost: 'Lost' as GameResult,
-    Expired: 'Expired' as GameResult
-};
+export interface DateAndTime { 
+    date?: string;
+    time?: TimeSpan;
+}
 

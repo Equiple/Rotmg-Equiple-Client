@@ -9,16 +9,12 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { DateAndTime } from './dateAndTime';
-import { DetailedGameStatistic } from './detailedGameStatistic';
+import { IdentityProvider } from './identityProvider';
 
 
-export interface PlayerProfile { 
-    id?: string | null;
-    name?: string | null;
-    registrationDate?: DateAndTime;
-    normalStats?: DetailedGameStatistic;
-    dailyStats?: DetailedGameStatistic;
-    dailyGuesses?: number;
+export interface AuthenticationPermit { 
+    provider?: IdentityProvider;
+    idToken?: string | null;
+    deviceId?: string | null;
 }
 
