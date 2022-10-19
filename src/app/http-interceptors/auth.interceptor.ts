@@ -7,14 +7,14 @@ import { AuthService } from "../services/auth.service";
 export class AuthInterceptor implements HttpInterceptor {
     constructor(private authService: AuthService) { }
 
-    intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    public intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         return this.authService.getAccessToken().pipe(
             switchMap(accessToken => this.makeRequest(req, next, accessToken)),
             catchError(error => this.handleAuthError(req, next, error))
         );
     }
 
-    handleAuthError(req: HttpRequest<any>, next: HttpHandler, error: HttpErrorResponse): Observable<any> {
+    private handleAuthError(req: HttpRequest<any>, next: HttpHandler, error: HttpErrorResponse): Observable<any> {
         if (error.status !== 401) {
             return throwError(() => error);
         }
@@ -24,7 +24,7 @@ export class AuthInterceptor implements HttpInterceptor {
         );
     }
 
-    makeRequest(req: HttpRequest<any>, next: HttpHandler, accessToken: string | null): Observable<HttpEvent<any>> {
+    private makeRequest(req: HttpRequest<any>, next: HttpHandler, accessToken: string | null): Observable<HttpEvent<any>> {
         if (accessToken) {
             req = req.clone({
                 setHeaders: {

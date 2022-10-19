@@ -9,11 +9,10 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { TimeSpan } from './timeSpan';
 
 
 export interface DateAndTime { 
     date?: string;
-    time?: TimeSpan;
+    time?: string;
 }
 

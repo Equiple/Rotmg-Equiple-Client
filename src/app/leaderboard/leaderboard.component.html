@@ -23,10 +23,16 @@
                                 <th scope="col">#</th>
                                 <th scope="col"><i class="bi bi-trophy-fill"></i></th>
                                 <th scope="col">Name</th>
-                                <th *ngIf="currentGamemode === 'Daily'" scope="col">Guesses</th>
-                                <th *ngIf="currentGamemode === 'Daily'" scope="col">Current Streak</th>
-                                <th *ngIf="currentGamemode === 'Normal'" scope="col">Current Streak</th>
-                                <th *ngIf="currentGamemode === 'Normal'" scope="col">Runs Won</th>
+                                <ng-container *ngSwitch="currentGamemode">
+                                    <ng-container *ngSwitchCase="'Daily'">
+                                        <th scope="col">Guesses</th>
+                                        <th scope="col">Current Streak</th>
+                                    </ng-container>
+                                    <ng-container *ngSwitchCase="'Normal'">
+                                        <th scope="col">Current Streak</th>
+                                        <th scope="col">Runs Won</th>
+                                    </ng-container>
+                                </ng-container>
                             </tr>
                         </thead>
                         <tbody class="">
@@ -36,10 +42,16 @@
                                 <th scope="row">{{i+1}}</th>
                                 <td>{{getMedal(i)}}</td>
                                 <td>{{player.name}}</td>
-                                <td *ngIf="currentGamemode === 'Daily'">{{player.dailyGuesses}}</td>
-                                <td *ngIf="currentGamemode === 'Daily'">{{player.dailyStats!.currentStreak}}</td>
-                                <td *ngIf="currentGamemode === 'Normal'">{{player.normalStats!.currentStreak}}</td>
-                                <td *ngIf="currentGamemode === 'Normal'">{{player.normalStats!.runsWon}}</td>
+                                <ng-container *ngSwitch="currentGamemode">
+                                    <ng-container *ngSwitchCase="'Daily'">
+                                        <td>{{player.dailyGuesses}}</td>
+                                        <td>{{player.dailyStats!.gameStatistic!.currentStreak}}</td>
+                                    </ng-container>
+                                    <ng-container *ngSwitchCase="'Normal'">
+                                        <td>{{player.normalStats!.gameStatistic!.currentStreak}}</td>
+                                        <td>{{player.normalStats!.gameStatistic!.runsWon}}</td>
+                                    </ng-container>
+                                </ng-container>
                             </tr>
                         </tbody>
                     </table>

@@ -12,4 +12,3 @@ export * from './hints';
 export * from './identityProvider';
 export * from './item';
 export * from './playerProfile';
-export * from './timeSpan';

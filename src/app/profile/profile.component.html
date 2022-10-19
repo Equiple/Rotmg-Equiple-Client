@@ -1,7 +1,7 @@
 <div class="p-5">
     <div class="row p-3">
         <h1>Your profile, Name</h1>
-        <div>Registered at {{player.registrationDate}}</div>
+        <div>Registered at {{player?.registrationDate!.date}}</div>
     </div>
     <div class="row justify-content-center">
         <div class="col-2" *ngFor="let stat of stats; let i = index">

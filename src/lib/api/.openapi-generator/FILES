@@ -24,5 +24,4 @@ model/identityProvider.ts
 model/item.ts
 model/models.ts
 model/playerProfile.ts
-model/timeSpan.ts
 variables.ts
