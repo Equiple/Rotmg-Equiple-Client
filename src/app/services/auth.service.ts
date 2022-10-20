@@ -1,6 +1,8 @@
+import { HttpContext } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { catchError, map, MonoTypeOperatorFunction, Observable, of, pipe, ReplaySubject, share, switchMap, tap, throwError } from "rxjs";
 import { AuthenticationResponse, AuthenticationService } from "src/lib/api";
+import { IGNORE_401 } from "../http-interceptors/auth.interceptor";
 
 export interface RefreshResponse {
     accessToken: string
@@ -18,13 +20,22 @@ const authDataStorageKeys: { [key in AuthData]: string } = {
 export class AuthService {
     private readonly savedAuthData: { [key in AuthData]?: string | null } = {};
 
-    private readonly $refreshOrGetGuestTokens: Observable<RefreshResponse> = of(true).pipe(
+    private readonly $refreshOrGetGuestTokens: Observable<RefreshResponse> = of(0).pipe(
         this.warmUpAccessToken(),
         switchMap(() => {
             let request = this.authenticationService.authenticationAuthenticateGuestPost();
             const refreshToken = this.getAuthData('refreshToken');
             if (this.getAuthData('accessToken') && refreshToken) {
-                request = this.authenticationService.authenticationRefreshAccessTokenPost(refreshToken).pipe(
+                request = this.authenticationService.authenticationRefreshAccessTokenPost(refreshToken, 'body', false, {
+                    context: new HttpContext().set(IGNORE_401, true)
+                }).pipe(
+                    catchError(error => {
+                        if (error.status === 401)
+                        {
+                            return request;
+                        }
+                        return throwError(() => error);
+                    }),
                     switchMap(response => {
                         if (!response.isAuthenticated) {
                             return request;
@@ -51,7 +62,7 @@ export class AuthService {
     );
 
     private accessTokenSubject?: ReplaySubject<string | null>;
-    private $accessToken: Observable<string | null> = of(true).pipe(map(() => this.getAuthData('accessToken')));
+    private $accessToken: Observable<string | null> = of(0).pipe(map(() => this.getAuthData('accessToken')));
 
     constructor(private authenticationService: AuthenticationService) { }
 
