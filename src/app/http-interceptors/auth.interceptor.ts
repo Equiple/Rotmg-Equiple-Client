@@ -14,7 +14,7 @@ export class AuthInterceptor implements HttpInterceptor {
     constructor(private authService: AuthService) { }
 
     public intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        return this.makeRequest(req, next, null).pipe(
+        return this.makeRequest(req, next, this.authService.oldAccessToken).pipe(
             catchError(error => this.handleAuthError(req, next, error))
         );
     }

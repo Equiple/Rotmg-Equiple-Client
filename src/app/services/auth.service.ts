@@ -66,6 +66,10 @@ export class AuthService {
 
     constructor(private authenticationService: AuthenticationService) { }
 
+    public get oldAccessToken(): string | null {
+        return this.getAuthData('accessToken');
+    }
+
     public getAccessToken(): Observable<string | null> {
         return this.$accessToken;
     }
