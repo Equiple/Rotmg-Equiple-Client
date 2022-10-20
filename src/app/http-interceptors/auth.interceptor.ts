@@ -3,7 +3,8 @@ import { Injectable } from "@angular/core";
 import { catchError, map, Observable, switchMap, throwError } from "rxjs";
 import { AuthService } from "../services/auth.service";
 
-export const IGNORE_401 = new HttpContextToken(() => false);
+export const PASS_401 = new HttpContextToken(() => false);
+export const PASS_403 = new HttpContextToken(() => false);
 
 interface HandleAuthErrorOptions {
     refreshToken?: boolean
@@ -25,7 +26,10 @@ export class AuthInterceptor implements HttpInterceptor {
         error: HttpErrorResponse,
         options?: HandleAuthErrorOptions
     ): Observable<any> {
-        if (error.status !== 401 || req.context.get(IGNORE_401)) {
+        if ((error.status !== 401 && error.status !== 403)
+            || (error.status === 401 && req.context.get(PASS_401))
+            || (error.status === 403 && req.context.get(PASS_403))
+        ) {
             return throwError(() => error);
         }
 

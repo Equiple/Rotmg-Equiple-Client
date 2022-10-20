@@ -2,7 +2,7 @@ import { HttpContext } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { catchError, map, MonoTypeOperatorFunction, Observable, of, pipe, ReplaySubject, share, switchMap, tap, throwError } from "rxjs";
 import { AuthenticationResponse, AuthenticationService } from "src/lib/api";
-import { IGNORE_401 } from "../http-interceptors/auth.interceptor";
+import { PASS_401, PASS_403 } from "../http-interceptors/auth.interceptor";
 
 export interface RefreshResponse {
     accessToken: string
@@ -27,11 +27,10 @@ export class AuthService {
             const refreshToken = this.getAuthData('refreshToken');
             if (this.getAuthData('accessToken') && refreshToken) {
                 request = this.authenticationService.authenticationRefreshAccessTokenPost(refreshToken, 'body', false, {
-                    context: new HttpContext().set(IGNORE_401, true)
+                    context: new HttpContext().set(PASS_401, true).set(PASS_403, true)
                 }).pipe(
                     catchError(error => {
-                        if (error.status === 401)
-                        {
+                        if (error.status === 401 || error.status === 403) {
                             return request;
                         }
                         return throwError(() => error);
