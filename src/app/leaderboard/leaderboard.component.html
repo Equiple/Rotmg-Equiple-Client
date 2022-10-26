@@ -23,7 +23,7 @@
                                 <th scope="col">#</th>
                                 <th scope="col"><i class="bi bi-trophy-fill"></i></th>
                                 <th scope="col">Name</th>
-                                <ng-container *ngSwitch="currentGamemode">
+                            <ng-container [ngSwitch]="currentGamemode">
                                     <ng-container *ngSwitchCase="'Daily'">
                                         <th scope="col">Guesses</th>
                                         <th scope="col">Current Streak</th>
@@ -42,7 +42,7 @@
                                 <th scope="row">{{i+1}}</th>
                                 <td>{{getMedal(i)}}</td>
                                 <td>{{player.name}}</td>
-                                <ng-container *ngSwitch="currentGamemode">
+                                <ng-container [ngSwitch]="currentGamemode">
                                     <ng-container *ngSwitchCase="'Daily'">
                                         <td>{{player.dailyGuesses}}</td>
                                         <td>{{player.dailyStats!.gameStatistic!.currentStreak}}</td>

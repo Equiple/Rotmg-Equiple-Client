@@ -13,7 +13,7 @@ import { getPlayerStats } from '../utils/helperFunctions';
     styleUrls: ['./main.component.css']
 })
 export class MainComponent implements OnInit {
-    playerProfile: PlayerProfile = {};
+    playerProfile?: PlayerProfile;
     guesses = new Array<Item>();
     hints = new Array<Hints>();
     gamemode = Gamemode.Daily;
@@ -33,11 +33,11 @@ export class MainComponent implements OnInit {
     }
 
     public get currentStreak() {
-        return getPlayerStats(this.playerProfile, this.gamemode).gameStatistic!.currentStreak!;
+        return this.playerProfile ? getPlayerStats(this.playerProfile, this.gamemode).gameStatistic!.currentStreak! : 0;
     }
 
     public get bestStreak() {
-        return getPlayerStats(this.playerProfile, this.gamemode).gameStatistic!.currentStreak!;
+        return this.playerProfile ? getPlayerStats(this.playerProfile, this.gamemode).gameStatistic!.currentStreak! : 0;
     }
 
     public updatePlayerProfile() {
