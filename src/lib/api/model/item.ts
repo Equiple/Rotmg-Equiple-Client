@@ -17,6 +17,7 @@ export interface Item {
     imageURL?: string | null;
     xmlId?: string | null;
     tier?: string | null;
+    description?: string | null;
     reskin?: boolean;
     type?: string | null;
     damageBottom?: number;

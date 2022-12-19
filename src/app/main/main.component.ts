@@ -1,6 +1,6 @@
 import { Dialog } from '@angular/cdk/dialog';
 import { Component, OnInit } from '@angular/core';
-import { forkJoin, of, switchMap } from 'rxjs';
+import { forkJoin, Observable, of, switchMap } from 'rxjs';
 import { Gamemode, GuessResult, GuessStatus, Hints, Item, PlayerProfile } from 'src/lib/api';
 import { ModalComponent } from '../modal/modal.component';
 import { GameService } from '../services/game.service';
@@ -24,6 +24,8 @@ export class MainComponent implements OnInit {
     dailyAttempted = false;
     search = '';
     gameStatus = '';
+    targetAnagram = '???';
+    targetDescription = '???';
 
     constructor(private gameService: GameService, private profileService: ProfileService, public dialog: Dialog) {
     }
@@ -51,9 +53,11 @@ export class MainComponent implements OnInit {
     public ngOnInit() {
         this.gameService.getActiveGameOptions().subscribe(activeGameOptions => {
             if (activeGameOptions) {
-                this.gameService.getGuesses().subscribe(guesses => this.guesses = guesses);
-                this.gameService.getAllHints().subscribe(hints => this.hints = hints);
+                this.guesses = activeGameOptions.guesses!;
+                this.hints = activeGameOptions.allHints!;
                 this.gamemode = activeGameOptions.mode!;
+                this.targetAnagram = activeGameOptions.anagram!;
+                this.targetDescription = activeGameOptions.description!;
                 this.excludeReskins = activeGameOptions.reskinsExcluded!;
                 this.changeAllowed = false;
             } else {
@@ -82,7 +86,8 @@ export class MainComponent implements OnInit {
                 });
                 gamemodeSwitchModalRef.closed.subscribe(result => {
                     if (result === "confirm") {
-                        this.gameService.closeTheGame();
+                        this.gameService.closeTheGame().subscribe();
+                        this.restartGame();
                     }
                 })
             }
@@ -90,7 +95,7 @@ export class MainComponent implements OnInit {
     }
 
     public createGameResultsModal(title: string, body: string, bgColor: string, imgLink: string) {
-        let dialogRef = this.dialog.open(ModalComponent, {
+        const dialogRef = this.dialog.open(ModalComponent, {
             data: {
                 modalTitle: title,
                 modalBody: body,
@@ -98,13 +103,16 @@ export class MainComponent implements OnInit {
                 modalImageLink: imgLink
             }
         });
-        dialogRef.closed.subscribe(() => { });
+        return dialogRef.closed;
     }
 
     public restartGame() {
         this.gameEnded = false;
         this.guesses = [];
+        this.search = "";
         this.hints = [];
+        this.targetAnagram = '???';
+        this.targetDescription = '???';
         this.changeAllowed = true;
     }
 
@@ -144,35 +152,36 @@ export class MainComponent implements OnInit {
 
     public onItemSelected(itemId: string) {
         this.guessLoading = true;
-        this.gameService.checkGuess(itemId, this.gamemode, this.excludeReskins).pipe(
-            switchMap(result => forkJoin([
-                of(result),
-                this.gameService.getGuess(itemId),
-                this.gameService.getTries(),
-                this.gameService.getHints(itemId),
-                this.gameService.getCurrentStreak(this.gamemode)
-            ]))
-        ).subscribe(([result, guess, tries, hints, streak]) => {
-            this.guesses.push(guess);
-            this.hints.push(hints);
-
-            if (result.status === GuessStatus.Guessed) {
-                this.createGameResultsModal(`You\'ve guessed the ${guess.name} with ${tries} tries!`,
-                    `Your current streak in ${this.gamemode} is ${streak}`, 'bg-success', guess.imageURL ?? "");
-                this.gameStatus = result.status;
-                this.search = '';
-            }
-            else if (result.status === GuessStatus.Lost) {
-                this.gameService.getTargetItem().subscribe(targetItem => {
-                    this.createGameResultsModal('You couldn\'t guess the item :C', 'Very sad!', 'bg-danger', targetItem.imageURL!);
-                });
-            }
-            if (result.status === GuessStatus.Guessed || result.status === GuessStatus.Lost) {
-                this.endGame(result);
-                this.updatePlayerProfile();
-                this.disableDaily();
-            }
-            this.guessLoading = false;
-        });
+        this.gameService.checkGuess(itemId, this.gamemode, this.excludeReskins)
+            .subscribe(guessResult => {
+                this.guesses.push(guessResult.guess!);
+                this.hints.push(guessResult.hints!);
+                if (guessResult.description && guessResult.anagram) {
+                    this.targetAnagram = guessResult.anagram!;
+                    this.targetDescription = guessResult.description!;
+                }
+                let dialogRes: Observable<any>;
+                if (guessResult.status === GuessStatus.Guessed) {
+                    dialogRes = this.gameService.getCurrentStreak(this.gamemode).pipe(switchMap(streak => {
+                        this.gameStatus = guessResult.status!;
+                        this.search = '';
+                        return this.createGameResultsModal(`You\'ve guessed the ${guessResult.targetItem?.name} with ${guessResult.tries} tries!`,
+                            `Your current streak in ${this.gamemode} is ${streak}`, 'bg-success', guessResult.targetItem?.imageURL ?? "");
+                    }));
+                }
+                else if (guessResult.status === GuessStatus.Lost) {
+                    dialogRes = this.gameService.getTargetItem().pipe(switchMap(targetItem => {
+                        return this.createGameResultsModal('You couldn\'t guess the item :C', 'Very sad!', 'bg-danger', targetItem.imageURL!);
+                    }));
+                }
+                if (guessResult.status === GuessStatus.Guessed || guessResult.status === GuessStatus.Lost) {
+                    dialogRes!.subscribe(() => {
+                        this.endGame(guessResult);
+                        this.updatePlayerProfile();
+                        this.disableDaily()
+                    });
+                }
+                this.guessLoading = false;
+            });
     }
 }

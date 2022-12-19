@@ -28,10 +28,6 @@ export class AppComponent implements OnInit {
   ngOnInit() {
   }
 
-  toggleDarkTheme(){
-    document.body.classList.toggle('dark-theme');
-  }
-
   showGuideModal(): void{
     let guideModalRef = this.dialog.open(GuideComponent);
     guideModalRef.closed.subscribe( () => {} );

@@ -9,11 +9,17 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { Item } from './item';
+import { Hints } from './hints';
 import { Gamemode } from './gamemode';
 
 
 export interface GameOptions { 
     mode?: Gamemode;
+    guesses?: Array<Item> | null;
+    allHints?: Array<Hints> | null;
+    anagram?: string | null;
+    description?: string | null;
     reskinsExcluded?: boolean;
 }
 

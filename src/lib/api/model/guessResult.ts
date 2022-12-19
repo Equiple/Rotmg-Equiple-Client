@@ -16,7 +16,11 @@ import { GuessStatus } from './guessStatus';
 
 export interface GuessResult { 
     status?: GuessStatus;
+    guess?: Item;
     hints?: Hints;
+    tries?: number;
+    anagram?: string | null;
+    description?: string | null;
     targetItem?: Item;
 }
 

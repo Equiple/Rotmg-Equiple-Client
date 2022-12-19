@@ -1,46 +1,64 @@
 <div>
     <div class="row p-2">
-      <div class="col-5">
-        <button class="btn btn-lg btn-outline-danger rounded px-3 mx-2">
-          Winstreak: <strong>{{currentStreak}}</strong>
-        </button>
-        <button class="btn btn-lg btn-outline-warning rounded px-3 mx-2">
-          Best: <strong>{{bestStreak}}</strong>
-        </button>
-      </div>
-      <div class="col-1 pt-1">
-        <button type="button" class="btn btn-lg text-white px-3 mx-2" 
-            [ngClass]="{'btn-danger': isGamemode('Daily'), 'btn-info': isGamemode('Normal')}" 
-            #tooltip="matTooltip" matTooltipHideDelay="100" matTooltip="Change your gamemode here." 
-            matTooltipPosition="above" matTooltipClass="bg-dark p-2">
-            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button">
-                <strong>{{gamemode}}</strong>
-            </a>
-            <div class="dropdown-menu mt-2">
-                <button class="dropdown-item" (click)="setGamemode('Normal')">Normal</button>
-                <button class="dropdown-item" (click)="setGamemode('Daily')" [disabled]="dailyAttempted">Daily</button>
-            </div>
-        </button>
-      </div>
-      <div class="col-5">
-        <app-search [disabled]="searchDisabled" [search]="search" (searchChanged)="onSearchChanged($event)"></app-search>
-      </div>
-      <div class="col-1 mt-3">
-        <input class="form-check-input" type="checkbox" [checked]="excludeReskins"
-          (change)="excludeReskins = !excludeReskins" id="reskinsCheck" [disabled]="isGamemode('Daily') || !changeAllowed">
-        <label class="form-check-label ml-1" for="reskinsCheck">
-          Exclude reskins
-        </label>
-      </div>
+        <div class="col-5">
+            <button class="btn btn-lg btn-outline-danger rounded px-3 mx-2">
+                Winstreak: <strong>{{currentStreak}}</strong>
+            </button>
+            <button class="btn btn-lg btn-outline-warning rounded px-3 mx-2">
+                Best: <strong>{{bestStreak}}</strong>
+            </button>
+        </div>
+        <div class="col-1 pt-1">
+            <button type="button" class="btn btn-lg text-white px-3 mx-2"
+                [ngClass]="{'btn-danger': isGamemode('Daily'), 'btn-info': isGamemode('Normal')}" #tooltip="matTooltip"
+                matTooltipHideDelay="100" matTooltip="Change your gamemode here." matTooltipPosition="above"
+                matTooltipClass="bg-dark p-2">
+                <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button">
+                    <strong>{{gamemode}}</strong>
+                </a>
+                <div class="dropdown-menu mt-2">
+                    <button class="dropdown-item" (click)="setGamemode('Normal')">Normal</button>
+                    <button class="dropdown-item" (click)="setGamemode('Daily')"
+                        [disabled]="dailyAttempted">Daily</button>
+                </div>
+            </button>
+        </div>
+        <div class="col-5">
+            <app-search [disabled]="searchDisabled" [search]="search" (searchChanged)="onSearchChanged($event)">
+            </app-search>
+        </div>
+        <div class="col-1 mt-3">
+            <input class="form-check-input" type="checkbox" [checked]="excludeReskins"
+                (change)="excludeReskins = !excludeReskins" id="reskinsCheck"
+                [disabled]="isGamemode('Daily') || !changeAllowed">
+            <label class="form-check-label ml-1" for="reskinsCheck">
+                Exclude reskins
+            </label>
+        </div>
+    </div>
+    <div class="row p-2" style="display: flex; justify-content: center;">
+        <div class="col-10 rounded rounded m-1 mx-4 p-1 pr-4 text-center btn-light"
+            style="max-height: 45em; overflow: auto;">
+            <h4 class="py-2">
+                <b #tooltip="matTooltip" matTooltipHideDelay="100"
+                    matTooltip="Anagram of the item name, without dublicates." matTooltipPosition="above"
+                    matTooltipClass="bg-dark p-2">{{targetAnagram}}</b>
+            </h4>
+            <h6 class="px-2">
+                <i matTooltipHideDelay="100"
+                    matTooltip="Item Description ;)" matTooltipPosition="above"
+                    matTooltipClass="bg-dark p-2">"{{targetDescription}}"</i>
+            </h6>
+        </div>
     </div>
     <div class="row p-2">
-      <app-game-log class="col-6" [guesses]="guesses" [hints]="hints" [status]="gameStatus"></app-game-log>
-      <app-search-results class="col-6" (itemSelected)="onItemSelected($event)"
-        [excludeReskins]="excludeReskins" [search]="search"></app-search-results>
-      <div class="container text-center pt-4">
-        <button type="button" class="btn btn-lg btn-primary px-5" *ngIf="gameEnded" (click)="restartGame()">
-          <strong>Restart</strong>
-        </button>
-      </div>
+        <app-game-log class="col-6" [guesses]="guesses" [hints]="hints" [status]="gameStatus"></app-game-log>
+        <app-search-results class="col-6" (itemSelected)="onItemSelected($event)" [excludeReskins]="excludeReskins"
+            [search]="search"></app-search-results>
     </div>
-  </div>
+    <div class="container text-center pt-4">
+        <button type="button" class="btn btn-lg btn-primary px-5" *ngIf="gameEnded" (click)="restartGame()">
+            <strong>Restart</strong>
+        </button>
+    </div>
+</div>

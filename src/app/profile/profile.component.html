@@ -12,7 +12,7 @@
                     <div class="card-text">
                         <div *ngFor="let attribute of attrFields"> 
                             <p *ngIf=" attribute.key !== 'currentStreak' || statFields[i].title !== 'Total' ">
-                                {{attribute.title}} {{stat[attribute.key]}}
+                                {{attribute.title}} {{stat[attribute.key] ?? 'N/A'}}
                             </p>
                         </div>
                     </div>

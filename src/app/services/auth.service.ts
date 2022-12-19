@@ -23,25 +23,28 @@ export class AuthService {
     private readonly $refreshOrGetGuestTokens: Observable<RefreshResponse> = of(0).pipe(
         this.warmUpAccessToken(),
         switchMap(() => {
-            let request = this.authenticationService.authenticationAuthenticateGuestPost();
             const refreshToken = this.getAuthData('refreshToken');
+            const guestRequest = this.authenticationService.authenticationAuthenticateGuestPost();
+            let request: Observable<AuthenticationResponse>;
             if (this.getAuthData('accessToken') && refreshToken) {
                 request = this.authenticationService.authenticationRefreshAccessTokenPost(refreshToken, 'body', false, {
                     context: new HttpContext().set(PASS_401, true).set(PASS_403, true)
                 }).pipe(
                     catchError(error => {
                         if (error.status === 401 || error.status === 403) {
-                            return request;
+                            return guestRequest;
                         }
                         return throwError(() => error);
                     }),
                     switchMap(response => {
                         if (!response.isAuthenticated) {
-                            return request;
+                            return guestRequest;
                         }
                         return of(response);
                     })
                 );
+            } else {
+                request = guestRequest;
             }
             const response = request.pipe(
                 this.processAuthData(),

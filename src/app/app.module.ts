@@ -32,6 +32,8 @@ import { ProfileComponent } from './profile/profile.component';
 import { MainComponent } from './main/main.component';
 import { httpInterceptorProviders } from './http-interceptors';
 import { AuthService } from './services/auth.service';
+import { AboutComponent } from './about/about.component';
+import { MaintenanceComponent } from './maintenance/maintenance.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +47,9 @@ import { AuthService } from './services/auth.service';
     GuideComponent,
     LeaderboardComponent,
     ProfileComponent,
-    MainComponent
+    MainComponent,
+    AboutComponent,
+    MaintenanceComponent
   ],
   imports: [
     BrowserModule,

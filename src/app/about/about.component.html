@@ -1,0 +1,19 @@
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+
+<div>
+    <h1 class="text-center p-4">About</h1>
+<div style="display: flex; justify-content: center; align-items: center">
+    <img class="text-center float-start" src="/assets/images/equiple-logo-simple.png"/>
+</div>
+    <div class="border rounded p-2 pb-3 m-4">
+        &nbsp;&nbsp;&nbsp;&nbsp;<b>Equiple</b> - item guessing game based off Wordle. You have to guess equipment from the game Realm
+        of the Mad God in 10 tries. Hints for you are six item attributes, which are: Tier, Type, Dominant Color, Xp Bonus 
+        and Feedpower.<br>
+    </div>
+    <h2 class="text-center">Credits</h2>
+    <div class="border rounded p-2 m-5">
+        <div class="p-1 m-2" *ngFor="let credit of credits">
+            <a href="{{credit[0]}}">{{credit[1]}}</a> - {{credit[2]}}.
+        </div>
+    </div>
+</div>
