@@ -1,6 +1,6 @@
 //Modules
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { ScrollingModule } from '@angular/cdk/scrolling';
@@ -18,22 +18,25 @@ import { LeaderboardComponent } from './leaderboard/leaderboard.component';
 import { SearchResultsComponent } from './search-results/search-results.component';
 import { ModalComponent } from './modal/modal.component';
 import { GuideComponent } from './guide/guide.component';
+import { AboutComponent } from './about/about.component';
+import { ProfileComponent } from './profile/profile.component';
+import { MainComponent } from './main/main.component';
+import { MaintenanceComponent } from './maintenance/maintenance.component';
+import { ReportABugComponent } from './report-a-bug/report-a-bug.component';
+import { ComplaintsComponent } from './complaints/complaints.component';
 //Services
 //import { ModalService } from './services/modal-service';
 import { GameService } from './services/game.service';
 import { ProfileService } from './services/profile.service';
+import { AuthService } from './services/auth.service';
+import { ComplaintService } from './services/complaint.service';
 //Pipes
 import { ReversePipe } from './pipes/reverse.pipe';
 import { SafeStylePipe } from './pipes/savestyle.pipe';
 //Misc
 import { BASE_PATH } from 'src/lib/api';
 import { environment } from 'src/environments/environment';
-import { ProfileComponent } from './profile/profile.component';
-import { MainComponent } from './main/main.component';
 import { httpInterceptorProviders } from './http-interceptors';
-import { AuthService } from './services/auth.service';
-import { AboutComponent } from './about/about.component';
-import { MaintenanceComponent } from './maintenance/maintenance.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +52,9 @@ import { MaintenanceComponent } from './maintenance/maintenance.component';
     ProfileComponent,
     MainComponent,
     AboutComponent,
-    MaintenanceComponent
+    MaintenanceComponent,
+    ReportABugComponent,
+    ComplaintsComponent
   ],
   imports: [
     BrowserModule,
@@ -61,7 +66,8 @@ import { MaintenanceComponent } from './maintenance/maintenance.component';
     CdkAccordionModule,
     DialogModule,
     BrowserAnimationsModule,
-    MatTooltipModule
+    MatTooltipModule,
+    ReactiveFormsModule
   ],
   providers: [
     {
@@ -71,7 +77,8 @@ import { MaintenanceComponent } from './maintenance/maintenance.component';
     httpInterceptorProviders,
     AuthService,
     GameService,
-    ProfileService
+    ProfileService,
+    ComplaintService
   ],
   bootstrap: [
     AppComponent

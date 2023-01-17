@@ -3,6 +3,7 @@ import { Configuration } from './configuration';
 import { HttpClient } from '@angular/common/http';
 
 import { AuthenticationService } from './api/authentication.service';
+import { ComplaintService } from './api/complaint.service';
 import { GameService } from './api/game.service';
 import { ProfileService } from './api/profile.service';
 

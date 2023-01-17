@@ -4,12 +4,14 @@ import { MainComponent } from './main/main.component';
 import { ProfileComponent } from './profile/profile.component';
 import { AboutComponent } from './about/about.component';
 import { MaintenanceComponent } from './maintenance/maintenance.component';
+import { ComplaintsComponent } from './complaints/complaints.component';
 
 const routes: Routes = [ 
   { path: '', component: MainComponent},
   { path: 'profile', component: ProfileComponent},
   { path: 'maintenance', component: MaintenanceComponent},
   { path: 'about', component: AboutComponent},
+  { path: 'complaints', component: ComplaintsComponent },
   { path: '**', redirectTo:'', pathMatch:'full'}
 ];
 

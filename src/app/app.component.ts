@@ -3,6 +3,7 @@ import { Item, Hints, Gamemode } from 'src/lib/api';
 import { GuideComponent } from './guide/guide.component';
 import { Dialog } from '@angular/cdk/dialog';
 import { LeaderboardComponent } from './leaderboard/leaderboard.component';
+import { ReportABugComponent } from './report-a-bug/report-a-bug.component';
 
 
 @Component({
@@ -21,7 +22,6 @@ export class AppComponent implements OnInit {
   dailyAttempted = false;
   search = '';
   gameStatus = '';
-  private readonly playerId = '63468622d01c82bd9efc0598';
 
   constructor( private dialog: Dialog) {}
 
@@ -30,11 +30,13 @@ export class AppComponent implements OnInit {
 
   showGuideModal(): void{
     let guideModalRef = this.dialog.open(GuideComponent);
-    guideModalRef.closed.subscribe( () => {} );
   }
 
   showLeaderboardModal(){
     let leaderboardModalRef = this.dialog.open(LeaderboardComponent);
-    leaderboardModalRef.closed.subscribe( result => {} );
+  }
+
+  showReportABugModal(){
+    let reportABugModalRef = this.dialog.open(ReportABugComponent);
   }
 }

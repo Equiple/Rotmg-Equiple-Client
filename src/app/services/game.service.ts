@@ -5,7 +5,6 @@ import { Gamemode, GameOptions, GameService as GameServiceAPI, GuessResult, Hint
 @Injectable()
 export class GameService {
     constructor(private gameServiceAPI: GameServiceAPI) {
-        
     }
 
     findAll(searchInput: string, reskinsExcluded: boolean) : Observable<Item[]> {

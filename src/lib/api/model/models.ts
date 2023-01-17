@@ -1,5 +1,6 @@
 export * from './authenticationPermit';
 export * from './authenticationResponse';
+export * from './complaint';
 export * from './dateAndTime';
 export * from './detailedGameStatistic';
 export * from './gameOptions';

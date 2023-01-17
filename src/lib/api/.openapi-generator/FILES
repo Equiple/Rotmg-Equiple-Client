@@ -3,6 +3,7 @@ README.md
 api.module.ts
 api/api.ts
 api/authentication.service.ts
+api/complaint.service.ts
 api/game.service.ts
 api/profile.service.ts
 configuration.ts
@@ -11,6 +12,7 @@ git_push.sh
 index.ts
 model/authenticationPermit.ts
 model/authenticationResponse.ts
+model/complaint.ts
 model/dateAndTime.ts
 model/detailedGameStatistic.ts
 model/gameOptions.ts

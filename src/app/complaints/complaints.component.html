@@ -1,0 +1,26 @@
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+
+<div class="rounded" style="max-height: 55em; overflow: auto">
+    <cdk-virtual-scroll-viewport class="px-5 m-5" style="height: 45em" [itemSize]="150">
+        <div class="btn btn-grey m-1 border rounded float-start item-element"
+            *cdkVirtualFor="let complaint of complaints">
+            <div class="modal-header">
+                <h4 class="row m-2 p-2">
+                    <strong class="text-start col-6" >{{complaint.email}}</strong>
+                </h4>
+            </div>
+            <div class="modal-body m-2 p-2">
+                {{complaint.body}}
+            </div>
+            <div class="modal-footer">
+                <small class="p-2">{{complaint.date.date.split('T')[0]}}, {{complaint.date.time.split('.')[0]}}</small>
+                <button class="btn btn-warning p-2 m-1" (click)="remove(complaint.id)">
+                    <i class="bi bi-trash-fill"></i> Remove
+                </button>
+            </div>
+        </div>
+        <div *ngIf="complaints.length === 0">
+            <i>No complaints at this time.</i>
+        </div>
+    </cdk-virtual-scroll-viewport>
+</div>

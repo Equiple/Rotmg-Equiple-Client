@@ -1,0 +1,50 @@
+<div class="modal-container" style="width: 30em">
+    <div class="model-dialog rounded p-2 bg-white" role="document">
+        <div class="modal-content">
+            <div class="modal-header mb-2">
+                <h4 class="modal-title ml-2">Report a bug</h4>
+                <button type="button" class="btn-close" aria-label="Close" (click)="close()">
+                    <span aria-hidden="true"></span>
+                </button>
+            </div>
+            <div class="modal-body m-2 mb-3">
+                <div class="p-2 justify-content-center row">
+                    <form [formGroup]="reportForm" (ngSubmit)="onSubmit(email.value, complaint.value)">
+                        <div class="form-group">
+                            <label for="email" class="p-1">Email: </label>
+                            <div *ngIf="submitted && f.formEmail.errors" class="text-danger">
+                                <small *ngIf="f.formEmail.errors?.['required']"><b>Email is required</b></small>
+                                <small *ngIf="f.formEmail.errors?.['email']"><b>Email must be a valid email address</b></small>
+                            </div>
+                            <input id="email" #email type="text" class="p-2 form-control" formControlName="formEmail"
+                                placeholder="Put your email here, in case we want to contact you back" 
+                                [ngClass]="{ 'is-invalid': submitted && f.formEmail.errors}" />
+                        </div>
+                        <div class="form-group">
+                            <label for="complaint" class="p-1">Describe your problem below, include as much details as
+                                possible. You can also share your feedback, if you like.</label>
+                            <div *ngIf="submitted && f.formComplaint.errors" class="text-danger">
+                                <small *ngIf="f.formComplaint.errors?.['required']"><b>Text is required</b></small>
+                            </div>
+                            <textarea id="complaint" #complaint type="text" class="p-2 form-control"
+                                formControlName="formComplaint" placeholder="Ray katana has the wrong sprite!@!!!1!!11"
+                                rows="10" [ngClass]="{ 'is-invalid': submitted && f.formComplaint.errors}"></textarea>
+                        </div>
+                        <small>
+                            If something went horribly wrong and you think we didn't get your mail, you can message us directly at rotmg.equiple@gmail.com
+                        </small>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light m-1" (click)="onSubmit(email.value, complaint.value)">
+                    <strong>Submit</strong>
+                </button>
+                <button type="button" class="btn btn-light m-1" data-bs-dismiss="modal" (click)="close()">
+                    <strong>Close</strong>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-background"></div>
