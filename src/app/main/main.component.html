@@ -42,12 +42,11 @@
             <h4 class="py-2">
                 <b #tooltip="matTooltip" matTooltipHideDelay="100"
                     matTooltip="Anagram of the item name, without dublicates." matTooltipPosition="above"
-                    matTooltipClass="bg-dark p-2">{{targetAnagram}}</b>
+                    matTooltipClass="bg-dark p-2" [innerText]="targetAnagram"></b>
             </h4>
             <h6 class="px-2">
-                <i matTooltipHideDelay="100"
-                    matTooltip="Item Description ;)" matTooltipPosition="above"
-                    matTooltipClass="bg-dark p-2">"{{targetDescription}}"</i>
+                <i matTooltipHideDelay="100" matTooltip="Item Description ;)" matTooltipPosition="above"
+                    matTooltipClass="bg-dark p-2" [innerText]="targetDescription"></i>
             </h6>
         </div>
     </div>

@@ -1,5 +1,5 @@
 import { Dialog } from '@angular/cdk/dialog';
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { forkJoin, Observable, of, switchMap } from 'rxjs';
 import { Gamemode, GuessResult, GuessStatus, Hints, Item, PlayerProfile } from 'src/lib/api';
 import { ModalComponent } from '../modal/modal.component';
