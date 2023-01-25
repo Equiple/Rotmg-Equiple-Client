@@ -14,6 +14,7 @@ import { DateAndTime } from './dateAndTime';
 
 export interface Complaint { 
     id?: string | null;
+    fingerprint?: string | null;
     email?: string | null;
     date?: DateAndTime;
     body?: string | null;

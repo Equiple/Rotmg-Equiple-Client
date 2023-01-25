@@ -15,7 +15,6 @@ import { Hint } from './hint';
 export interface Hints { 
     tier?: Hint;
     type?: Hint;
-    numberOfShots?: Hint;
     xpBonus?: Hint;
     feedpower?: Hint;
     colorClass?: string | null;

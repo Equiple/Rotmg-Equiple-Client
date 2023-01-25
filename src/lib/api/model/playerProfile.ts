@@ -16,6 +16,7 @@ import { DetailedGameStatistic } from './detailedGameStatistic';
 export interface PlayerProfile { 
     id?: string | null;
     name?: string | null;
+    role?: string | null;
     registrationDate?: DateAndTime;
     normalStats?: DetailedGameStatistic;
     dailyStats?: DetailedGameStatistic;

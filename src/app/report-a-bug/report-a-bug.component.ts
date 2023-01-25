@@ -1,6 +1,7 @@
 import { DialogRef } from '@angular/cdk/dialog';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FingerprintjsProAngularService } from '@fingerprintjs/fingerprintjs-pro-angular';
 import { ComplaintService } from '../services/complaint.service';
 import { GameService } from '../services/game.service';
 
@@ -19,21 +20,32 @@ export class ReportABugComponent implements OnInit {
     });
     submitted = false;
 
-    constructor(private dialogRef: DialogRef<string>, private gameService: GameService, private complaintService: ComplaintService) {
+    constructor(private dialogRef: DialogRef<string>, 
+        private gameService: GameService, 
+        private complaintService: ComplaintService,
+        private fingerprintService: FingerprintjsProAngularService) {
     }
 
     ngOnInit(): void {
     }
 
-    onSubmit(email: string, complaint: string) {
+    async onSubmit(email: string, complaint: string) {
         this.submitted = true;
         if (this.reportForm.invalid) {
             return;
         }
-        this.complaintService.fileComplaint(email, complaint).subscribe(() => {
+        if(!localStorage.getItem("visitorId")){
+            const data = await this.fingerprintService.getVisitorData();
+            localStorage.setItem("visitorId", data.visitorId);
+        }
+        this.complaintService.fileComplaint(localStorage.getItem("visitorId")!, email, complaint).subscribe(result => {
+            if (result) {
                 alert("Your mail has been sent.");
                 this.dialogRef.close();
-             });
+            } else {
+                alert("You've sent a complaint just recently. Please wait a couple hours and try again. Sorry for the inconvenience!");
+                this.dialogRef.close();
+            }});
     }
 
     get f() {

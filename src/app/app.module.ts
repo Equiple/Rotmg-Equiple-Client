@@ -30,6 +30,7 @@ import { GameService } from './services/game.service';
 import { ProfileService } from './services/profile.service';
 import { AuthService } from './services/auth.service';
 import { ComplaintService } from './services/complaint.service';
+import { AuthGuardService } from './services/auth-guard.service';
 //Pipes
 import { ReversePipe } from './pipes/reverse.pipe';
 import { SafeStylePipe } from './pipes/savestyle.pipe';
@@ -37,6 +38,8 @@ import { SafeStylePipe } from './pipes/savestyle.pipe';
 import { BASE_PATH } from 'src/lib/api';
 import { environment } from 'src/environments/environment';
 import { httpInterceptorProviders } from './http-interceptors';
+import { FingerprintjsProAngularModule } from '@fingerprintjs/fingerprintjs-pro-angular';
+import { default as Keys } from 'keys.json';
 
 @NgModule({
   declarations: [
@@ -67,7 +70,11 @@ import { httpInterceptorProviders } from './http-interceptors';
     DialogModule,
     BrowserAnimationsModule,
     MatTooltipModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FingerprintjsProAngularModule.forRoot({loadOptions: {
+      apiKey: Keys.FingerpringJS.Public,
+      region: "eu"
+    }})
   ],
   providers: [
     {
@@ -78,7 +85,8 @@ import { httpInterceptorProviders } from './http-interceptors';
     AuthService,
     GameService,
     ProfileService,
-    ComplaintService
+    ComplaintService,
+    AuthGuardService
   ],
   bootstrap: [
     AppComponent

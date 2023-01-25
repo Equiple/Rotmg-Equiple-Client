@@ -36,9 +36,9 @@
                             <span *ngIf="field.key === 'tier' && guess.reskin === true"> Reskin</span>
                             <span *ngIf="field.key === 'xpBonus'">%</span><span *ngIf="field.key === 'feedpower'">fp</span>
                             <div *ngIf="field.key === 'dominantColor'" #tooltip="matTooltip" matTooltipHideDelay="100"
-                                matTooltip="{{guess.dominantColor}}" matTooltipPosition="above"
+                                matTooltip="{{guess.dominantColor}} [{{guess.colorClass}}]" matTooltipPosition="above"
                                 matTooltipClass="bg-dark p-2">
-                                <div class="rounded img-center color-box" [ngStyle]="{'background-color': guess.colorClass}">
+                                <div class="rounded img-center color-box" [ngStyle]="{'background-color': guess.dominantColor}">
                                     <h3 *ngIf="getHintBackgroundStyle('dominantColor', guesses.length - i - 1) === '#339900'" 
                                         class="bi bi-check-lg" [class]="getHintArrow(field.key, guesses.length - i - 1)"></h3>
                                 </div>

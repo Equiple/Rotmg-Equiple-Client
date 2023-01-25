@@ -26,7 +26,7 @@
                                 Reskin</span><span *ngIf="field.key === 'xpBonus'">%</span><span
                                 *ngIf="field.key === 'feedpower'">fp</span>
                             <div *ngIf="field.key === 'dominantColor'" #tooltip="matTooltip" matTooltipHideDelay="100"
-                                matTooltip="{{item.dominantColor}}" matTooltipPosition="above"
+                                matTooltip="{{item.dominantColor}} [{{item.colorClass}}]" matTooltipPosition="above"
                                 matTooltipClass="bg-dark p-2">
                                 <div class="rounded img-center color-box" [ngStyle]="{'background-color': item.dominantColor}">
                                 </div>

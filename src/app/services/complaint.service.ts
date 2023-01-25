@@ -1,15 +1,15 @@
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { Complaint } from "src/lib/api";
-import { ComplaintsService as ComplaintsServiceAPI } from "src/lib/api/api/complaints.service";
+import { ComplaintService as ComplaintServiceAPI } from "src/lib/api/api/complaint.service";
 
 @Injectable()
 export class ComplaintService {
-    constructor(private gameServiceAPI: ComplaintsServiceAPI) {
+    constructor(private gameServiceAPI: ComplaintServiceAPI) {
     }
 
-    fileComplaint(author: string, complaint: string): Observable<any>{
-        return this.gameServiceAPI.complaintsFileComplaintPost(author, complaint);
+    fileComplaint(fingerprint: string, author: string, complaint: string): Observable<boolean>{
+        return this.gameServiceAPI.complaintsFileComplaintPost(fingerprint, author, complaint);
     }
 
     removeComplaint(complaintId: string): Observable<any>{

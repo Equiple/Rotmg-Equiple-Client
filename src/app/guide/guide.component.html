@@ -16,45 +16,42 @@
                         <div class="accordion-header rounded mx-2 bg-info text-white" (click)="accordionItem.toggle()">
                             <button class="accordion-button ml-2 p-2 row">
                                 <h4 clas="col-3">
-                                    Introduction 
+                                    Introduction
                                 </h4>
                                 <span class="col-3 accordion-item-description">
                                     Click to {{ accordionItem.expanded ? 'close' : 'open' }}
                                 </span>
                             </button>
                         </div>
-                        <div class="accordion-body border rounded mx-3 p-2" role="region" [style.display]="accordionItem.expanded ? '' : 'none'"
-                            [attr.id]="'accordion-body-' + 0" [attr.aria-labelledby]="'accordion-header-' + 0">
-                            &nbsp;&nbsp;&nbsp;&nbsp;Equiple - item guessing game based off Wordle. You have to guess equipment from the game Realm
-                            of the Mad God in 10 tries. Hints for you are six item attributes, which are:
+                        <div class="accordion-body border rounded mx-3 p-2" role="region"
+                            [style.display]="accordionItem.expanded ? '' : 'none'" [attr.id]="'accordion-body-' + 0"
+                            [attr.aria-labelledby]="'accordion-header-' + 0">
+                            <div class="px-4 p-2">
+                                &nbsp;&nbsp;&nbsp;&nbsp;Equiple - item guessing game based off Wordle. You have to guess
+                                equipment from the game Realm of the Mad God in 10 tries. Hints for you are six item 
+                                attributes, which are:
+                            </div>
                             <ul>
-                                <br>
                                 <li>
-                                    <strong>Tier </strong>- item tier, can be either "UT" (Untiered), "ST" (Set Tiered) or "Tiered".
-                                    Reskinned items marked as "Reskin" afterwards, which makes 6 tiers in total. If target item is reskin, you will have 
-                                    to guess the reskin. 
-                                    <i>For example: Doom Bow, Sun's Judgement and Bow of the Morning star.</i>
+                                    <strong>Tier </strong>- item tier, can be either "UT" (Untiered), "ST" (Set Tiered)
+                                    or "Tiered". Reskinned items marked as "Reskin" afterwards, which makes 6 tiers in total. 
+                                    If target item is reskin, you will have to guess the reskin. <br>Note: Antinomy Gear, 
+                                    despite having wc tops stats are not considered as reskins in the game, and neither are here. 
                                 </li>
                                 <li>
                                     <strong>Type </strong>- slot type, either "Weapon", "Ability", "Armor" or "Ring".
                                 </li>
                                 <li>
-                                    <strong>Color </strong>- dominant color of the item. The color is defined automatically so it's not always what you 
-                                    might expect it to be. Keep that in mind and always check the color in search results to avoid mistakes.
-                                    Colortip (background) will change depending how far from the target you're.<br>
-                                    <img class="img-center"src="/assets/images/color-guide.png">
-                                    <br>You can hover over color to see it's exact name. Use this to compare it with search results.
-                                    <img class="img-center"src="/assets/images/color-tooltip.png">
-                                    <br>
+                                    <strong>Color </strong>- dominant color of the item. The color is defined automatically 
+                                    so it's not always what you might expect it to be. Keep that in mind and always check 
+                                    the color in search results to avoid mistakes. Colortip (background) will change depending 
+                                    how far from the target you are.<br>
+                                    <img class="img-center" src="/assets/images/color-guide-2.png">
+                                    <br>You can hover over color to see it's exact name. Use this to compare it with
+                                    search results. First goes the "exact" color of the item, then in square brackets 
+                                    closest color group. You can use that to determine whether or not two colors are similiar.
+                                    <img class="img-center" src="/assets/images/color-tooltip.png">
                                 </li>
-                                <!-- <li>
-                                    <strong>Shots (Number of Shots) </strong>- number of shots item fires. Yes, some items
-                                    don't have any ;)
-                                </li> -->
-                                <!-- <li>
-                                    <strong>Range </strong>- range of the item. Items that technically have range, but as
-                                    "max distance" or "radius" will have that value here instead. <i>For example: traps, prisms, etc.</i>
-                                </li> -->
                                 <li>
                                     <strong>Xp Bonus (Fame Bonus) </strong>- xp bonus given by the item.
                                 </li>
@@ -62,14 +59,18 @@
                                     <strong>Feedpower </strong>- feedpower of the item.
                                 </li>
                             </ul>
-                            <!-- &nbsp;&nbsp;&nbsp;&nbsp;<i>Items that have some type of mathematical modifiers will have either minimal value or zero,
-                                depending on the case.</i><br><br> -->
-                            There are two gamemodes: <strong>Daily</strong> and <strong>Normal</strong>. <br>&nbsp;&nbsp;&nbsp;&nbsp;In Daily gamemode everyone 
-                            is given the same item, and you can only do it once per day.
-                            <br>&nbsp;&nbsp;&nbsp;&nbsp;In Normal you can play as much as you want and you can exclude reskinned items from the game. Tick off 
-                            "Exclude reskins" checkbox before starting a new game.
-                            <br>Consecutive wins in both gamemodes increase your respective winning streak, losing on the other hand voids it. Best players show up in 
-                            the <strong>Leaderboard</strong>.<br>
+                            <div class="px-4 p-2">
+                                There are two gamemodes: <strong>Daily</strong> and <strong>Normal</strong>.
+                                <dl>
+                                    <dd>- In Daily everyone is given the same item, and you can only play it only once per day. 
+                                        If you forget to finish your daily game, it will expire at midnight UTC and this counts 
+                                        as a lose, so you will lose your streak.</dd>
+                                    <dd>- In Normal you can play as much as you want and you can exclude reskinned items from the 
+                                        game. Tick off "Exclude reskins" checkbox before starting a new game.</dd>
+                                </dl>
+                                Consecutive wins in both gamemodes increase your respective winning streak, losing on
+                                the other hand voids it. Best players show up in the <strong>Leaderboard</strong>.
+                            </div>
                         </div>
                     </cdk-accordion-item>
                     <!-- Tips -->
@@ -86,30 +87,34 @@
                                 </span>
                             </button>
                         </div>
-                        <div class="accordion-body border rounded mx-3 p-1" role="region" 
-                            [style.display]="accordionItemTwo.expanded ? '' : 'none'"
-                            [attr.id]="'accordion-body-' + 1"
+                        <div class="accordion-body border rounded mx-3 p-1" role="region"
+                            [style.display]="accordionItemTwo.expanded ? '' : 'none'" [attr.id]="'accordion-body-' + 1"
                             [attr.aria-labelledby]="'accordion-header-' + 1">
                             <ul>
-                                <li>If you search up specific item type, you will be given all items that match the search. For example if you search
-                                    "Katana" the result will contain all katanas regardless if it states this in the name or not.
+                                <li>
+                                    If you search up specific item type, you will be given all items that match the
+                                    search. For example if you search "Katana" the result will contain all katanas 
+                                    regardless if it states this in the name or not.
                                 </li>
-                                <li>You can also look up specific tiers of items in search. "ut" will return you all UT items, "reskin" will
-                                    return you all reskins, "t10" will give all t10 items, etc. You can use this for most attributes except feedpower and famebonus.
+                                <li>
+                                    You can also look up specific tiers of items in search. "ut" will return you all UT
+                                    items, "reskin" will return you all reskins, "t10" will give all t10 items, etc. 
+                                    You can use this for most attributes except feedpower and famebonus.
                                 </li>
-                                <li>You can combine prompts for more specific search, e.g. "st weapon", "t6 ability" or "ut ring".
+                                <li>
+                                    You can combine prompts for more specific search, e.g. "st weapon", "t6 ability" or"ut ring".
                                 </li>
-                                <li>Try to remember unique item cases, for example <b>The Forgotten Crown</b> is the only <b>UT</b> ring with <b>8%</b> xp bonus
-                                     and <b>1400</b> feedpower; <b>Corruption Tether</b> is the only <b>ST weapon</b> with <b>7%</b> xp bonus. 
-                                     There are more items like this! ;)
+                                <li>
+                                    Try to remember unique item cases, for example <b>The Forgotten Crown</b> is the
+                                    only <b>UT</b> ring with <b>8%</b> xp bonus and <b>1400</b> feedpower; <b>Corruption Tether</b>
+                                    is the only <b>ST weapon</b> with <b>7%</b> xp bonus. There are more items like this! ;)
                                 </li>
                             </ul><br>
                         </div>
                     </cdk-accordion-item>
                     <!-- Game Example -->
                     <cdk-accordion-item class="accordion-item p-1" #accordionItemFour="cdkAccordionItem" role="button"
-                        [attr.id]="'accordion-header-' + 2"
-                        [attr.aria-expanded]="accordionItemFour.expanded"
+                        [attr.id]="'accordion-header-' + 2" [attr.aria-expanded]="accordionItemFour.expanded"
                         [attr.aria-controls]="'accordion-body-' + 2">
                         <div class="accordion-header text-white rounded border bg-danger mx-2 ">
                             <button class="accordion-button ml-2 p-2 row" (click)="accordionItemFour.toggle()">
@@ -121,28 +126,40 @@
                                 </span>
                             </button>
                         </div>
-                        <div class="accordion-body border rounded mx-3 p-1" role="region" 
-                            [style.display]="accordionItemFour.expanded ? '' : 'none'"
-                            [attr.id]="'accordion-body-' + 2"
+                        <div class="accordion-body border rounded mx-3" role="region"
+                            [style.display]="accordionItemFour.expanded ? '' : 'none'" [attr.id]="'accordion-body-' + 2"
                             [attr.aria-labelledby]="'accordion-header-' + 2">
-                            &nbsp;&nbsp;&nbsp;&nbsp;Let's go over quick game example. First pick shouldn't matter that much, but can lean in you 
-                            in the right direction. I think good strategy is to pick something average.<br>
-                            <br><img class="img-center"src="/assets/images/game-example/example-1.png">
-                            &nbsp;&nbsp;&nbsp;&nbsp;My first guess is <b>Sunset Tachi</b>, and it was absolutely wrong. Howewer now we know 
-                            that target is not a tiered item, which filters away a huge chunk of items (probably the biggest). But not only that, 
-                            now we know the item is not a <b>weapon</b> and can not be a "regular"<b>set piece</b>. There are only two st items 
-                            that have 8% xp bonus, if target item happened to be one of them we can quickly find out.<br>
-                            <br><img class="img-center"src="/assets/images/game-example/example-2.png">
-                            &nbsp;&nbsp;&nbsp;&nbsp;My second guess is <b>Ballistic Star</b>, which was picked because of high feedpower and 8% 
-                            xp bonus. If xp bonus wasn't right I'd immediately know what that item is (<i>Chrysalis</i>).<br>
-                            <br><img class="img-center"src="/assets/images/game-example/example-3.png">
-                            &nbsp;&nbsp;&nbsp;&nbsp;And now we know that it is a ring with feedpower value somewhere in between 1300 and 1100.
-                            There aren't that many rings that fit this description. I can say with confidence this is in fact 
-                            <b>The Twilight Gemstone</b>!<br>
-                            <br><img class="img-center"src="/assets/images/game-example/example-4.png">
-                            &nbsp;&nbsp;&nbsp;&nbsp;Yes, color wasn't that much help in this game, but that's expected. The color is there to help 
-                            you in difficult situations that might arise while trying to guess more tightly grouped items, such as tiered rings,
-                            themed sets or reskins<br>
+                            <div class="px-4 p-2">
+                                &nbsp;&nbsp;&nbsp;&nbsp;Let's go over quick game example. First pick shouldn't matter
+                                that much, but can lean in you in the right direction. I think good strategy is 
+                                to pick something average.
+                            </div>
+                            <img class="img-center" src="/assets/images/game-example/example-1.png">
+                            <div class="px-4 p-2">
+                                &nbsp;&nbsp;&nbsp;&nbsp;My first guess is <b>Sunset Tachi</b>, and it was absolutely
+                                wrong. Howewer now we know that target is not a tiered item, which filters away a huge 
+                                chunk of items (probably the biggest). But not only that, now we know the item is not a 
+                                <b>weapon</b> and can not be a "regular"<b>set piece</b>. There are only two st items
+                                that have 8% xp bonus, if target item happened to be one of them we can quickly find out.
+                            </div>
+                            <img class="img-center" src="/assets/images/game-example/example-2.png">
+                            <div class="px-4 p-2">
+                                &nbsp;&nbsp;&nbsp;&nbsp;My second guess is <b>Ballistic Star</b>, which was picked because
+                                of high feedpower and 8% xp bonus. If xp bonus wasn't right I'd immediately know what that 
+                                item is (<i>Chrysalis</i>).
+                            </div>
+                            <img class="img-center" src="/assets/images/game-example/example-3.png">
+                            <div class="px-4 p-2">
+                                &nbsp;&nbsp;&nbsp;&nbsp;And now we know that it is a blue-ish colored ring with feedpower
+                                value somewhere in between 1300 and 1100. There aren't that many rings that fit this description. 
+                                I can say with confidence this is in fact <b>The Twilight Gemstone</b>!
+                            </div>
+                            <img class="img-center" src="/assets/images/game-example/example-4.png">
+                            <div class="px-4 p-2">
+                                &nbsp;&nbsp;&nbsp;&nbsp;Yes, color wasn't that much help in this game, but that's expected.
+                                The color is there to help you in difficult situations that might arise while trying to 
+                                guess more tightly grouped items, such as tiered rings, themed sets or reskins<br>
+                            </div>
                         </div>
                     </cdk-accordion-item>
                     <!-- Creator Notes -->
@@ -159,19 +176,29 @@
                                 </span>
                             </button>
                         </div>
-                        <div class="accordion-body border rounded mx-3 p-1" role="region" 
+                        <div class="accordion-body border rounded mx-3 p-1" role="region"
                             [style.display]="accordionItemThree.expanded ? '' : 'none'"
-                            [attr.id]="'accordion-body-' + 1"
-                            [attr.aria-labelledby]="'accordion-header-' + 1">
-                            &nbsp;&nbsp;&nbsp;&nbsp;Game went from many design variations from initial idea. Tricky task was to pick attributes to base the game off.
-                            Number of shots and range seemed like a cool addition to the game until you had to guess something like <strong>tiered ring</strong> or 
-                            <strong>st ring</strong> (Did you know there're <strong>11</strong> st rings with <strong>4%</strong> xp bonus and <strong>600</strong> feedpower in the game?). 
-                            Which turns into just blind guessing right after you get the tier right. <br>
-                            &nbsp;&nbsp;&nbsp;&nbsp;The same but different issue comes from <strong>The Machine</strong> whites, there are 17 abilities
-                            that have exact same <strong>tier</strong>, <strong>lootbag</strong>, <strong>xp bonus</strong>, <strong>feedpower</strong> 
-                            and <strong>slot type</strong>. 10 of them have no shots whatsoever, 7 have no range and 9 have no damage values. Which makes 
-                            it harder to balance the game around if you had to use damage, range and/or amount of shots. Dungeon is also the same (<i>if you had that kind of idea in your mind ;)</i> ).<br>
-                            &nbsp;&nbsp;&nbsp;&nbsp;Color initially was introduced because of this two problems, and so far it seems like the only good solution.<br>
+                            [attr.id]="'accordion-body-' + 1" [attr.aria-labelledby]="'accordion-header-' + 1">
+                            <div class="px-4 p-2">
+                                &nbsp;&nbsp;&nbsp;&nbsp;Game went from many design variations from initial idea. Tricky task
+                                was to pick attributes to base the game off. Number of shots and range seemed like a cool 
+                                addition to the game until you had to guess something like <strong>tiered ring</strong> or
+                                <strong>st ring</strong> (Did you know there're <strong>11</strong> st rings with
+                                <strong>4%</strong> xp bonus and <strong>600</strong> feedpower in the game?).
+                                Which turns into just blind guessing right after you get the tier right.
+                            </div>
+                            <div class="px-4 p-2">
+                                &nbsp;&nbsp;&nbsp;&nbsp;The same but different issue comes from <strong>The Machine</strong>
+                                whites, there are 17 abilities that have exact same <strong>tier</strong>, <strong>lootbag</strong>, 
+                                <strong>xp bonus</strong>, <strong>feedpower</strong> and <strong>slot type</strong>. 10 of them 
+                                have no shots whatsoever, 7 have no range and 9 have no damage values. Which makes it harder to 
+                                balance the game around if you had to use damage, range and/or amount of shots. Dungeon is also 
+                                the same (<i>if you had that kind of idea in your mind ;)</i> ).<br>
+                            </div>
+                            <div class="px-4 p-2">
+                                &nbsp;&nbsp;&nbsp;&nbsp;Color initially was introduced because of this two problems, and so
+                                far it seems like the only good solution.
+                            </div>
                         </div>
                     </cdk-accordion-item>
                 </cdk-accordion>
