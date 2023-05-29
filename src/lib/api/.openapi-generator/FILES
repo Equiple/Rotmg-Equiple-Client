@@ -14,9 +14,9 @@ model/authenticationPermit.ts
 model/authenticationResponse.ts
 model/complaint.ts
 model/dateAndTime.ts
-model/detailedGameStatistic.ts
 model/gameOptions.ts
 model/gameStatistic.ts
+model/gameStatisticDetailed.ts
 model/gamemode.ts
 model/guessResult.ts
 model/guessStatus.ts

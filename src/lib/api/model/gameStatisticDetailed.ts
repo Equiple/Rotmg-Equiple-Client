@@ -9,14 +9,12 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { Item } from './item';
+import { GameStatistic } from './gameStatistic';
 
 
-export type Hint = 'Greater' | 'Less' | 'Correct' | 'Wrong';
-
-export const Hint = {
-    Greater: 'Greater' as Hint,
-    Less: 'Less' as Hint,
-    Correct: 'Correct' as Hint,
-    Wrong: 'Wrong' as Hint
-};
+export interface GameStatisticDetailed { 
+    gameStatistic?: GameStatistic;
+    bestGuessItem?: Item;
+}
 

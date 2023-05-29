@@ -1,67 +1,92 @@
-import { HttpContextToken, HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from "@angular/common/http";
+import { HttpContextToken, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { catchError, map, Observable, switchMap, throwError } from "rxjs";
-import { AuthService } from "../services/auth.service";
+import { catchError, lastValueFrom, Observable, of, throwError } from "rxjs";
+import { AuthResult, AuthService } from "../services/auth.service";
 
 export const PASS_401 = new HttpContextToken(() => false);
-export const PASS_403 = new HttpContextToken(() => false);
 
-interface HandleAuthErrorOptions {
-    refreshToken?: boolean
+function requestWithAuth(
+    req: HttpRequest<any>,
+    next: HttpHandler,
+    accessToken: string | undefined
+): Observable<HttpEvent<any>> {
+    if (accessToken) {
+        req = req.clone({
+            setHeaders: {
+                'Authorization': `Bearer ${accessToken}`
+            }
+        });
+    }
+    return next.handle(req);
+}
+
+async function retry(
+    req: HttpRequest<any>,
+    next: HttpHandler,
+    authFunc: () => Promise<AuthResult>
+): Promise<HttpEvent<any> | undefined> {
+    const authResult = await authFunc();
+    if (authResult.status === 'error') {
+        return undefined;
+    }
+    return await lastValueFrom(
+        requestWithAuth(req, next, authResult.accessToken).pipe(
+            catchError(error => {
+                if (error.status !== 401) {
+                    return throwError(() => error);
+                }
+                return of(undefined);
+            })
+        )
+    );
 }
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
+    private authErrorHandlingInProgress?: Promise<HttpEvent<any>>;
+
     constructor(private authService: AuthService) { }
 
     public intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        return this.makeRequest(req, next, this.authService.oldAccessToken).pipe(
-            catchError(error => this.handleAuthError(req, next, error))
-        );
+        return this.makeRequest(req, next);
     }
 
-    private handleAuthError(
-        req: HttpRequest<any>,
-        next: HttpHandler,
-        error: HttpErrorResponse,
-        options?: HandleAuthErrorOptions
-    ): Observable<any> {
-        if ((error.status !== 401 && error.status !== 403)
-            || (error.status === 401 && req.context.get(PASS_401))
-            || (error.status === 403 && req.context.get(PASS_403))
-        ) {
-            return throwError(() => error);
-        }
-
-        let $accessToken: Observable<string | null>;
-        const refreshingToken = !!options?.refreshToken;
-        if (refreshingToken) {
-            $accessToken = this.authService.refreshOrGetGuestTokens().pipe(
-                map(response => response.accessToken)
-            );
-        } else {
-            $accessToken = this.authService.getAccessToken();
-        }
-
-        return $accessToken.pipe(
-            switchMap(accessToken => this.makeRequest(req, next, accessToken)),
+    private makeRequest(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+        return requestWithAuth(req, next, this.authService.accessToken).pipe(
             catchError(error => {
-                if (refreshingToken) {
+                if (error.status !== 401 || req.context.get(PASS_401)) {
                     return throwError(() => error);
                 }
-                return this.handleAuthError(req, next, error, { refreshToken: true })
+                return this.handleAuthErrorSafe(req, next);
             })
         );
     }
 
-    private makeRequest(req: HttpRequest<any>, next: HttpHandler, accessToken: string | null): Observable<HttpEvent<any>> {
-        if (accessToken) {
-            req = req.clone({
-                setHeaders: {
-                    'Authorization': `Bearer ${accessToken}`
-                }
-            });
+    private async handleAuthErrorSafe(req: HttpRequest<any>, next: HttpHandler): Promise<HttpEvent<any>> {
+        if (this.authErrorHandlingInProgress) {
+            await this.authErrorHandlingInProgress;
+            return await lastValueFrom(
+                this.makeRequest(req, next)
+            );
         }
-        return next.handle(req);
+        this.authErrorHandlingInProgress = this.handleAuthError(req, next);
+        try {
+            return await this.authErrorHandlingInProgress;
+        } catch (error) {
+            throw error;
+        } finally {
+            this.authErrorHandlingInProgress = undefined;
+        }
+    }
+
+    private async handleAuthError(req: HttpRequest<any>, next: HttpHandler): Promise<HttpEvent<any>> {
+        let result = await retry(req, next, () => this.authService.refreshToken());
+        if (!result) {
+            result = await retry(req, next, () => this.authService.authenticateGuest());
+        }
+        if (!result) {
+            throw new Error('Unable to refresh token or authenticate as guest');
+        }
+        return result;
     }
 }

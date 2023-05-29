@@ -72,7 +72,7 @@ import { default as Keys } from 'keys.json';
     MatTooltipModule,
     ReactiveFormsModule,
     FingerprintjsProAngularModule.forRoot({loadOptions: {
-      apiKey: Keys.FingerpringJS.Public,
+      apiKey: Keys.FingerprintJS.Public,
       region: "eu"
     }})
   ],

@@ -1,126 +1,94 @@
 import { HttpContext } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { catchError, map, MonoTypeOperatorFunction, Observable, of, pipe, ReplaySubject, share, switchMap, tap, throwError } from "rxjs";
 import { AuthenticationResponse, AuthenticationService } from "src/lib/api";
-import { PASS_401, PASS_403 } from "../http-interceptors/auth.interceptor";
+import { PASS_401 } from "../http-interceptors/auth.interceptor";
+import { Observable, catchError, lastValueFrom, of, throwError } from "rxjs";
 
-export interface RefreshResponse {
-    accessToken: string
+export type AuthResult = {
+    status: 'ok';
+    accessToken: string;
+} | {
+    status: 'error';
 }
 
-type AuthData = 'accessToken' | 'refreshToken' | 'deviceId';
+const accessToken = 'access_token';
+const refreshToken = 'refresh_token';
 
-const authDataStorageKeys: { [key in AuthData]: string } = {
-    'accessToken': 'access_token',
-    'refreshToken': 'refresh_token',
-    'deviceId': 'device_id'
-};
+const context = new HttpContext().set(PASS_401, true);
+
+function authRequest(request: Observable<AuthenticationResponse>): Promise<AuthenticationResponse> {
+    return lastValueFrom(request.pipe(
+        catchError(error => {
+            if (error.status !== 401) {
+                return throwError(() => error);
+            }
+            const errorResponse: AuthenticationResponse = {
+                isAuthenticated: false,
+            };
+            return of(errorResponse);
+        })
+    ));
+}
 
 @Injectable()
 export class AuthService {
-    private readonly savedAuthData: { [key in AuthData]?: string | null } = {};
+    private _accessToken?: string;
+    private _refreshToken?: string;
 
-    private readonly $refreshOrGetGuestTokens: Observable<RefreshResponse> = of(0).pipe(
-        this.warmUpAccessToken(),
-        switchMap(() => {
-            const refreshToken = this.getAuthData('refreshToken');
-            const guestRequest = this.authenticationService.authenticationAuthenticateGuestPost();
-            let request: Observable<AuthenticationResponse>;
-            if (this.getAuthData('accessToken') && refreshToken) {
-                request = this.authenticationService.authenticationRefreshAccessTokenPost(refreshToken, 'body', false, {
-                    context: new HttpContext().set(PASS_401, true).set(PASS_403, true)
-                }).pipe(
-                    catchError(error => {
-                        if (error.status === 401 || error.status === 403) {
-                            return guestRequest;
-                        }
-                        return throwError(() => error);
-                    }),
-                    switchMap(response => {
-                        if (!response.isAuthenticated) {
-                            return guestRequest;
-                        }
-                        return of(response);
-                    })
-                );
-            } else {
-                request = guestRequest;
-            }
-            const response = request.pipe(
-                this.processAuthData(),
-                map(response => {
-                    if (!response.isAuthenticated) {
-                        throw new Error('somehow not authenticated');
-                    }
-                    const refreshResponse: RefreshResponse = {
-                        accessToken: response.accessToken!
-                    };
-                    return refreshResponse;
-                })
-            );
-            return response;
-        }),
-        share()
-    );
-
-    private accessTokenSubject?: ReplaySubject<string | null>;
-    private $accessToken: Observable<string | null> = of(0).pipe(map(() => this.getAuthData('accessToken')));
-
-    constructor(private authenticationService: AuthenticationService) { }
-
-    public get oldAccessToken(): string | null {
-        return this.getAuthData('accessToken');
-    }
-
-    public getAccessToken(): Observable<string | null> {
-        return this.$accessToken;
+    constructor(private authenticationService: AuthenticationService) {
+        this._accessToken = localStorage.getItem(accessToken) || undefined;
+        this._refreshToken = localStorage.getItem(refreshToken) || undefined;
     }
     
-    public refreshOrGetGuestTokens(): Observable<RefreshResponse> {
-        return this.$refreshOrGetGuestTokens;
+    public get accessToken(): string | undefined {
+        return this._accessToken;
     }
 
-    private warmUpAccessToken<T>(): MonoTypeOperatorFunction<T> {
-        return pipe(
-            tap(() => {
-                this.accessTokenSubject = new ReplaySubject(1);
-                this.$accessToken = this.accessTokenSubject.asObservable();
-            })
+    public async authenticateGuest(): Promise<AuthResult> {
+        const response = await lastValueFrom(
+            this.authenticationService.authenticationAuthenticateGuestPost()
         );
+        const result = this.processResponse(response);
+        return result;
     }
 
-    private processAuthData(): MonoTypeOperatorFunction<AuthenticationResponse> {
-        return pipe(
-            tap(() => {
-                if (!this.accessTokenSubject) {
-                    throw new Error('warmUpAccessToken must be piped before processAuthData');
-                }
-            }),
-            catchError(error => {
-                this.accessTokenSubject?.error(error);
-                return throwError(() => error);
-            }),
-            tap(response => {
-                this.accessTokenSubject!.next(response.accessToken || null);
-
-                this.saveAuthData('accessToken', response.accessToken || null);
-                this.saveAuthData('refreshToken', response.refreshToken || null);
-                this.saveAuthData('deviceId', response.deviceId || null);
-            })
-        );
-    }
-
-    private getAuthData(key: AuthData) {
-        return this.savedAuthData[key] || (this.savedAuthData[key] = localStorage.getItem(authDataStorageKeys[key]));
-    }
-
-    private saveAuthData(key: AuthData, value: string | null) {
-        this.savedAuthData[key] = value;
-        const storageKey = authDataStorageKeys[key];
-        if (value) {
-            localStorage.setItem(storageKey, value);
-        } else {
-            localStorage.removeItem(storageKey);
+    public async refreshToken(): Promise<AuthResult> {
+        if (!this._refreshToken) {
+            return { status: 'error' };
         }
+        const response = await authRequest(
+            this.authenticationService.authenticationRefreshAccessTokenPost(this._refreshToken, 'body', false, { context })
+        );
+        const result = this.processResponse(response);
+        return result;
+    }
+
+    public async logout(): Promise<any> {
+        await lastValueFrom(
+            this.authenticationService.authenticationLogoutPost('body', false, { context })
+        );
+        this.removeTokens();
+    }
+
+    private processResponse(response: AuthenticationResponse): AuthResult {
+        if (!response.isAuthenticated || !response.accessToken || !response.refreshToken) {
+            this.removeTokens();
+            return { status: 'error' };
+        }
+        this._accessToken = response.accessToken;
+        this._refreshToken = response.refreshToken;
+        localStorage.setItem(accessToken, this._accessToken);
+        localStorage.setItem(refreshToken, this._refreshToken);
+        return {
+            status: 'ok',
+            accessToken: this._accessToken,
+        };
+    }
+
+    private removeTokens(): void {
+        this._accessToken = undefined;
+        this._refreshToken = undefined;
+        localStorage.removeItem(accessToken);
+        localStorage.removeItem(refreshToken);
     }
 }
