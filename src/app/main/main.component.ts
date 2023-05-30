@@ -56,8 +56,8 @@ export class MainComponent implements OnInit {
                 this.guesses = activeGameOptions.guesses!;
                 this.hints = activeGameOptions.allHints!;
                 this.gamemode = activeGameOptions.mode!;
-                this.targetAnagram = activeGameOptions.anagram!;
-                this.targetDescription = activeGameOptions.description!;
+                this.targetAnagram = activeGameOptions.anagram ?? '???';
+                this.targetDescription = activeGameOptions.description ?? '???';
                 this.excludeReskins = activeGameOptions.reskinsExcluded!;
                 this.changeAllowed = false;
             } else {
@@ -156,10 +156,8 @@ export class MainComponent implements OnInit {
             .subscribe(guessResult => {
                 this.guesses.push(guessResult.guess!);
                 this.hints.push(guessResult.hints!);
-                if (guessResult.description && guessResult.anagram) {
-                    this.targetAnagram = guessResult.anagram!;
-                    this.targetDescription = guessResult.description!;
-                }
+                this.targetAnagram = guessResult.anagram ?? '???';
+                this.targetDescription = guessResult.description ?? '???';
                 let dialogRes: Observable<any>;
                 if (guessResult.status === GuessStatus.Guessed) {
                     dialogRes = this.gameService.getCurrentStreak(this.gamemode).pipe(switchMap(streak => {
