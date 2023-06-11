@@ -31,15 +31,14 @@ import { ProfileService } from './services/profile.service';
 import { AuthService } from './services/auth.service';
 import { ComplaintService } from './services/complaint.service';
 import { AuthGuardService } from './services/auth-guard.service';
+import { ColorService } from './services/color.service';
 //Pipes
 import { ReversePipe } from './pipes/reverse.pipe';
-import { SafeStylePipe } from './pipes/savestyle.pipe';
 //Misc
 import { BASE_PATH } from 'src/lib/api';
 import { environment } from 'src/environments/environment';
 import { httpInterceptorProviders } from './http-interceptors';
 import { FingerprintjsProAngularModule } from '@fingerprintjs/fingerprintjs-pro-angular';
-import { default as Keys } from 'keys.json';
 
 @NgModule({
   declarations: [
@@ -47,7 +46,6 @@ import { default as Keys } from 'keys.json';
     SearchComponent,
     GameLogComponent,
     ReversePipe,
-    SafeStylePipe,
     ModalComponent,
     SearchResultsComponent,
     GuideComponent,
@@ -72,7 +70,7 @@ import { default as Keys } from 'keys.json';
     MatTooltipModule,
     ReactiveFormsModule,
     FingerprintjsProAngularModule.forRoot({loadOptions: {
-      apiKey: Keys.FingerprintJS.Public,
+      apiKey: environment.fingerprint,
       region: "eu"
     }})
   ],
@@ -86,7 +84,8 @@ import { default as Keys } from 'keys.json';
     GameService,
     ProfileService,
     ComplaintService,
-    AuthGuardService
+    AuthGuardService,
+    ColorService
   ],
   bootstrap: [
     AppComponent

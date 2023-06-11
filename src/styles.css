@@ -1,6 +1,11 @@
 /* You can add global styles to this file, and also import other style files */
 /*Margin-left*/
 
+body{
+    height: 100%; 
+    overflow: hidden;
+}
+
 body.dark-theme {
     --text-color: white;
     --bkg-color: #212529;

@@ -3,6 +3,7 @@ import { of, Subject, switchMap } from 'rxjs';
 import { Item } from 'src/lib/api';
 import { GameService } from '../services/game.service';
 import { GuessField } from '../GuessField';
+import { ColorService } from '../services/color.service';
 
 @Component({
   selector: 'app-search-results',
@@ -22,14 +23,13 @@ export class SearchResultsComponent implements OnInit {
   readonly itemFields : GuessField[] = [
     {key: "tier", title: "Tier", icon: "star-fill"},
     {key: "type", title: "Item type", icon: "asterisk"},
-    //{key: "colorClass", title: "Color", icon: "palette-fill"},
-    {key: "dominantColor", title: "Color", icon: "palette-fill"},
-    //{key: "numberOfShots", title:"Shots", icon:"heart-arrow"},
+    {key: "colorClass", title: "Color", icon: "palette-fill"},
+    //{key: "dominantColor", title: "Color", icon: "palette-fill"},
     {key: "xpBonus", title: "XP Bonus", icon: "lightning-fill"},
     {key: "feedpower", title: "Feedpower", icon: "trash-fill"}
   ];
   
-  constructor(private gameService: GameService) { 
+  constructor(private gameService: GameService, private ColorService: ColorService) { 
   }
 
   ngOnInit(): void {
@@ -49,5 +49,9 @@ export class SearchResultsComponent implements OnInit {
 
   updateItems(){
     this.itemsRequest.next(0);
+  }
+
+  getColorName(colorHex: string){
+    return this.ColorService.getColorName(colorHex);
   }
 }

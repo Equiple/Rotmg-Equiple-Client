@@ -1,6 +1,6 @@
 <div>
     <div class="row p-2">
-        <div class="col-5">
+        <div class="col-4">
             <button class="btn btn-lg btn-outline-danger rounded px-3 mx-2">
                 Winstreak: <strong>{{currentStreak}}</strong>
             </button>
@@ -8,26 +8,31 @@
                 Best: <strong>{{bestStreak}}</strong>
             </button>
         </div>
-        <div class="col-1 pt-1">
-            <button type="button" class="btn btn-lg text-white px-3 mx-2"
-                [ngClass]="{'btn-danger': isGamemode('Daily'), 'btn-info': isGamemode('Normal')}" #tooltip="matTooltip"
-                matTooltipHideDelay="100" matTooltip="Change your gamemode here." matTooltipPosition="above"
-                matTooltipClass="bg-dark p-2">
-                <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button">
-                    <strong>{{gamemode}}</strong>
-                </a>
-                <div class="dropdown-menu mt-2">
-                    <button class="dropdown-item" (click)="setGamemode('Normal')">Normal</button>
-                    <button class="dropdown-item" (click)="setGamemode('Daily')"
-                        [disabled]="dailyAttempted">Daily</button>
-                </div>
-            </button>
+        <div class="col-2">
+            <div class="float-end">
+                <button type="button" class="btn btn-lg text-white btn-primary px-3 mx-2" *ngIf="gameEnded" (click)="restartGame()">
+                    <strong>Restart</strong>
+                </button>
+                <button type="button" class="btn btn-lg text-white px-3 mx-2"
+                    [ngClass]="{'btn-danger': isGamemode('Daily'), 'btn-info': isGamemode('Normal')}" #tooltip="matTooltip"
+                    matTooltipHideDelay="100" matTooltip="Change your gamemode here." matTooltipPosition="above"
+                    matTooltipClass="bg-dark p-2">
+                    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button">
+                        <strong>{{gamemode}}</strong>
+                    </a>
+                    <div class="dropdown-menu mt-2">
+                        <button class="dropdown-item" (click)="setGamemode('Normal')">Normal</button>
+                        <button class="dropdown-item" (click)="setGamemode('Daily')"
+                            [disabled]="dailyAttempted">Daily</button>
+                    </div>
+                </button>
+            </div>
         </div>
-        <div class="col-5">
+        <div class="col-5 search-col">
             <app-search [disabled]="searchDisabled" [search]="search" (searchChanged)="onSearchChanged($event)">
             </app-search>
         </div>
-        <div class="col-1 mt-3">
+        <div class="col-1 d-flex align-items-center exclude-reskins-col">
             <input class="form-check-input" type="checkbox" [checked]="excludeReskins"
                 (change)="excludeReskins = !excludeReskins" id="reskinsCheck"
                 [disabled]="isGamemode('Daily') || !changeAllowed">
@@ -36,17 +41,17 @@
             </label>
         </div>
     </div>
-    <div class="row p-2" style="display: flex; justify-content: center;">
-        <div class="col-10 rounded rounded m-1 mx-4 p-1 pr-4 text-center btn-light"
+    <div class="row" style="display: flex; justify-content: center;" *ngIf="guesses.length>0">
+        <div class="col-10 border rounded m-1 mx-4 p-1 pr-4 text-center btn-light"
             style="max-height: 45em; overflow: auto;">
             <h4 class="py-2">
-                <b #tooltip="matTooltip" matTooltipHideDelay="100"
-                    matTooltip="Anagram of the item name, without dublicates." matTooltipPosition="above"
-                    matTooltipClass="bg-dark p-2" [innerText]="targetAnagram"></b>
+                Anagram: <b #tooltip="matTooltip" matTooltipHideDelay="100"
+                    matTooltip="Anagram of the item name, without dublicate letters. This hint shows up when you guessed 3+ fields." matTooltipPosition="above"
+                    matTooltipClass="bg-dark p-2 text-center" [innerText]="targetAnagram"></b>
             </h4>
             <h6 class="px-2">
-                <i matTooltipHideDelay="100" matTooltip="Item Description ;)" matTooltipPosition="above"
-                    matTooltipClass="bg-dark p-2" [innerText]="targetDescription"></i>
+                Description: <i matTooltipHideDelay="100" matTooltip="This hint when open up at the final stretch of the game, to help you in difficult situation." matTooltipPosition="above"
+                    matTooltipClass="bg-dark p-2 text-center" [innerText]="targetDescription"></i>
             </h6>
         </div>
     </div>
@@ -55,9 +60,5 @@
         <app-search-results class="col-6" (itemSelected)="onItemSelected($event)" [excludeReskins]="excludeReskins"
             [search]="search"></app-search-results>
     </div>
-    <div class="container text-center pt-4">
-        <button type="button" class="btn btn-lg btn-primary px-5" *ngIf="gameEnded" (click)="restartGame()">
-            <strong>Restart</strong>
-        </button>
-    </div>
+    
 </div>

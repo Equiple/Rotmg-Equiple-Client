@@ -1,7 +1,7 @@
 <style src="search.component.css"></style>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
 
-<div class="searchbar align-self-center pt-2">
-    <input class="searchInput search form-control m-1" placeholder="Type here to search!" [disabled]="searchDisabled" 
+<div class="searchbar align-self-center">
+    <input class="searchInput search form-control" placeholder="Type here to search!" [disabled]="searchDisabled" 
     [(ngModel)]="search" (ngModelChange)="onSearchbarChanged()"/>
 </div>

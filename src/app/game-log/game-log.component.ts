@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Hint, Hints, Item } from 'src/lib/api';
 import { GuessField } from '../GuessField'
 import { GameService } from '../services/game.service';
+import { ColorService } from '../services/color.service';
 
 @Component({
     selector: 'app-game-log',
@@ -16,14 +17,14 @@ export class GameLogComponent implements OnInit {
     readonly guessFields: GuessField[] = [
         { key: "tier", title: "Tier", icon: "star-fill" },
         { key: "type", title: "Item type", icon: "asterisk" },
-        //{key: "colorClass", title: "Class color", icon: "palette-fill"},
-        { key: "dominantColor", title: "Color", icon: "palette-fill" },
+        { key: "colorClass", title: "Color", icon: "palette-fill"},
+        //{ key: "dominantColor", title: "Color", icon: "palette-fill" },
         //{key: "numberOfShots", title:"Shots", icon:"heart-arrow"},
         { key: "xpBonus", title: "XP Bonus", icon: "lightning-fill" },
         { key: "feedpower", title: "Feedpower", icon: "trash-fill" }
     ];
 
-    constructor(private gameService: GameService) {
+    constructor(private gameService: GameService, private colorService: ColorService) {
 
     }
 
@@ -78,5 +79,9 @@ export class GameLogComponent implements OnInit {
             return 'bi-caret-down';
         }
         return '';
+    }
+
+    getColorName(colorHex: string){
+        return this.colorService.getColorName(colorHex);
     }
 }
