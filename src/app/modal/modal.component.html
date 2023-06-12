@@ -13,8 +13,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-light m-1" (click)="dialogRef.close('confirm')">
-                    <strong>Confirm</strong>    
+                <button *ngIf="data.secondButton" type="button" class="btn btn-light m-1" (click)="dialogRef.close(data.secondButtonResult)">
+                    <strong>{{data.secondButtonName}}</strong>    
                 </button>
                 <button type="button" class="btn btn-light m-1" data-bs-dismiss="modal" (click)="dialogRef.close('close')">
                     <strong>Close</strong> 

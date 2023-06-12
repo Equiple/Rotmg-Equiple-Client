@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Observable } from "rxjs";
+import { lastValueFrom, Observable } from "rxjs";
 import { Gamemode, GameOptions, GameService as GameServiceAPI, GuessResult, Hints, Item, PlayerProfile } from "src/lib/api";
 
 @Injectable()
@@ -69,5 +69,9 @@ export class GameService {
 
     getPlayerLeaderboardPlacement(mode: Gamemode): Observable<number> {
         return this.gameServiceAPI.getPlayerLeaderboardPlacementGet(mode);
+    }
+
+    getDailyNumber(): Promise<number> {
+        return lastValueFrom(this.gameServiceAPI.getDailyNumberGet());
     }
 }

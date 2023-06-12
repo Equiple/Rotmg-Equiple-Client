@@ -4,4 +4,7 @@ export interface ModalData {
     modalBody: string;
     modalBgColor: string;
     modalImageLink: string;
+    secondButton: boolean;
+    secondButtonName?: string;
+    secondButtonResult?: string;
   }

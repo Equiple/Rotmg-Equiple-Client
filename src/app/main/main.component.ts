@@ -27,7 +27,8 @@ export class MainComponent implements OnInit {
     targetAnagram = '???';
     targetDescription = '???';
 
-    constructor(private gameService: GameService, private profileService: ProfileService, public dialog: Dialog) {
+    constructor(private gameService: GameService, private profileService: ProfileService, 
+         public dialog: Dialog) {
     }
 
     get searchDisabled() {
@@ -81,11 +82,16 @@ export class MainComponent implements OnInit {
                         modalBody: `Do you want to start a new ${newGamemode.toLowerCase()} game? Doing so will count as a lose 
                         and your current streak (${streak}) in ${activeGamemode.toLowerCase()} will be reset!`,
                         modalBgColor: 'bg-danger',
-                        modalImageLink: ''
+                        modalImageLink: '',
+                        secondButton: true,
+                        secondButtonName: 'Confirm',
+                        secondButtonResult: 'confirm'
                     }
                 });
                 gamemodeSwitchModalRef.closed.subscribe(result => {
-                    if (result === "confirm") {
+                    if (result === 'confirm') {
+                        this.excludeReskins = false;
+                        this.gamemode = newGamemode;
                         this.gameService.closeTheGame().subscribe();
                         this.restartGame();
                     }
@@ -94,22 +100,10 @@ export class MainComponent implements OnInit {
         })
     }
 
-    public createGameResultsModal(title: string, body: string, bgColor: string, imgLink: string) {
-        const dialogRef = this.dialog.open(ModalComponent, {
-            data: {
-                modalTitle: title,
-                modalBody: body,
-                modalBgColor: bgColor,
-                modalImageLink: imgLink
-            }
-        });
-        return dialogRef.closed;
-    }
-
     public restartGame() {
         this.gameEnded = false;
         this.guesses = [];
-        this.search = "";
+        this.search = '';
         this.hints = [];
         this.targetAnagram = '???';
         this.targetDescription = '???';
@@ -123,6 +117,7 @@ export class MainComponent implements OnInit {
     public setGamemode(gamemode: Gamemode) {
         this.gameService.getActiveGameOptions().subscribe(activeGameOptions => {
             if (!activeGameOptions) {
+                this.excludeReskins = false;
                 this.gamemode = gamemode;
             }
             else if (gamemode !== activeGameOptions.mode) {
@@ -163,23 +158,70 @@ export class MainComponent implements OnInit {
                     dialogRes = this.gameService.getCurrentStreak(this.gamemode).pipe(switchMap(streak => {
                         this.gameStatus = guessResult.status!;
                         this.search = '';
-                        return this.createGameResultsModal(`You\'ve guessed the ${guessResult.targetItem?.name} with ${guessResult.tries} tries!`,
-                            `Your current streak in ${this.gamemode} is ${streak}`, 'bg-success', guessResult.targetItem?.imageURL ?? "");
+                        return this.dialog.open(ModalComponent, {
+                            data: {
+                                modalTitle: `You\'ve guessed the ${guessResult.targetItem?.name} with ${guessResult.tries} tries!`,
+                                modalBody: `Your current streak in ${this.gamemode} is ${streak}`,
+                                modalBgColor: 'bg-success',
+                                modalImageLink: guessResult.targetItem?.imageURL ?? '',
+                                secondButton: true,
+                                secondButtonName: 'Share',
+                                secondButtonResult: 'share'
+                            }
+                        }).closed;
                     }));
                 }
                 else if (guessResult.status === GuessStatus.Lost) {
                     dialogRes = this.gameService.getTargetItem().pipe(switchMap(targetItem => {
-                        return this.createGameResultsModal('You couldn\'t guess the item :C', 'Very sad!', 'bg-danger', targetItem.imageURL!);
+                        return this.dialog.open(ModalComponent, {
+                            data: {
+                                modalTitle: 'You couldn\'t guess the item :C',
+                                modalBody: 'Very were so close!',
+                                modalBgColor: 'bg-danger',
+                                modalImageLink: targetItem.imageURL!,
+                                secondButton: false
+                            }
+                        }).closed;
                     }));
                 }
                 if (guessResult.status === GuessStatus.Guessed || guessResult.status === GuessStatus.Lost) {
-                    dialogRes!.subscribe(() => {
+                    dialogRes!.subscribe(async result => {
+                        if (result === 'share'){
+                            var resultBoxes = `Equiple `;
+                            if (this.gamemode === 'Daily'){
+                                var number = await this.gameService.getDailyNumber();
+                                resultBoxes += `Daily#${number} `;
+                            }
+                            else {
+                                resultBoxes += `Normal `;
+                            }
+                            resultBoxes += `${this.guesses.length}/10\n`;
+                            this.hints.forEach(hint => {
+                                resultBoxes += `${this.convertHintToBox(hint.tier!)}`
+                                +`${this.convertHintToBox(hint.type!)}`
+                                +`${this.convertHintToBox(hint.colorClass!)}`
+                                +`${this.convertHintToBox(hint.xpBonus!)}`
+                                +`${this.convertHintToBox(hint.feedpower!)}\n`;
+                            })
+                            resultBoxes += 'https://equiple.net/'
+                            navigator.clipboard.writeText(resultBoxes);
+                        }
                         this.endGame(guessResult);
                         this.updatePlayerProfile();
-                        this.disableDaily()
+                        this.disableDaily();
                     });
                 }
                 this.guessLoading = false;
             });
+    }
+
+    convertHintToBox(hint: string) {
+        switch(hint) {
+            case 'Correct':
+            case '#339900': 
+                return '🟩';
+            default: 
+                return '🟥';
+        }
     }
 }
