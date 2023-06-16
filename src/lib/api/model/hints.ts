@@ -17,7 +17,6 @@ export interface Hints {
     type?: Hint;
     xpBonus?: Hint;
     feedpower?: Hint;
-    colorClass?: string | null;
-    dominantColor?: string | null;
+    colorPalette?: Array<Hint> | null;
 }
 

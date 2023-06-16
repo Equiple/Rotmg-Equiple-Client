@@ -1,7 +1,7 @@
 import { Dialog } from '@angular/cdk/dialog';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { forkJoin, Observable, of, switchMap } from 'rxjs';
-import { Gamemode, GuessResult, GuessStatus, Hints, Item, PlayerProfile } from 'src/lib/api';
+import { Gamemode, GuessResult, GuessStatus, Hint, Hints, Item, PlayerProfile } from 'src/lib/api';
 import { ModalComponent } from '../modal/modal.component';
 import { GameService } from '../services/game.service';
 import { ProfileService } from '../services/profile.service';
@@ -199,7 +199,7 @@ export class MainComponent implements OnInit {
                             this.hints.forEach(hint => {
                                 resultBoxes += `${this.convertHintToBox(hint.tier!)}`
                                 +`${this.convertHintToBox(hint.type!)}`
-                                +`${this.convertHintToBox(hint.colorClass!)}`
+                                +`${this.convertHintToBox(hint.colorPalette!)}`
                                 +`${this.convertHintToBox(hint.xpBonus!)}`
                                 +`${this.convertHintToBox(hint.feedpower!)}\n`;
                             })
@@ -215,13 +215,10 @@ export class MainComponent implements OnInit {
             });
     }
 
-    convertHintToBox(hint: string) {
-        switch(hint) {
-            case 'Correct':
-            case '#339900': 
-                return '🟩';
-            default: 
-                return '🟥';
+    convertHintToBox(hint: Hint | Hint[]) {
+        if(!Array.isArray(hint)){
+            hint = [hint];
         }
+        return hint.some(x=> x === 'Correct') ? '🟩' : '🟥';
     }
 }

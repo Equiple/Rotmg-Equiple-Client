@@ -28,6 +28,7 @@ export interface Item {
     feedpower?: number;
     tags?: Array<string> | null;
     dominantColor?: string | null;
+    colorPalette?: Array<string> | null;
     colorClass?: string | null;
 }
 

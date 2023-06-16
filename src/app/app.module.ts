@@ -39,6 +39,7 @@ import { BASE_PATH } from 'src/lib/api';
 import { environment } from 'src/environments/environment';
 import { httpInterceptorProviders } from './http-interceptors';
 import { FingerprintjsProAngularModule } from '@fingerprintjs/fingerprintjs-pro-angular';
+import { ItemPanelComponent } from './item-panel/item-panel.component';
 
 @NgModule({
   declarations: [
@@ -55,7 +56,8 @@ import { FingerprintjsProAngularModule } from '@fingerprintjs/fingerprintjs-pro-
     AboutComponent,
     MaintenanceComponent,
     ReportABugComponent,
-    ComplaintsComponent
+    ComplaintsComponent,
+    ItemPanelComponent
   ],
   imports: [
     BrowserModule,

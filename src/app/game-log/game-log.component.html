@@ -1,50 +1,12 @@
 <div class="rounded" style="max-height: 45em; overflow: auto">
     <div class="px-1">
-        <div class="btn btn-grey form-conrol m-1 border rounded float-end item-element"
-            *ngIf="guesses.length === 0">
+        <div class="btn btn-grey form-conrol m-1 border rounded float-end item-element" *ngIf="guesses.length === 0">
             <h5 class="row m-2">Click on item in search results to start playing! Choose wisely ;)</h5>
         </div>
         <div class="btn btn-grey m-1 border rounded float-end item-element"
             *ngFor="let guess of guesses | reverse; let i = index;">
-            <h4 class="row m-2">
-                <strong class="text-start" [class]="'item-'+guess.tier.toLowerCase()">{{guess.name}}</strong>
-            </h4>
-            <div class="row m-1 border-info rounded">
-                <div class="col-2 p-1 text-center">
-                    <div class="rounded h-100 py-2 text-center" [class]="getElementBgColor(i)" style="display: flex;
-                        justify-content: center; align-items: center" #tooltip="matTooltip" matTooltipHideDelay="100"
-                                matTooltip="Guess #{{guesses.length - i}}" matTooltipPosition="above"
-                                matTooltipClass="bg-dark p-2">
-                        <div class="float-start pr-3">
-                            <i class="bi bi-hash"></i><strong>{{guesses.length - i}} </strong>
-                        </div>
-                        <img  width="40px" height="40px" src="{{guess.imageURL}}">
-                    </div>
-                </div>
-                <div class="col-2 p-1" *ngFor="let field of guessFields">
-                    <!-- [class]="getAdditionalClass(field.key, guesses.length - i - 1)" -->
-                    <div class="rounded h-100 py-2" 
-                        [ngStyle]="{'background-color': getHintBackgroundStyle(field.key, guesses.length - i - 1)}">
-                        <i [class]="'bi bi-'+field.icon">
-                            </i><strong> {{field.title}}</strong><br>
-                        <div class="pt-2">
-                            <i *ngIf="['numberOfShots','xpBonus', 'feedpower'].includes(field.key)"
-                                [class]="getHintArrow(field.key, guesses.length - i - 1)"></i>
-                            <span *ngIf="field.key !== 'colorClass'">{{guess[field.key]}}</span>
-                            <span *ngIf="field.key === 'tier' && guess.reskin === true"> Reskin</span>
-                            <span *ngIf="field.key === 'xpBonus'">%</span><span *ngIf="field.key === 'feedpower'">fp</span>
-                            <div *ngIf="field.key === 'colorClass'" #tooltip="matTooltip" matTooltipHideDelay="100"
-                                matTooltip="{{getColorName(guess.colorClass)}}" matTooltipPosition="above"
-                                matTooltipClass="bg-dark p-2">
-                                <div class="rounded img-center color-box" [ngStyle]="{'background-color': guess.colorClass}">
-                                    <h3 *ngIf="getHintBackgroundStyle('colorClass', guesses.length - i - 1) === '#339900'" 
-                                        class="bi bi-check-lg" [class]="getHintArrow(field.key, guesses.length - i - 1)"></h3>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <app-item-panel class="" [itemIndex]="i" [itemNumber]="guesses.length - i - 1" [status]="status"
+                [item]="guess" [showHints]="true" [hints]="hints[guesses.length - i - 1]"></app-item-panel>
         </div>
     </div>
 </div>
