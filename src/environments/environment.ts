@@ -2,9 +2,12 @@
 // `ng build` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
+import { TokenAuthenticationResultType } from "src/lib/api";
+
 export const environment = {
   production: false,
   apiUrl: "http://localhost:5105",
+  authResultType: 'Tokens' as TokenAuthenticationResultType,
   fingerprint: "LoXHww7dPTMfRm2iFsJI"
 };
 

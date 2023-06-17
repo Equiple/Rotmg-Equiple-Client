@@ -29,8 +29,12 @@ async function retry(
     if (authResult.status === 'error') {
         return undefined;
     }
+    let accessToken: string | undefined;
+    if (authResult.status === 'okTokens') {
+        accessToken = authResult.accessToken;
+    }
     return await lastValueFrom(
-        requestWithAuth(req, next, authResult.accessToken).pipe(
+        requestWithAuth(req, next, accessToken).pipe(
             catchError(error => {
                 if (error.status !== 401) {
                     return throwError(() => error);
@@ -81,10 +85,10 @@ export class AuthInterceptor implements HttpInterceptor {
 
     private async handleAuthError(req: HttpRequest<any>, next: HttpHandler): Promise<HttpEvent<any>> {
         let result = await retry(req, next, () => this.authService.refreshToken());
-        if (!result) {
+        if (result === undefined) {
             result = await retry(req, next, () => this.authService.authenticateGuest());
         }
-        if (!result) {
+        if (result === undefined) {
             throw new Error('Unable to refresh token or authenticate as guest');
         }
         return result;

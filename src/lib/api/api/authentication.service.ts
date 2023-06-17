@@ -19,9 +19,11 @@ import { CustomHttpParameterCodec }                          from '../encoder';
 import { Observable }                                        from 'rxjs';
 
 // @ts-ignore
-import { AuthenticationPermit } from '../model/authenticationPermit';
+import { TokenAuthenticationRequest } from '../model/tokenAuthenticationRequest';
 // @ts-ignore
-import { AuthenticationResponse } from '../model/authenticationResponse';
+import { TokenAuthenticationResponse } from '../model/tokenAuthenticationResponse';
+// @ts-ignore
+import { TokenAuthenticationResultType } from '../model/tokenAuthenticationResultType';
 
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
@@ -90,13 +92,20 @@ export class AuthenticationService {
     }
 
     /**
+     * @param resultType 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public authenticationAuthenticateGuestPost(observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<AuthenticationResponse>;
-    public authenticationAuthenticateGuestPost(observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<AuthenticationResponse>>;
-    public authenticationAuthenticateGuestPost(observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<AuthenticationResponse>>;
-    public authenticationAuthenticateGuestPost(observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<any> {
+    public authenticationAuthenticateGuestPost(resultType?: TokenAuthenticationResultType, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<TokenAuthenticationResponse>;
+    public authenticationAuthenticateGuestPost(resultType?: TokenAuthenticationResultType, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<TokenAuthenticationResponse>>;
+    public authenticationAuthenticateGuestPost(resultType?: TokenAuthenticationResultType, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<TokenAuthenticationResponse>>;
+    public authenticationAuthenticateGuestPost(resultType?: TokenAuthenticationResultType, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<any> {
+
+        let localVarQueryParameters = new HttpParams({encoder: this.encoder});
+        if (resultType !== undefined && resultType !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>resultType, 'resultType');
+        }
 
         let localVarHeaders = this.defaultHeaders;
 
@@ -138,10 +147,11 @@ export class AuthenticationService {
             }
         }
 
-        return this.httpClient.post<AuthenticationResponse>(`${this.configuration.basePath}/Authentication/AuthenticateGuest`,
+        return this.httpClient.post<TokenAuthenticationResponse>(`${this.configuration.basePath}/Authentication/AuthenticateGuest`,
             null,
             {
                 context: localVarHttpContext,
+                params: localVarQueryParameters,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,
@@ -152,14 +162,14 @@ export class AuthenticationService {
     }
 
     /**
-     * @param authenticationPermit 
+     * @param tokenAuthenticationRequest 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public authenticationAuthenticatePost(authenticationPermit?: AuthenticationPermit, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<AuthenticationResponse>;
-    public authenticationAuthenticatePost(authenticationPermit?: AuthenticationPermit, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<AuthenticationResponse>>;
-    public authenticationAuthenticatePost(authenticationPermit?: AuthenticationPermit, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<AuthenticationResponse>>;
-    public authenticationAuthenticatePost(authenticationPermit?: AuthenticationPermit, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<any> {
+    public authenticationAuthenticatePost(tokenAuthenticationRequest?: TokenAuthenticationRequest, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<TokenAuthenticationResponse>;
+    public authenticationAuthenticatePost(tokenAuthenticationRequest?: TokenAuthenticationRequest, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<TokenAuthenticationResponse>>;
+    public authenticationAuthenticatePost(tokenAuthenticationRequest?: TokenAuthenticationRequest, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<TokenAuthenticationResponse>>;
+    public authenticationAuthenticatePost(tokenAuthenticationRequest?: TokenAuthenticationRequest, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<any> {
 
         let localVarHeaders = this.defaultHeaders;
 
@@ -212,8 +222,8 @@ export class AuthenticationService {
             }
         }
 
-        return this.httpClient.post<AuthenticationResponse>(`${this.configuration.basePath}/Authentication/Authenticate`,
-            authenticationPermit,
+        return this.httpClient.post<TokenAuthenticationResponse>(`${this.configuration.basePath}/Authentication/Authenticate`,
+            tokenAuthenticationRequest,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,
@@ -289,9 +299,9 @@ export class AuthenticationService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public authenticationRefreshAccessTokenPost(refreshToken?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<AuthenticationResponse>;
-    public authenticationRefreshAccessTokenPost(refreshToken?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<AuthenticationResponse>>;
-    public authenticationRefreshAccessTokenPost(refreshToken?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<AuthenticationResponse>>;
+    public authenticationRefreshAccessTokenPost(refreshToken?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<TokenAuthenticationResponse>;
+    public authenticationRefreshAccessTokenPost(refreshToken?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<TokenAuthenticationResponse>>;
+    public authenticationRefreshAccessTokenPost(refreshToken?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<TokenAuthenticationResponse>>;
     public authenticationRefreshAccessTokenPost(refreshToken?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<any> {
 
         let localVarQueryParameters = new HttpParams({encoder: this.encoder});
@@ -340,7 +350,7 @@ export class AuthenticationService {
             }
         }
 
-        return this.httpClient.post<AuthenticationResponse>(`${this.configuration.basePath}/Authentication/RefreshAccessToken`,
+        return this.httpClient.post<TokenAuthenticationResponse>(`${this.configuration.basePath}/Authentication/RefreshAccessToken`,
             null,
             {
                 context: localVarHttpContext,

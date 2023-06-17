@@ -10,8 +10,6 @@ configuration.ts
 encoder.ts
 git_push.sh
 index.ts
-model/authenticationPermit.ts
-model/authenticationResponse.ts
 model/complaint.ts
 model/dateAndTime.ts
 model/gameOptions.ts
@@ -26,4 +24,7 @@ model/identityProvider.ts
 model/item.ts
 model/models.ts
 model/playerProfile.ts
+model/tokenAuthenticationRequest.ts
+model/tokenAuthenticationResponse.ts
+model/tokenAuthenticationResultType.ts
 variables.ts

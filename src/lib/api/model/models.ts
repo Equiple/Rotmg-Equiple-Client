@@ -1,5 +1,3 @@
-export * from './authenticationPermit';
-export * from './authenticationResponse';
 export * from './complaint';
 export * from './dateAndTime';
 export * from './gameOptions';
@@ -13,3 +11,6 @@ export * from './hints';
 export * from './identityProvider';
 export * from './item';
 export * from './playerProfile';
+export * from './tokenAuthenticationRequest';
+export * from './tokenAuthenticationResponse';
+export * from './tokenAuthenticationResultType';

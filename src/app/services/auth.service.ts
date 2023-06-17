@@ -1,28 +1,31 @@
 import { HttpContext } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { AuthenticationResponse, AuthenticationService } from "src/lib/api";
+import { AuthenticationService, TokenAuthenticationResponse } from "src/lib/api";
 import { PASS_401 } from "../http-interceptors/auth.interceptor";
 import { Observable, catchError, lastValueFrom, of, throwError } from "rxjs";
+import { environment } from "src/environments/environment";
 
 export type AuthResult = {
-    status: 'ok';
+    status: 'okTokens';
     accessToken: string;
 } | {
+    status: 'okCookie';
+} | {
     status: 'error';
-}
+};
 
 const accessToken = 'access_token';
 const refreshToken = 'refresh_token';
 
 const context = new HttpContext().set(PASS_401, true);
 
-function authRequest(request: Observable<AuthenticationResponse>): Promise<AuthenticationResponse> {
+function authRequest(request: Observable<TokenAuthenticationResponse>): Promise<TokenAuthenticationResponse> {
     return lastValueFrom(request.pipe(
         catchError(error => {
             if (error.status !== 401) {
                 return throwError(() => error);
             }
-            const errorResponse: AuthenticationResponse = {
+            const errorResponse: TokenAuthenticationResponse = {
                 isAuthenticated: false,
             };
             return of(errorResponse);
@@ -46,7 +49,7 @@ export class AuthService {
 
     public async authenticateGuest(): Promise<AuthResult> {
         const response = await lastValueFrom(
-            this.authenticationService.authenticationAuthenticateGuestPost()
+            this.authenticationService.authenticationAuthenticateGuestPost(environment.authResultType)
         );
         const result = this.processResponse(response);
         return result;
@@ -70,7 +73,18 @@ export class AuthService {
         this.removeTokens();
     }
 
-    private processResponse(response: AuthenticationResponse): AuthResult {
+    private processResponse(response: TokenAuthenticationResponse): AuthResult {
+        switch (response.type) {
+            case 'Tokens':
+                return this.processTokensResponse(response);
+            case 'Cookie':
+                return this.processCookieResponse(response);
+            default:
+                return { status: 'error' };
+        }
+    }
+
+    private processTokensResponse(response: TokenAuthenticationResponse): AuthResult {
         if (!response.isAuthenticated || !response.accessToken || !response.refreshToken) {
             this.removeTokens();
             return { status: 'error' };
@@ -80,9 +94,13 @@ export class AuthService {
         localStorage.setItem(accessToken, this._accessToken);
         localStorage.setItem(refreshToken, this._refreshToken);
         return {
-            status: 'ok',
+            status: 'okTokens',
             accessToken: this._accessToken,
         };
+    }
+
+    private processCookieResponse(response: TokenAuthenticationResponse): AuthResult {
+        return { status: response.isAuthenticated ? 'okCookie' : 'error' };
     }
 
     private removeTokens(): void {

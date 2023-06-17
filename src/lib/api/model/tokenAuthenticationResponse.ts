@@ -9,11 +9,13 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { IdentityProvider } from './identityProvider';
+import { TokenAuthenticationResultType } from './tokenAuthenticationResultType';
 
 
-export interface AuthenticationPermit { 
-    provider?: IdentityProvider;
-    idToken?: string | null;
+export interface TokenAuthenticationResponse { 
+    isAuthenticated?: boolean;
+    type?: TokenAuthenticationResultType;
+    accessToken?: string | null;
+    refreshToken?: string | null;
 }
 

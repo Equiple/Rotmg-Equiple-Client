@@ -11,10 +11,10 @@
  */
 
 
-export type IdentityProvider = 'Self' | 'Google' | 'Discord';
+export type IdentityProvider = 'Realmeye' | 'Google' | 'Discord';
 
 export const IdentityProvider = {
-    Self: 'Self' as IdentityProvider,
+    Realmeye: 'Realmeye' as IdentityProvider,
     Google: 'Google' as IdentityProvider,
     Discord: 'Discord' as IdentityProvider
 };
