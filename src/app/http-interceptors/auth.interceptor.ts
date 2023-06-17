@@ -29,10 +29,7 @@ async function retry(
     if (authResult.status === 'error') {
         return undefined;
     }
-    let accessToken: string | undefined;
-    if (authResult.status === 'okTokens') {
-        accessToken = authResult.accessToken;
-    }
+    const accessToken = authResult.status === 'okTokens' ? authResult.accessToken : undefined;
     return await lastValueFrom(
         requestWithAuth(req, next, accessToken).pipe(
             catchError(error => {
@@ -56,7 +53,8 @@ export class AuthInterceptor implements HttpInterceptor {
     }
 
     private makeRequest(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        return requestWithAuth(req, next, this.authService.accessToken).pipe(
+        const accessToken = this.authService.authResultType === 'Tokens' ? this.authService.accessToken : undefined;
+        return requestWithAuth(req, next, accessToken).pipe(
             catchError(error => {
                 if (error.status !== 401 || req.context.get(PASS_401)) {
                     return throwError(() => error);
@@ -84,10 +82,14 @@ export class AuthInterceptor implements HttpInterceptor {
     }
 
     private async handleAuthError(req: HttpRequest<any>, next: HttpHandler): Promise<HttpEvent<any>> {
-        let result = await retry(req, next, () => this.authService.refreshToken());
-        if (result === undefined) {
-            result = await retry(req, next, () => this.authService.authenticateGuest());
+        let result: HttpEvent<any> | undefined = undefined;
+        if (this.authService.authResultType === 'Tokens') {
+            result = await retry(req, next, () => this.authService.refreshToken());
+            if (result !== undefined) {
+                return result;
+            }
         }
+        result = await retry(req, next, () => this.authService.authenticateGuest());
         if (result === undefined) {
             throw new Error('Unable to refresh token or authenticate as guest');
         }

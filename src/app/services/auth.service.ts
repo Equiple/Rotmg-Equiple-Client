@@ -1,6 +1,6 @@
 import { HttpContext } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { AuthenticationService, TokenAuthenticationResponse } from "src/lib/api";
+import { AuthenticationService, TokenAuthenticationResponse, TokenAuthenticationResultType } from "src/lib/api";
 import { PASS_401 } from "../http-interceptors/auth.interceptor";
 import { Observable, catchError, lastValueFrom, of, throwError } from "rxjs";
 import { environment } from "src/environments/environment";
@@ -42,6 +42,10 @@ export class AuthService {
         this._accessToken = localStorage.getItem(accessToken) || undefined;
         this._refreshToken = localStorage.getItem(refreshToken) || undefined;
     }
+
+    public get authResultType(): TokenAuthenticationResultType {
+        return environment.authResultType;
+    }
     
     public get accessToken(): string | undefined {
         return this._accessToken;
@@ -49,14 +53,14 @@ export class AuthService {
 
     public async authenticateGuest(): Promise<AuthResult> {
         const response = await lastValueFrom(
-            this.authenticationService.authenticationAuthenticateGuestPost(environment.authResultType)
+            this.authenticationService.authenticationAuthenticateGuestPost(this.authResultType)
         );
         const result = this.processResponse(response);
         return result;
     }
 
     public async refreshToken(): Promise<AuthResult> {
-        if (!this._refreshToken) {
+        if (this.authResultType !== 'Tokens' || !this._refreshToken) {
             return { status: 'error' };
         }
         const response = await authRequest(
@@ -70,7 +74,9 @@ export class AuthService {
         await lastValueFrom(
             this.authenticationService.authenticationLogoutPost('body', false, { context })
         );
-        this.removeTokens();
+        if (this.authResultType === 'Tokens') {
+            this.removeTokens();
+        }
     }
 
     private processResponse(response: TokenAuthenticationResponse): AuthResult {
