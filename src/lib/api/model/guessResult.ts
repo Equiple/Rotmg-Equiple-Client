@@ -19,7 +19,6 @@ export interface GuessResult {
     guess?: Item;
     hints?: Hints;
     tries?: number;
-    anagram?: string | null;
     description?: string | null;
     targetItem?: Item;
 }

@@ -1,4 +1,4 @@
-<div class="modal-container" style="width: 30em">
+<div class="modal-container" id="leaderboard-modal" style="width: 30em">
     <div class="model-dialog rounded p-2" [class]="'bg' + bgColor" role="document">
         <div class="modal-content">
             <div class="modal-header mb-2">
@@ -38,7 +38,9 @@
                                 [class]="getPlayerBgColor(i)">
                                 <th scope="row">{{i+1}}</th>
                                 <td>{{getMedal(i)}}</td>
-                                <td>{{player.name}}</td>
+                                <td>
+                                    <div class="leaderboard-item" [class]="player.role ?? 'guest'">{{player.name}}</div>
+                                </td>
                                 <ng-container [ngSwitch]="currentGamemode">
                                     <ng-container *ngSwitchCase="'Daily'">
                                         <td>{{player.dailyGuesses}}</td>
@@ -62,4 +64,4 @@
         </div>
     </div>
 </div>
-<div class="modal-background"></div>
+<!-- <div class="modal-background"></div> -->

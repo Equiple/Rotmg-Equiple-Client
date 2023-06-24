@@ -10,12 +10,12 @@ import { GameService } from '../services/game.service';
 })
 export class LeaderboardComponent implements OnInit {
     leaderboard: PlayerProfile[] = [];
-    currentGamemode = "Daily";
-    bgColor = "-danger";
+    currentGamemode = 'Daily';
+    bgColor = '-danger';
     readonly playerPlaces = [
-        { key: "0", color: "table-warning", icon: "star-fill" },
-        { key: "1", color: "table-secondary", icon: "asterisk" },
-        { key: "2", color: "table-primary", icon: "heart-arrow" }
+        { key: '0', color: 'table-warning', icon: 'star-fill' },
+        { key: '1', color: 'table-secondary', icon: 'asterisk' },
+        { key: '2', color: 'table-primary', icon: 'heart-arrow' }
     ];
 
     constructor(private gameService: GameService, private dialogRef: DialogRef<string>) {
@@ -29,40 +29,47 @@ export class LeaderboardComponent implements OnInit {
         this.dialogRef.close();
     }
 
+    getPlayerNameColor(index: number) {
+        if (this.leaderboard[index].role === 'guest') {
+            return '';
+        }
+        return '';
+    }
+
     getPlayerBgColor(index: number): string {
         if (index < 3) {
             return this.playerPlaces[index].color;
         }
-        return "";//"table-danger";
+        return '';
     }
 
     getMedal(index: number) {
         if (index === 0) {
-            return "🥇";
+            return '🥇';
         } else if (index === 1) {
-            return "🥈";
+            return '🥈';
         } else if (index === 2) {
-            return "🥉";
+            return '🥉';
         }
-        return "";
+        return '';
     }
 
     changeMode(gamemode: string) {
         this.currentGamemode = gamemode;
-        if (gamemode === "Daily") {
+        if (gamemode === 'Daily') {
             this.gameService.getDailyLeaderboard().subscribe(leaderboard => {
                 if (leaderboard) {
                     this.leaderboard = leaderboard;
                 }
             });
-            this.bgColor = "-danger";
+            this.bgColor = '-danger';
         } else {
             this.gameService.getNormalLeaderboard().subscribe(leaderboard => {
                 if (leaderboard) {
                     this.leaderboard = leaderboard;
                 }
             });
-            this.bgColor = "-info";
+            this.bgColor = '-info';
         }
     }
 }

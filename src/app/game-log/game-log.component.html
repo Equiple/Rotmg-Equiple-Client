@@ -5,7 +5,8 @@
         </div>
         <div class="btn btn-grey m-1 border rounded float-end item-element"
             *ngFor="let guess of guesses | reverse; let i = index;">
-            <app-item-panel class="" [itemIndex]="i" [itemNumber]="guesses.length - i - 1" [status]="status"
+            <app-item-panel class="" [itemIndex]="i" [itemNumber]="guesses.length - i - 1"
+                 [status]="status" [colorblindMode]="colorblindMode"
                 [item]="guess" [showHints]="true" [hints]="hints[guesses.length - i - 1]"></app-item-panel>
         </div>
     </div>

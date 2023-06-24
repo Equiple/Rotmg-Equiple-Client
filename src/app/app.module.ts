@@ -32,6 +32,7 @@ import { AuthService } from './services/auth.service';
 import { ComplaintService } from './services/complaint.service';
 import { AuthGuardService } from './services/auth-guard.service';
 import { ColorService } from './services/color.service';
+import { CookieService } from './services/cookie.service';
 //Pipes
 import { ReversePipe } from './pipes/reverse.pipe';
 //Misc
@@ -87,7 +88,8 @@ import { ItemPanelComponent } from './item-panel/item-panel.component';
     ProfileService,
     ComplaintService,
     AuthGuardService,
-    ColorService
+    ColorService,
+    CookieService
   ],
   bootstrap: [
     AppComponent

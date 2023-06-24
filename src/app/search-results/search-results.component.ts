@@ -11,6 +11,7 @@ import { ColorService } from '../services/color.service';
     styleUrls: ['./search-results.component.css']
 })
 export class SearchResultsComponent implements OnInit {
+    @Input() colorblindMode: boolean = false;
     @Input() set search(value: string) {
         this.searchInput = value;
         this.updateItems();

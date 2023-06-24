@@ -3,6 +3,9 @@ import { GuideComponent } from './guide/guide.component';
 import { Dialog } from '@angular/cdk/dialog';
 import { LeaderboardComponent } from './leaderboard/leaderboard.component';
 import { ReportABugComponent } from './report-a-bug/report-a-bug.component';
+import { PlayerProfile } from 'src/lib/api';
+import { ProfileService } from './services/profile.service';
+import { CookieService } from './services/cookie.service';
 
 @Component({
     selector: 'app-root',
@@ -10,9 +13,15 @@ import { ReportABugComponent } from './report-a-bug/report-a-bug.component';
     styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-    constructor(private dialog: Dialog) { }
+    public playerProfile?: PlayerProfile;
 
-    ngOnInit() {
+    constructor(private dialog: Dialog, 
+        private profileService: ProfileService) { 
+    }
+
+    async ngOnInit() {
+        await this.profileService.loadPlayerProfile();
+        this.playerProfile = await this.profileService.getPlayerProfile();
     }
 
     showGuideModal(): void {

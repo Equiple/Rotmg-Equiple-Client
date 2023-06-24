@@ -14,6 +14,7 @@ export class SearchComponent implements OnInit {
   @Output() searchChanged = new EventEmitter<string>();
   searchDisabled = false;
   @Input() excludeReskins: boolean | undefined;
+
   @Input() set disabled(value: boolean){
     this.searchDisabled = value;
   };

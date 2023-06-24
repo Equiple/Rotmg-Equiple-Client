@@ -169,19 +169,6 @@ body.dark-theme {
     text-shadow: 0px 0px 1px black !important;
 }
 
-.item-ut {
-    color: #a200d3 !important;
-}
-
-.item-st {
-    color: #ff9500 !important;
-}
-
-.item-tiered {
-    color: white !important;
-    text-shadow: 0px 0px 4px black !important;
-}
-
 .img-center {
     display: block;
     margin-left: auto;

@@ -10,6 +10,7 @@ import { ColorService } from '../services/color.service';
     styleUrls: ['./game-log.component.css']
 })
 export class GameLogComponent implements OnInit {
+    @Input() colorblindMode: boolean = false;
     @Input() hints = new Array<Hints>();
     @Input() guesses = new Array<Item>();
     @Input() status = '';

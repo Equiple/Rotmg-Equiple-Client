@@ -18,7 +18,6 @@ export interface GameOptions {
     mode?: Gamemode;
     guesses?: Array<Item> | null;
     allHints?: Array<Hints> | null;
-    anagram?: string | null;
     description?: string | null;
     reskinsExcluded?: boolean;
 }

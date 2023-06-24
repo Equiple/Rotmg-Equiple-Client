@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Hint, Hints, Item } from 'src/lib/api';
 import { GuessField } from '../GuessField';
 import { ColorService } from '../services/color.service';
+import { CookieService } from '../services/cookie.service';
 
 @Component({
     selector: 'app-item-panel',
@@ -15,6 +16,7 @@ export class ItemPanelComponent implements OnInit {
     @Input() public itemNumber: number = 0;
     @Input() public itemIndex: number = 0;
     @Input() public status: string = '';
+    @Input() public colorblindMode: boolean = false;
     readonly itemFields: GuessField[] = [
         { key: 'tier', title: 'Tier', icon: 'star-fill' },
         { key: 'type', title: 'Item Type', icon: 'asterisk' },
@@ -27,6 +29,28 @@ export class ItemPanelComponent implements OnInit {
     }
 
     ngOnInit(): void {
+    }
+
+    getColorStrikethroughClass(index: number) {
+        if(this.showHints && !this.isCorrectColor(index)){
+            return 'strikethrough-text';
+        }
+        return '';
+    }
+
+    getHintStrikethroughClass(param: keyof Item, index: number) {
+        if(!this.colorblindMode){
+            return false;
+        }
+        let hint = this.hints!;
+        if (!hint) {
+            return false;
+        }
+        param = param as keyof Hints;
+        if (hint[param] === Hint.Wrong) {
+            return true;
+        }
+        return false;
     }
 
     getHintArrow(param: keyof Item, index: number) {
@@ -43,6 +67,9 @@ export class ItemPanelComponent implements OnInit {
         } else if (hint[param] === Hint.Less) {
             return 'bi-caret-down';
         }
+        else if (this.colorblindMode && hint[param] === Hint.Correct){
+            return 'bi-check-lg';
+        }
         return '';
     }
 
@@ -55,7 +82,7 @@ export class ItemPanelComponent implements OnInit {
     }
 
     getHintBackgroundStyle(param: keyof Item, index: number) {
-        if(!this.showHints){
+        if (!this.showHints){
             return '#D3D4D5';
         }
         let hints = this.hints!;
@@ -64,11 +91,14 @@ export class ItemPanelComponent implements OnInit {
         }
         param = param as keyof Hints;
         let hint = hints[param];
-        if (hint === undefined || hint === null){
+        if (hint === undefined || hint === null) {
             return '#CC0000';
         }
-        if (!Array.isArray(hint)){
+        if (!Array.isArray(hint)) {
             hint = [hint];
+        }
+        if (this.colorblindMode) {
+            return hint.some(x => x === 'Correct') ? '#D3D4D5' : '#909090';
         }
         return hint.some(x => x === 'Correct') ? '#339900' : '#CC0000';
     }

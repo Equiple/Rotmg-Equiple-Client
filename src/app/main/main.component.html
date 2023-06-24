@@ -1,22 +1,23 @@
 <div>
     <div class="row p-2">
         <div class="col-4">
-            <button class="btn btn-lg btn-outline-danger rounded px-3 mx-2">
+            <button class="btn btn-lg btn-outline-danger rounded px-3 mx-2" 
+                [ngClass]="getButtonClass('current')">
                 Winstreak: <strong>{{currentStreak}}</strong>
             </button>
-            <button class="btn btn-lg btn-outline-warning rounded px-3 mx-2">
+            <button class="btn btn-lg btn-outline-warning rounded px-3 mx-2" 
+                [ngClass]="getButtonClass('best')">
                 Best: <strong>{{bestStreak}}</strong>
             </button>
         </div>
         <div class="col-2">
             <div class="float-end">
-                <button type="button" class="btn btn-lg text-white btn-primary px-3 mx-2" *ngIf="gameEnded" (click)="restartGame()">
+                <button type="button" class="btn btn-lg btn-primary px-3 mx-2" *ngIf="gameEnded" (click)="restartGame()">
                     <strong>Restart</strong>
                 </button>
-                <button type="button" class="btn btn-lg text-white px-3 mx-2"
-                    [ngClass]="{'btn-danger': isGamemode('Daily'), 'btn-info': isGamemode('Normal')}" #tooltip="matTooltip"
+                <button type="button" class="btn btn-lg px-3 mx-2" #tooltip="matTooltip" 
                     matTooltipHideDelay="100" matTooltip="Change your gamemode here." matTooltipPosition="above"
-                    matTooltipClass="bg-dark p-2">
+                    matTooltipClass="bg-dark p-2" [ngClass]="getButtonClass('button '+gamemode)">
                     <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button">
                         <strong>{{gamemode}}</strong>
                     </a>
@@ -32,7 +33,11 @@
             <app-search [disabled]="searchDisabled" [search]="search" (searchChanged)="onSearchChanged($event)">
             </app-search>
         </div>
-        <div class="col-1 d-flex align-items-center exclude-reskins-col">
+        <div class="col-1 d-flex align-items-center exclude-reskins-col"
+            #tooltip="matTooltip" matTooltipHideDelay="100"
+            matTooltip="Removes reskins from the search results. If ticked off before the game 
+                starts will remove all reskins for that game. Not available in daily game." 
+            matTooltipPosition="below" matTooltipClass="bg-dark p-2 text-center">
             <input class="form-check-input" type="checkbox" [checked]="excludeReskins"
                 (change)="excludeReskins = !excludeReskins" id="reskinsCheck"
                 [disabled]="isGamemode('Daily') || !changeAllowed">
@@ -45,19 +50,18 @@
         <div class="col-10 border rounded m-1 mx-4 p-1 pr-4 text-center btn-light"
             style="max-height: 45em; overflow: auto;">
             <h4 class="py-2">
-                Anagram: <b #tooltip="matTooltip" matTooltipHideDelay="100"
-                    matTooltip="Anagram of the item name, without dublicate letters. This hint shows up when you guessed 3+ fields." matTooltipPosition="above"
-                    matTooltipClass="bg-dark p-2 text-center" [innerText]="targetAnagram"></b>
+                Description:
             </h4>
             <h6 class="px-2">
-                Description: <i matTooltipHideDelay="100" matTooltip="This hint when open up at the final stretch of the game, to help you in difficult situation." matTooltipPosition="above"
+                <i matTooltipHideDelay="100" matTooltip="This hint will open up at the final 
+                stretch of the game, to help you in difficult situation." matTooltipPosition="above"
                     matTooltipClass="bg-dark p-2 text-center" [innerText]="targetDescription"></i>
             </h6>
         </div>
     </div>
     <div class="row p-2">
-        <app-game-log class="col-6" [guesses]="guesses" [hints]="hints" [status]="gameStatus"></app-game-log>
-        <app-search-results class="col-6" (itemSelected)="onItemSelected($event)" [excludeReskins]="excludeReskins"
+        <app-game-log class="col-6" [guesses]="guesses" [hints]="hints" [colorblindMode]="colorblindMode" [status]="gameStatus"></app-game-log>
+        <app-search-results class="col-6" (itemSelected)="onItemSelected($event)" [excludeReskins]="excludeReskins" [colorblindMode]="colorblindMode"
             [search]="search"></app-search-results>
     </div>
     

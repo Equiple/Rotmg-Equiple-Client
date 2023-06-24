@@ -3,32 +3,40 @@
 </h4>
 <div class="row m-1 border-info rounded">
     <div class="col-2 p-1 text-center">
-        <div class="rounded h-100 py-2 text-center" [class]="getElementBgColor(itemIndex)" style="display: flex;
-                        justify-content: center; align-items: center" #tooltip="matTooltip" matTooltipHideDelay="100"
-            matTooltip="Guess #{{itemNumber}}" matTooltipPosition="above" matTooltipClass="bg-dark p-2">
-            <div *ngIf="showHints" class="float-start pr-3">
-                <i class="bi bi-hash"></i><strong>{{itemNumber}}</strong>
+        <div class="rounded h-100 py-2 text-center" [class]="getElementBgColor(itemIndex)"
+            style="display: flex; justify-content: center; align-items: center">
+            <div *ngIf="showHints" class="float-start pr-3" #tooltip="matTooltip" matTooltipHideDelay="100"
+                matTooltip="Guess #{{itemNumber+1}}" matTooltipPosition="above" matTooltipClass="bg-dark p-2">
+                <i class="bi bi-hash"></i><strong>{{itemNumber+1}}</strong>
             </div>
             <img width="40px" height="40px" src="{{item.imageURL}}">
         </div>
     </div>
     <div class="col-2 p-1" *ngFor="let field of itemFields">
-        <div class="rounded h-100 py-2" [ngStyle]="{'background-color': getHintBackgroundStyle(field.key, itemNumber - 1)}">
-            <i [class]="'bi bi-' + field.icon">
-            </i>
+        <div class="rounded h-100 py-2" [ngStyle]="
+            {
+                'background-color': getHintBackgroundStyle(field.key, itemNumber - 1)
+            }">
+            <i [class]="'bi bi-' + field.icon"></i>
             <strong> {{field.title}}</strong><br>
-            <div class="pt-2 d-flex justify-content-center">
-                <i *ngIf="['numberOfShots','xpBonus', 'feedpower'].includes(field.key)"
-                    [class]="getHintArrow(field.key, itemNumber)"></i>
-                <span *ngIf="field.key !== 'colorPalette'">{{item[field.key]}}</span>
-                <span *ngIf="field.key === 'tier' && item.reskin === true"> Reskin</span>
-                <span *ngIf="field.key === 'xpBonus'">%</span>
-                <span *ngIf="field.key === 'feedpower'">fp</span>
-                <div *ngIf="field.key === 'colorPalette'" class="color-box-container rounded"
-                    #tooltip="matTooltip" matTooltipHideDelay="100"
-                    matTooltip="{{getTooltip()}}" matTooltipPosition="above" matTooltipClass="bg-dark p-2 mat-tooltip-breakline text-center">
-                    <div class="color-box" *ngFor="let number of [0, 1, 2, 3]"
-                        [ngClass]="'box-'+number" [ngStyle]="
+            <div class="pt-2 d-flex justify-content-center"
+                [ngClass]="
+                {
+                    'strikethrough-text': getHintStrikethroughClass(field.key, itemNumber)
+                }">
+                <div *ngIf="field.key !== 'colorPalette'" style="padding: 5%">
+                    <i 
+                        [class]="getHintArrow(field.key, itemNumber)">
+                    </i>
+                    <span>{{item[field.key]}}</span>
+                    <span *ngIf="field.key === 'tier' && item.reskin === true">&nbsp;Reskin</span>
+                    <span *ngIf="field.key === 'xpBonus'">%</span>
+                    <span *ngIf="field.key === 'feedpower'">fp</span>
+                </div>
+                <div *ngIf="!colorblindMode && field.key === 'colorPalette'" class="color-box-container rounded"
+                    #tooltip="matTooltip" matTooltipHideDelay="100" matTooltip="{{getTooltip()}}"
+                    matTooltipPosition="above" matTooltipClass="bg-dark p-2 mat-tooltip-breakline text-center">
+                    <div class="color-box" *ngFor="let number of [0, 1, 2, 3]" [ngClass]="'box-'+number" [ngStyle]="
                             {
                                 'border-width': getBorderWidth(number),
                                 'background-color': getColor(number)
@@ -37,11 +45,20 @@
                             {
                                 'color': getCheckmarkColor(number),
                                 'vertical-align': 'unset'
-                            }"
-                            width="21" height="21" fill="currentColor" class="color-checkmark" 
-                            viewBox="0 0 16 16">
-                            <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z"/>
+                            }" width="21" height="21" fill="currentColor" class="color-checkmark" viewBox="0 0 16 16">
+                            <path
+                                d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z" />
                         </svg>
+                    </div>
+                </div>
+                <div *ngIf="colorblindMode && field.key === 'colorPalette'" class="rounded">
+                    <div *ngFor="let color of item.colorPalette; let i = index">
+                        <svg *ngIf="isCorrectColor(i)" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                            fill="currentColor" viewBox="0 0 16 16">
+                            <path
+                                d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z" />
+                        </svg>
+                        <span [ngClass]="getColorStrikethroughClass(i)">{{getColorName(i)}}</span>
                     </div>
                 </div>
             </div>

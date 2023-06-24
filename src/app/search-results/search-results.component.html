@@ -6,7 +6,7 @@
         <div class="btn btn-grey m-1 border rounded float-start item-element"
             *cdkVirtualFor="let item of items | reverse; let i = index;" (click)="onItemSelected(item.id)">
             <app-item-panel class="" [status]="search" [itemNumber]="0" [item]="item" [itemIndex]="i"
-                [showHints]="false"></app-item-panel>
+                [colorblindMode]="colorblindMode" [showHints]="false"></app-item-panel>
         </div>
     </cdk-virtual-scroll-viewport>
 </div>

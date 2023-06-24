@@ -6,6 +6,7 @@ import { ModalComponent } from '../modal/modal.component';
 import { GameService } from '../services/game.service';
 import { ProfileService } from '../services/profile.service';
 import { getPlayerStats } from '../utils/helperFunctions';
+import { CookieService } from '../services/cookie.service';
 
 @Component({
     selector: 'app-main',
@@ -24,31 +25,49 @@ export class MainComponent implements OnInit {
     dailyAttempted = false;
     search = '';
     gameStatus = '';
-    targetAnagram = '???';
     targetDescription = '???';
+    colorblindMode: boolean = false;
 
-    constructor(private gameService: GameService, private profileService: ProfileService, 
-         public dialog: Dialog) {
+    constructor(private gameService: GameService, 
+        private profileService: ProfileService,
+        private cookieService: CookieService,
+        public dialog: Dialog) {
+            if(cookieService.doesCookieExist('colorblind')){
+                this.colorblindMode = cookieService.getCookie('colorblind') === 'true';
+            }
     }
 
     get searchDisabled() {
         return this.gameEnded || this.guessLoading || (this.gamemode === Gamemode.Daily && this.dailyAttempted === true);
     }
 
+    public getButtonClass(type :string) {
+        if (this.colorblindMode) {
+            return 'btn-outline-dark';
+        }
+        switch (type){
+            case 'best': return 'btn-outline-warning';
+            case 'current': return 'btn-outline-danger';
+            case 'restart': return 'btn-outline-dark';
+            case 'button Daily': return 'btn-danger';
+            case 'button Normal': return 'btn-info';
+            default: return 'btn-outline-dark';
+        }
+    }
+
     public get currentStreak() {
-        return this.playerProfile ? getPlayerStats(this.playerProfile, this.gamemode).gameStatistic!.currentStreak! : 0;
+        if (this.playerProfile && getPlayerStats(this.playerProfile!, this.gamemode)) {
+            return getPlayerStats(this.playerProfile!, this.gamemode)!.gameStatistic!.currentStreak;
+        }
+        else return 0;
     }
 
     public get bestStreak() {
-        return this.playerProfile ? getPlayerStats(this.playerProfile, this.gamemode).gameStatistic!.currentStreak! : 0;
+        return 0;
     }
 
-    public updatePlayerProfile() {
-        this.profileService.getPlayerProfile().subscribe(profile => {
-            if (profile) {
-                this.playerProfile = profile;
-            }
-        });
+    public async updatePlayerProfile() {
+        this.playerProfile = await this.profileService.getPlayerProfile();
     }
 
     public ngOnInit() {
@@ -57,7 +76,6 @@ export class MainComponent implements OnInit {
                 this.guesses = activeGameOptions.guesses!;
                 this.hints = activeGameOptions.allHints!;
                 this.gamemode = activeGameOptions.mode!;
-                this.targetAnagram = activeGameOptions.anagram ?? '???';
                 this.targetDescription = activeGameOptions.description ?? '???';
                 this.excludeReskins = activeGameOptions.reskinsExcluded!;
                 this.changeAllowed = false;
@@ -105,7 +123,6 @@ export class MainComponent implements OnInit {
         this.guesses = [];
         this.search = '';
         this.hints = [];
-        this.targetAnagram = '???';
         this.targetDescription = '???';
         this.changeAllowed = true;
     }
@@ -145,13 +162,15 @@ export class MainComponent implements OnInit {
         this.gameStatus = result.status!.toString();
     }
 
-    public onItemSelected(itemId: string) {
+    public async onItemSelected(itemId: string) {
+        if (this.playerProfile === null || this.playerProfile === undefined) {
+            await this.updatePlayerProfile();
+        }
         this.guessLoading = true;
         this.gameService.checkGuess(itemId, this.gamemode, this.excludeReskins)
             .subscribe(guessResult => {
                 this.guesses.push(guessResult.guess!);
                 this.hints.push(guessResult.hints!);
-                this.targetAnagram = guessResult.anagram ?? '???';
                 this.targetDescription = guessResult.description ?? '???';
                 let dialogRes: Observable<any>;
                 if (guessResult.status === GuessStatus.Guessed) {
@@ -170,12 +189,25 @@ export class MainComponent implements OnInit {
                             }
                         }).closed;
                     }));
+                    if (this.playerProfile!.role === 'guest') {
+                        let dialogRes2 = this.dialog.open(ModalComponent, {
+                            data: {
+                                modalTitle: 'You\'re guest!',
+                                modalBody: 'The game you just completed was recorded, but it appears you\'re not registered.\n Register now to save your game, change your name and be cool!',
+                                modalBgColor: 'bg-warning',
+                                modalImageLink: '',
+                                secondButton: true,
+                                secondButtonName: 'Register Now',
+                                secondButtonResult: 'register'
+                            }
+                        }).closed;
+                    }
                 }
                 else if (guessResult.status === GuessStatus.Lost) {
                     dialogRes = this.gameService.getTargetItem().pipe(switchMap(targetItem => {
                         return this.dialog.open(ModalComponent, {
                             data: {
-                                modalTitle: 'You couldn\'t guess the item :C',
+                                modalTitle: `You couldn\'t guess the ${guessResult.targetItem?.name} :C`,
                                 modalBody: 'Very were so close!',
                                 modalBgColor: 'bg-danger',
                                 modalImageLink: targetItem.imageURL!,
@@ -186,9 +218,9 @@ export class MainComponent implements OnInit {
                 }
                 if (guessResult.status === GuessStatus.Guessed || guessResult.status === GuessStatus.Lost) {
                     dialogRes!.subscribe(async result => {
-                        if (result === 'share'){
+                        if (result === 'share') {
                             var resultBoxes = `Equiple `;
-                            if (this.gamemode === 'Daily'){
+                            if (this.gamemode === 'Daily') {
                                 var number = await this.gameService.getDailyNumber();
                                 resultBoxes += `Daily#${number} `;
                             }
@@ -198,10 +230,10 @@ export class MainComponent implements OnInit {
                             resultBoxes += `${this.guesses.length}/10\n`;
                             this.hints.forEach(hint => {
                                 resultBoxes += `${this.convertHintToBox(hint.tier!)}`
-                                +`${this.convertHintToBox(hint.type!)}`
-                                +`${this.convertHintToBox(hint.colorPalette!)}`
-                                +`${this.convertHintToBox(hint.xpBonus!)}`
-                                +`${this.convertHintToBox(hint.feedpower!)}\n`;
+                                    + `${this.convertHintToBox(hint.type!)}`
+                                    + `${this.convertHintToBox(hint.colorPalette!)}`
+                                    + `${this.convertHintToBox(hint.xpBonus!)}`
+                                    + `${this.convertHintToBox(hint.feedpower!)}\n`;
                             })
                             resultBoxes += 'https://equiple.net/'
                             navigator.clipboard.writeText(resultBoxes);
@@ -216,9 +248,9 @@ export class MainComponent implements OnInit {
     }
 
     convertHintToBox(hint: Hint | Hint[]) {
-        if(!Array.isArray(hint)){
+        if (!Array.isArray(hint)) {
             hint = [hint];
         }
-        return hint.some(x=> x === 'Correct') ? '🟩' : '🟥';
+        return hint.some(x => x === 'Correct') ? '🟩' : '🟥';
     }
 }
