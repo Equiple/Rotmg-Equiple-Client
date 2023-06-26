@@ -11,6 +11,9 @@
         <i class="bi bi-envelope-exclamation-fill"></i> Report a bug
     </h4>
     <h4 class="navbar-item px-2" [routerLink]="['/about']"><i class="bi bi-c-circle-fill"></i> About</h4>
+    <a class="navbar-item px-2" [href]="realmeyeLoginUri">Realmeye Login</a>
+    <a class="navbar-item px-2" [href]="realmeyeChangePasswordUri">Change Password</a>
+    <a class="navbar-item px-2" (click)="logout()">Logout</a>
     <a class="block-right px-3 mx-3" routerLink="/profile">
         <h3 class="navbar-item text-black float-end">
             <i class="bi bi-person-fill"></i> {{playerProfile?.name ?? ''}}

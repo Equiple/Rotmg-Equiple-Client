@@ -1,6 +1,6 @@
 import { HttpContext } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { AuthenticationService, TokenAuthenticationResponse, TokenAuthenticationResultType } from "src/lib/api";
+import { AuthenticationService, IdentityProvider, TokenAuthenticationRequest, TokenAuthenticationResponse, TokenAuthenticationResultType } from "src/lib/api";
 import { PASS_401 } from "../http-interceptors/auth.interceptor";
 import { Observable, catchError, lastValueFrom, of, throwError } from "rxjs";
 import { environment } from "src/environments/environment";
@@ -54,6 +54,22 @@ export class AuthService {
     public async authenticateGuest(): Promise<AuthResult> {
         const response = await lastValueFrom(
             this.authenticationService.authenticationAuthenticateGuestPost(this.authResultType)
+        );
+        const result = this.processResponse(response);
+        return result;
+    }
+
+    public async authenticate(data: {
+        provider: IdentityProvider;
+        idToken?: string;
+        authCode?: string;
+    }): Promise<AuthResult> {
+        const request: TokenAuthenticationRequest = {
+            resultType: this.authResultType,
+            ...data,
+        };
+        const response = await authRequest(
+            this.authenticationService.authenticationAuthenticatePost(request, 'body', false, { context })
         );
         const result = this.processResponse(response);
         return result;

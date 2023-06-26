@@ -8,6 +8,7 @@ export const environment = {
   production: false,
   apiUrl: "http://localhost:5105",
   authResultType: 'Tokens' as TokenAuthenticationResultType,
+  realmeyeAuthUri: "https://localhost:7082",
   fingerprint: "LoXHww7dPTMfRm2iFsJI"
 };
 
