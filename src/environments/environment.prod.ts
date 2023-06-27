@@ -4,6 +4,6 @@ export const environment = {
   production: true,
   apiUrl: "https://equiple.net/api",
   authResultType: 'Cookie' as TokenAuthenticationResultType,
-  realmeyeAuthUri: "https://equiple.net/login",
+  realmeyeAuthUri: "https://login.equiple.net",
   fingerprint: "LoXHww7dPTMfRm2iFsJI"
 };
