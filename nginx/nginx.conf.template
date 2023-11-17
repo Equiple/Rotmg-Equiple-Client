@@ -19,7 +19,7 @@ http {
     access_log /var/log/nginx/access.log main;
 
     server {
-        listen 8082;
+        listen ${NGINX_PORT};
 
         location / {
             root /usr/share/nginx/html;
